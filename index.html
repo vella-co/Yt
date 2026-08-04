@@ -2144,58 +2144,116 @@ ul { list-style: none; }
     category: "Outerwear"
   },
   {
-const products=[
-
-{
-id:1,
-title:"Oversized Black Hoodie",
-price:2499,
-category:"hoodie",
-image:"https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop"
-},
-
-{
-id:2,
-title:"Minimal White Tee",
-price:1499,
-category:"tshirt",
-image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop"
-},
-
-{
-id:3,
-title:"Premium Bomber Jacket",
-price:4299,
-category:"jacket",
-image:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop"
-},
-
-{
-id:4,
-title:"Luxury Oversized Tee",
-price:1899,
-category:"tshirt",
-image:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
-},
-
-{
-id:5,
-title:"Urban Gray Hoodie",
-price:2899,
-category:"hoodie",
-image:"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop"
-},
-
-{
-id:6,
-title:"Streetwear Jacket",
-price:4699,
-category:"jacket",
-image:"https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"
-}
-
+const PRODUCTS = [
+  {
+    id: 1,
+    name: "Oversized Black Hoodie",
+    price: 2499,
+    original: 3499,
+    discount: 29,
+    rating: 4.7,
+    reviews: 32,
+    image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200&auto=format&fit=crop"
+    ],
+    description: "Premium oversized black hoodie with soft fleece lining.",
+    specs: { Material: "Cotton Fleece", Origin: "India", Care: "Machine Wash", Fit: "Oversized" },
+    category: "hoodie"
+  },
+  {
+    id: 2,
+    name: "Minimal White Tee",
+    price: 1499,
+    original: 1999,
+    discount: 25,
+    rating: 4.5,
+    reviews: 48,
+    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop"
+    ],
+    description: "Clean minimal white t-shirt with premium cotton feel.",
+    specs: { Material: "100% Cotton", Origin: "India", Care: "Machine Wash", Fit: "Regular" },
+    category: "tshirt"
+  },
+  {
+    id: 3,
+    name: "Premium Bomber Jacket",
+    price: 4299,
+    original: 5999,
+    discount: 28,
+    rating: 4.8,
+    reviews: 21,
+    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop"
+    ],
+    description: "Stylish bomber jacket with premium finish.",
+    specs: { Material: "Polyester", Origin: "India", Care: "Dry Clean", Fit: "Regular" },
+    category: "jacket"
+  },
+  {
+    id: 4,
+    name: "Luxury Oversized Tee",
+    price: 1899,
+    original: 2499,
+    discount: 24,
+    rating: 4.6,
+    reviews: 37,
+    image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop"
+    ],
+    description: "Luxury oversized tee with premium fabric.",
+    specs: { Material: "Cotton Blend", Origin: "India", Care: "Machine Wash", Fit: "Oversized" },
+    category: "tshirt"
+  },
+  {
+    id: 5,
+    name: "Urban Gray Hoodie",
+    price: 2899,
+    original: 3999,
+    discount: 28,
+    rating: 4.7,
+    reviews: 29,
+    image: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop"
+    ],
+    description: "Urban gray hoodie for everyday street style.",
+    specs: { Material: "Cotton Fleece", Origin: "India", Care: "Machine Wash", Fit: "Oversized" },
+    category: "hoodie"
+  },
+  {
+    id: 6,
+    name: "Streetwear Jacket",
+    price: 4699,
+    original: 6499,
+    discount: 28,
+    rating: 4.9,
+    reviews: 18,
+    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"
+    ],
+    description: "Bold streetwear jacket with modern cut.",
+    specs: { Material: "Polyester", Origin: "India", Care: "Dry Clean", Fit: "Regular" },
+    category: "jacket"
+  }
 ];
-
 const COUPONS = {
   WELCOME10: { type: "percent", value: 10, min: 0 },
   SAVE20: { type: "percent", value: 20, min: 15000 }
