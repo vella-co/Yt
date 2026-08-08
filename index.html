@@ -8859,3 +8859,1553 @@ document.addEventListener(
 );
 
 </script>
+<!-- =========================================================
+     VELLA CO. — PART 6
+     PREMIUM HOMEPAGE + HERO + COLLECTIONS
+========================================================= -->
+
+
+<!-- =========================================================
+     HERO SLIDER
+========================================================= -->
+
+<section class="vella-hero">
+
+  <div class="hero-slider"
+       id="heroSlider">
+
+
+    <!-- SLIDE 1 -->
+
+    <div class="hero-slide active">
+
+      <div class="hero-slide-content">
+
+        <span>
+          VELLA CO. / NEW SEASON
+        </span>
+
+        <h1>
+          STYLE<br>
+          WITHOUT<br>
+          LIMITS.
+        </h1>
+
+        <p>
+          Premium essentials designed
+          for your everyday statement.
+        </p>
+
+        <button
+          onclick="showCategory('ALL')">
+
+          SHOP COLLECTION
+
+        </button>
+
+      </div>
+
+      <div class="hero-slide-image">
+
+        <img
+          src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1800&q=90"
+          alt="VELLA CO New Collection">
+
+      </div>
+
+    </div>
+
+
+    <!-- SLIDE 2 -->
+
+    <div class="hero-slide">
+
+      <div class="hero-slide-content">
+
+        <span>
+          LIMITED TIME / SALE
+        </span>
+
+        <h1>
+          UP TO<br>
+          50%<br>
+          OFF.
+        </h1>
+
+        <p>
+          Selected premium styles.
+          Limited quantities available.
+        </p>
+
+        <button
+          onclick="showCategory('SALE')">
+
+          SHOP SALE
+
+        </button>
+
+      </div>
+
+      <div class="hero-slide-image">
+
+        <img
+          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1800&q=90"
+          alt="VELLA CO Sale">
+
+      </div>
+
+    </div>
+
+
+    <!-- SLIDE 3 -->
+
+    <div class="hero-slide">
+
+      <div class="hero-slide-content">
+
+        <span>
+          PREMIUM ESSENTIALS
+        </span>
+
+        <h1>
+          LESS<br>
+          NOISE.<br>
+          MORE STYLE.
+        </h1>
+
+        <p>
+          Minimal silhouettes.
+          Refined details.
+          VELLA CO.
+        </p>
+
+        <button
+          onclick="showCategory('MEN')">
+
+          EXPLORE MEN
+
+        </button>
+
+      </div>
+
+      <div class="hero-slide-image">
+
+        <img
+          src="https://images.unsplash.com/photo-1610652492500-ded49ceeb378?auto=format&fit=crop&w=1800&q=90"
+          alt="VELLA CO Men">
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- HERO CONTROLS -->
+
+  <button class="hero-arrow hero-prev"
+          onclick="changeHero(-1)">
+    ←
+  </button>
+
+  <button class="hero-arrow hero-next"
+          onclick="changeHero(1)">
+    →
+  </button>
+
+
+  <div class="hero-dots"
+       id="heroDots">
+
+    <button class="active"
+            onclick="goHero(0)">
+    </button>
+
+    <button onclick="goHero(1)">
+    </button>
+
+    <button onclick="goHero(2)">
+    </button>
+
+  </div>
+
+
+  <div class="hero-counter"
+       id="heroCounter">
+    01 / 03
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     CATEGORY STRIP
+========================================================= -->
+
+<section class="category-strip">
+
+  <div class="category-heading">
+
+    <span>
+      SHOP BY CATEGORY
+    </span>
+
+    <h2>
+      Find Your Style
+    </h2>
+
+  </div>
+
+
+  <div class="category-scroll">
+
+
+    <!-- MEN -->
+
+    <article class="category-card"
+             onclick="showCategory('MEN')">
+
+      <img
+        src="https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&w=900&q=85"
+        alt="Men Collection">
+
+      <div class="category-overlay">
+
+        <span>
+          COLLECTION 01
+        </span>
+
+        <h3>
+          MEN
+        </h3>
+
+        <strong>
+          SHOP NOW →
+        </strong>
+
+      </div>
+
+    </article>
+
+
+    <!-- WOMEN -->
+
+    <article class="category-card"
+             onclick="showCategory('WOMEN')">
+
+      <img
+        src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=85"
+        alt="Women Collection">
+
+      <div class="category-overlay">
+
+        <span>
+          COLLECTION 02
+        </span>
+
+        <h3>
+          WOMEN
+        </h3>
+
+        <strong>
+          SHOP NOW →
+        </strong>
+
+      </div>
+
+    </article>
+
+
+    <!-- SALE -->
+
+    <article class="category-card sale-card"
+             onclick="showCategory('SALE')">
+
+      <img
+        src="https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=85"
+        alt="Sale Collection">
+
+      <div class="category-overlay">
+
+        <span>
+          LIMITED EDITION
+        </span>
+
+        <h3>
+          SALE
+        </h3>
+
+        <strong>
+          UP TO 50% OFF →
+        </strong>
+
+      </div>
+
+    </article>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     NEW ARRIVALS
+========================================================= -->
+
+<section class="home-products-section">
+
+  <div class="section-heading">
+
+    <div>
+
+      <span>
+        THE LATEST
+      </span>
+
+      <h2>
+        New Arrivals
+      </h2>
+
+    </div>
+
+    <button
+      onclick="showCategory('ALL')">
+
+      VIEW ALL →
+
+    </button>
+
+  </div>
+
+
+  <div class="premium-product-grid"
+       id="newArrivalsGrid">
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     PROMO BANNER
+========================================================= -->
+
+<section class="vella-promo">
+
+  <div class="promo-image">
+
+    <img
+      src="https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=1800&q=90"
+      alt="VELLA CO Collection">
+
+  </div>
+
+  <div class="promo-content">
+
+    <span>
+      VELLA CO. / EDIT
+    </span>
+
+    <h2>
+      EVERYDAY<br>
+      LUXURY.
+    </h2>
+
+    <p>
+      Elevated basics made with premium
+      fabrics and timeless silhouettes.
+    </p>
+
+    <button
+      onclick="showCategory('ALL')">
+
+      EXPLORE COLLECTION
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     TRENDING
+========================================================= -->
+
+<section class="home-products-section trending-section">
+
+  <div class="section-heading">
+
+    <div>
+
+      <span>
+        MOST WANTED
+      </span>
+
+      <h2>
+        Trending Now
+      </h2>
+
+    </div>
+
+    <button
+      onclick="showCategory('ALL')">
+
+      SHOP ALL →
+
+    </button>
+
+  </div>
+
+
+  <div class="premium-product-grid"
+       id="trendingGrid">
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     NEWSLETTER
+========================================================= -->
+
+<section class="vella-newsletter">
+
+  <div class="newsletter-content">
+
+    <span>
+      JOIN VELLA CO.
+    </span>
+
+    <h2>
+      BE THE FIRST<br>
+      TO KNOW.
+    </h2>
+
+    <p>
+      New drops, exclusive offers and
+      private access — straight to your inbox.
+    </p>
+
+    <div class="newsletter-form">
+
+      <input
+        type="email"
+        id="newsletterEmail"
+        placeholder="Your email address">
+
+      <button
+        onclick="subscribeVella()">
+
+        JOIN
+
+      </button>
+
+    </div>
+
+    <small id="newsletterMessage"></small>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="vella-footer">
+
+  <div class="footer-main">
+
+
+    <div class="footer-brand">
+
+      <div class="footer-logo">
+        VELLA
+        <small>CO.</small>
+      </div>
+
+      <p>
+        Premium clothing for
+        modern everyday living.
+      </p>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        SHOP
+      </h4>
+
+      <button
+        onclick="showCategory('MEN')">
+        Men
+      </button>
+
+      <button
+        onclick="showCategory('WOMEN')">
+        Women
+      </button>
+
+      <button
+        onclick="showCategory('SALE')">
+        Sale
+      </button>
+
+      <button
+        onclick="showCategory('ALL')">
+        New Arrivals
+      </button>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        HELP
+      </h4>
+
+      <button>
+        Contact Us
+      </button>
+
+      <button>
+        Shipping
+      </button>
+
+      <button>
+        Returns
+      </button>
+
+      <button>
+        Size Guide
+      </button>
+
+    </div>
+
+
+    <div class="footer-column">
+
+      <h4>
+        FOLLOW
+      </h4>
+
+      <button>
+        Instagram
+      </button>
+
+      <button>
+        Facebook
+      </button>
+
+      <button>
+        YouTube
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <span>
+      © 2026 VELLA CO. ALL RIGHTS RESERVED.
+    </span>
+
+    <span>
+      MADE FOR MODERN STYLE.
+    </span>
+
+  </div>
+
+</footer>
+
+
+<style>
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.vella-hero{
+  width:100%;
+
+  height:calc(100vh - 112px);
+
+  min-height:570px;
+
+  max-height:850px;
+
+  position:relative;
+
+  overflow:hidden;
+
+  background:#eee;
+}
+
+.hero-slider{
+  width:100%;
+  height:100%;
+
+  position:relative;
+}
+
+.hero-slide{
+  position:absolute;
+
+  inset:0;
+
+  display:grid;
+
+  grid-template-columns:45% 55%;
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:
+    opacity .7s ease,
+    visibility .7s ease;
+}
+
+.hero-slide.active{
+  opacity:1;
+
+  visibility:visible;
+}
+
+.hero-slide-content{
+  background:#f1f1ef;
+
+  padding:80px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  position:relative;
+
+  z-index:2;
+}
+
+.hero-slide-content > span{
+  font-size:9px;
+
+  font-weight:bold;
+
+  letter-spacing:2px;
+
+  margin-bottom:25px;
+
+  color:#666;
+}
+
+.hero-slide-content h1{
+  font-size:
+    clamp(48px,6vw,92px);
+
+  line-height:.88;
+
+  letter-spacing:-5px;
+
+  margin-bottom:25px;
+
+  font-weight:800;
+}
+
+.hero-slide-content p{
+  max-width:330px;
+
+  color:#666;
+
+  font-size:12px;
+
+  line-height:1.7;
+
+  margin-bottom:30px;
+}
+
+.hero-slide-content button{
+  width:max-content;
+
+  min-width:180px;
+
+  height:48px;
+
+  border:1px solid #111;
+
+  background:#111;
+
+  color:#fff;
+
+  font-size:9px;
+
+  font-weight:bold;
+
+  letter-spacing:1.4px;
+
+  padding:0 20px;
+}
+
+.hero-slide-image{
+  width:100%;
+  height:100%;
+
+  overflow:hidden;
+}
+
+.hero-slide-image img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  transform:scale(1.02);
+
+  transition:
+    transform 1.2s ease;
+}
+
+.hero-slide.active
+.hero-slide-image img{
+  transform:scale(1);
+}
+
+
+/* =========================================================
+   HERO CONTROLS
+========================================================= */
+
+.hero-arrow{
+  position:absolute;
+
+  top:50%;
+
+  transform:translateY(-50%);
+
+  width:48px;
+  height:48px;
+
+  border:1px solid rgba(255,255,255,.5);
+
+  background:rgba(0,0,0,.25);
+
+  color:#fff;
+
+  font-size:18px;
+
+  z-index:5;
+
+  cursor:pointer;
+}
+
+.hero-prev{
+  left:20px;
+}
+
+.hero-next{
+  right:20px;
+}
+
+.hero-dots{
+  position:absolute;
+
+  left:80px;
+  bottom:40px;
+
+  display:flex;
+
+  gap:7px;
+
+  z-index:5;
+}
+
+.hero-dots button{
+  width:30px;
+  height:2px;
+
+  border:0;
+
+  background:#aaa;
+
+  padding:0;
+}
+
+.hero-dots button.active{
+  background:#111;
+}
+
+.hero-counter{
+  position:absolute;
+
+  right:40px;
+  bottom:35px;
+
+  font-size:9px;
+
+  letter-spacing:2px;
+
+  font-weight:bold;
+
+  z-index:5;
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.category-strip{
+  padding:100px 5vw;
+
+  background:#fff;
+}
+
+.category-heading{
+  margin-bottom:35px;
+}
+
+.category-heading span{
+  color:#888;
+
+  font-size:9px;
+
+  font-weight:bold;
+
+  letter-spacing:2px;
+}
+
+.category-heading h2{
+  font-size:35px;
+
+  margin-top:8px;
+
+  letter-spacing:-1.5px;
+}
+
+.category-scroll{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:15px;
+}
+
+.category-card{
+  height:560px;
+
+  position:relative;
+
+  overflow:hidden;
+
+  cursor:pointer;
+
+  background:#ddd;
+}
+
+.category-card img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  transition:
+    transform .7s ease;
+}
+
+.category-card:hover img{
+  transform:scale(1.04);
+}
+
+.category-overlay{
+  position:absolute;
+
+  inset:0;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:flex-end;
+
+  padding:35px;
+
+  background:
+    linear-gradient(
+      transparent 45%,
+      rgba(0,0,0,.72)
+    );
+
+  color:#fff;
+}
+
+.category-overlay span{
+  font-size:8px;
+
+  letter-spacing:2px;
+
+  margin-bottom:8px;
+}
+
+.category-overlay h3{
+  font-size:42px;
+
+  letter-spacing:-2px;
+
+  margin-bottom:15px;
+}
+
+.category-overlay strong{
+  font-size:9px;
+
+  letter-spacing:1.5px;
+}
+
+.sale-card .category-overlay h3{
+  color:#fff;
+}
+
+
+/* =========================================================
+   PRODUCT SECTION
+========================================================= */
+
+.home-products-section{
+  padding:80px 5vw;
+}
+
+.trending-section{
+  padding-top:50px;
+}
+
+.section-heading{
+  display:flex;
+
+  align-items:end;
+
+  justify-content:space-between;
+
+  margin-bottom:35px;
+}
+
+.section-heading span{
+  font-size:8px;
+
+  color:#888;
+
+  font-weight:bold;
+
+  letter-spacing:2px;
+}
+
+.section-heading h2{
+  font-size:34px;
+
+  margin-top:7px;
+
+  letter-spacing:-1.5px;
+}
+
+.section-heading button{
+  border:0;
+
+  background:none;
+
+  font-size:9px;
+
+  font-weight:bold;
+
+  letter-spacing:1px;
+
+  border-bottom:1px solid #111;
+
+  padding-bottom:5px;
+}
+
+
+/* =========================================================
+   PRODUCT GRID
+========================================================= */
+
+.premium-product-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:14px;
+}
+
+.home-product-card{
+  position:relative;
+
+  background:#f5f5f5;
+
+  cursor:pointer;
+
+  overflow:hidden;
+}
+
+.home-product-image{
+  aspect-ratio:
+    4/5;
+
+  position:relative;
+
+  overflow:hidden;
+}
+
+.home-product-image img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  transition:
+    transform .5s ease;
+}
+
+.home-product-card:hover
+.home-product-image img{
+  transform:scale(1.035);
+}
+
+.home-product-discount{
+  position:absolute;
+
+  top:10px;
+  left:10px;
+
+  background:#111;
+
+  color:#fff;
+
+  padding:7px 9px;
+
+  font-size:7px;
+
+  font-weight:bold;
+
+  letter-spacing:1px;
+
+  z-index:2;
+}
+
+.home-product-wishlist{
+  position:absolute;
+
+  top:9px;
+  right:9px;
+
+  width:32px;
+  height:32px;
+
+  border:0;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  font-size:16px;
+
+  z-index:2;
+}
+
+.home-product-info{
+  padding:15px 4px 5px;
+}
+
+.home-product-info h3{
+  font-size:11px;
+
+  margin-bottom:8px;
+
+  font-weight:600;
+}
+
+.home-product-price{
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+}
+
+.home-product-price strong{
+  font-size:12px;
+}
+
+.home-product-price del{
+  color:#999;
+
+  font-size:9px;
+}
+
+.home-product-quick{
+  position:absolute;
+
+  left:10px;
+  right:10px;
+
+  bottom:80px;
+
+  height:42px;
+
+  background:#fff;
+
+  border:0;
+
+  font-size:8px;
+
+  font-weight:bold;
+
+  letter-spacing:1px;
+
+  transform:translateY(20px);
+
+  opacity:0;
+
+  transition:.3s;
+}
+
+.home-product-card:hover
+.home-product-quick{
+  transform:translateY(0);
+
+  opacity:1;
+}
+
+
+/* =========================================================
+   PROMO
+========================================================= */
+
+.vella-promo{
+  min-height:600px;
+
+  display:grid;
+
+  grid-template-columns:55% 45%;
+
+  background:#eee;
+}
+
+.promo-image{
+  overflow:hidden;
+}
+
+.promo-image img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+}
+
+.promo-content{
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  padding:80px;
+}
+
+.promo-content > span{
+  color:#777;
+
+  font-size:9px;
+
+  letter-spacing:2px;
+
+  font-weight:bold;
+
+  margin-bottom:20px;
+}
+
+.promo-content h2{
+  font-size:
+    clamp(45px,5vw,75px);
+
+  line-height:.9;
+
+  letter-spacing:-4px;
+
+  margin-bottom:25px;
+}
+
+.promo-content p{
+  max-width:350px;
+
+  color:#666;
+
+  font-size:12px;
+
+  line-height:1.8;
+
+  margin-bottom:30px;
+}
+
+.promo-content button{
+  width:max-content;
+
+  height:48px;
+
+  padding:0 22px;
+
+  background:#111;
+
+  color:#fff;
+
+  border:0;
+
+  font-size:8px;
+
+  font-weight:bold;
+
+  letter-spacing:1.5px;
+}
+
+
+/* =========================================================
+   NEWSLETTER
+========================================================= */
+
+.vella-newsletter{
+  background:#111;
+
+  color:#fff;
+
+  padding:110px 20px;
+
+  text-align:center;
+}
+
+.newsletter-content{
+  max-width:620px;
+
+  margin:auto;
+}
+
+.newsletter-content > span{
+  font-size:8px;
+
+  letter-spacing:3px;
+
+  color:#aaa;
+
+  font-weight:bold;
+}
+
+.newsletter-content h2{
+  font-size:
+    clamp(42px,6vw,70px);
+
+  line-height:.9;
+
+  letter-spacing:-3px;
+
+  margin:20px 0;
+}
+
+.newsletter-content p{
+  color:#aaa;
+
+  font-size:11px;
+
+  line-height:1.7;
+
+  margin-bottom:30px;
+}
+
+.newsletter-form{
+  max-width:480px;
+
+  height:50px;
+
+  margin:auto;
+
+  display:flex;
+
+  border-bottom:1px solid #777;
+}
+
+.newsletter-form input{
+  flex:1;
+
+  border:0;
+
+  outline:0;
+
+  background:transparent;
+
+  color:#fff;
+
+  font-size:11px;
+}
+
+.newsletter-form input::placeholder{
+  color:#888;
+}
+
+.newsletter-form button{
+  width:70px;
+
+  border:0;
+
+  background:none;
+
+  color:#fff;
+
+  font-size:9px;
+
+  font-weight:bold;
+
+  letter-spacing:1.5px;
+}
+
+#newsletterMessage{
+  display:block;
+
+  margin-top:12px;
+
+  color:#aaa;
+
+  font-size:9px;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.vella-footer{
+  background:#111;
+
+  color:#fff;
+
+  padding:0 5vw;
+}
+
+.footer-main{
+  border-top:1px solid #333;
+
+  padding:65px 0;
+
+  display:grid;
+
+  grid-template-columns:
+    2fr 1fr 1fr 1fr;
+
+  gap:40px;
+}
+
+.footer-logo{
+  font-size:27px;
+
+  font-weight:900;
+
+  letter-spacing:5px;
+}
+
+.footer-logo small{
+  font-size:7px;
+
+  letter-spacing:3px;
+
+  margin-left:3px;
+}
+
+.footer-brand p{
+  color:#777;
+
+  font-size:10px;
+
+  line-height:1.8;
+
+  max-width:230px;
+
+  margin-top:18px;
+}
+
+.footer-column{
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:flex-start;
+}
+
+.footer-column h4{
+  font-size:8px;
+
+  color:#777;
+
+  letter-spacing:2px;
+
+  margin-bottom:18px;
+}
+
+.footer-column button{
+  border:0;
+
+  background:none;
+
+  color:#ddd;
+
+  font-size:10px;
+
+  margin-bottom:12px;
+
+  padding:0;
+}
+
+.footer-bottom{
+  border-top:1px solid #333;
+
+  padding:20px 0;
+
+  display:flex;
+
+  justify-content:space-between;
+
+  color:#666;
+
+  font-size:7px;
+
+  letter-spacing:1px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px){
+
+  .vella-hero{
+    height:calc(100vh - 95px);
+
+    min-height:600px;
+  }
+
+  .hero-slide{
+    display:block;
+  }
+
+  .hero-slide-image{
+    position:absolute;
+
+    inset:0;
+  }
+
+  .hero-slide-image::after{
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0,0,0,.62),
+        rgba(0,0,0,.08)
+      );
+  }
+
+  .hero-slide-content{
+    position:absolute;
+
+    inset:0;
+
+    z-index:2;
+
+    background:transparent;
+
+    color:#fff;
+
+    padding:40px 25px 80px;
+
+    justify-content:flex-end;
+  }
+
+  .hero-slide-content > span{
+    color:#ddd;
+  }
+
+  .hero-slide-content h1{
+    font-size:
+      clamp(48px,14vw,75px);
+
+    letter-spacing:-3px;
+  }
+
+  .hero-slide-content p{
+    color:#eee;
+  }
+
+  .hero-slide-content button{
+    background:#fff;
+
+    color:#111;
+
+    border-color:#fff;
+  }
+
+  .hero-dots{
+    left:25px;
+
+    bottom:25px;
+  }
+
+  .hero-counter{
+    right:25px;
+
+    bottom:23px;
+
+    color:#fff;
+  }
+
+  .hero-arrow{
+    display:none;
+  }
+
+  .category-strip{
+    padding:65px 15px;
+  }
+
+  .category-scroll{
+    display:flex;
+
+    overflow-x:auto;
+
+    scroll-snap-type:x mandatory;
+
+    gap:10px;
+
+    scrollbar-width:none;
+  }
+
+  .category-scroll::-webkit-scrollbar{
+    display:none;
+  }
+
+  .category-card{
+    flex:0 0 78vw;
+
+    height:480px;
+
+    scroll-snap-align:start;
+  }
+
+  
