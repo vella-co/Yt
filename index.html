@@ -10291,6 +10291,7 @@ document.addEventListener(
 ========================================================= */
 
 @media(max-width:900px){
+@media(max-width:900px){
 
   .vella-hero{
     height:calc(100vh - 95px);
@@ -10408,4 +10409,555 @@ document.addEventListener(
     scroll-snap-align:start;
   }
 
-  
+  .home-products-section{
+    padding:60px 15px;
+  }
+
+  .premium-product-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+
+    gap:10px;
+  }
+
+  .section-heading h2{
+    font-size:27px;
+  }
+
+  .section-heading button{
+    font-size:8px;
+  }
+
+  .home-product-quick{
+    display:none;
+  }
+
+  .vella-promo{
+    min-height:auto;
+
+    display:flex;
+
+    flex-direction:column;
+  }
+
+  .promo-image{
+    height:450px;
+  }
+
+  .promo-content{
+    padding:65px 25px;
+  }
+
+  .footer-main{
+    grid-template-columns:
+      1fr 1fr;
+
+    gap:35px;
+  }
+
+  .footer-brand{
+    grid-column:1/-1;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .category-heading h2{
+    font-size:28px;
+  }
+
+  .category-card{
+    height:430px;
+  }
+
+  .home-product-info h3{
+    font-size:10px;
+  }
+
+  .home-product-price strong{
+    font-size:11px;
+  }
+
+  .vella-newsletter{
+    padding:80px 20px;
+  }
+
+  .newsletter-content h2{
+    font-size:48px;
+
+    letter-spacing:-2px;
+  }
+
+  .footer-main{
+    grid-template-columns:
+      1fr 1fr;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+
+    gap:8px;
+
+    line-height:1.5;
+  }
+
+}
+
+</style>
+
+
+<script>
+
+/* =========================================================
+   HERO SLIDER
+========================================================= */
+
+let currentHero=0;
+
+let heroTimer=null;
+
+
+function getHeroSlides(){
+
+  return document.querySelectorAll(
+    ".hero-slide"
+  );
+
+}
+
+
+function getHeroDots(){
+
+  return document.querySelectorAll(
+    ".hero-dots button"
+  );
+
+}
+
+
+function goHero(index){
+
+  const slides =
+    getHeroSlides();
+
+  const dots =
+    getHeroDots();
+
+
+  if(!slides.length) return;
+
+
+  currentHero =
+    (index+slides.length) %
+    slides.length;
+
+
+  slides.forEach(
+    (slide,i)=>{
+
+      slide.classList.toggle(
+        "active",
+        i===currentHero
+      );
+
+    }
+  );
+
+
+  dots.forEach(
+    (dot,i)=>{
+
+      dot.classList.toggle(
+        "active",
+        i===currentHero
+      );
+
+    }
+  );
+
+
+  const counter =
+    document.getElementById(
+      "heroCounter"
+    );
+
+
+  if(counter){
+
+    counter.textContent=
+      String(
+        currentHero+1
+      ).padStart(2,"0")+
+      " / "+
+      String(
+        slides.length
+      ).padStart(2,"0");
+
+  }
+
+}
+
+
+function changeHero(direction){
+
+  goHero(
+    currentHero+
+    direction
+  );
+
+  restartHeroTimer();
+
+}
+
+
+function restartHeroTimer(){
+
+  clearInterval(
+    heroTimer
+  );
+
+
+  heroTimer =
+    setInterval(
+      function(){
+
+        goHero(
+          currentHero+1
+        );
+
+      },
+      5000
+    );
+
+}
+
+
+restartHeroTimer();
+
+
+/* =========================================================
+   TOUCH SWIPE
+========================================================= */
+
+let heroTouchStart=0;
+
+
+const heroElement =
+  document.getElementById(
+    "heroSlider"
+  );
+
+
+if(heroElement){
+
+  heroElement.addEventListener(
+    "touchstart",
+    function(event){
+
+      heroTouchStart =
+        event.changedTouches[0]
+          .screenX;
+
+    },
+    {passive:true}
+  );
+
+
+  heroElement.addEventListener(
+    "touchend",
+    function(event){
+
+      const end =
+        event.changedTouches[0]
+          .screenX;
+
+
+      const distance =
+        end-heroTouchStart;
+
+
+      if(
+        Math.abs(distance)>50
+      ){
+
+        if(distance<0){
+
+          changeHero(1);
+
+        }else{
+
+          changeHero(-1);
+
+        }
+
+      }
+
+    },
+    {passive:true}
+  );
+
+}
+
+
+/* =========================================================
+   HOME PRODUCT CARD
+========================================================= */
+
+function createHomeProductCard(
+  product
+){
+
+  const discount =
+    product.discount ||
+    Math.round(
+      (
+        (product.original-
+        product.price) /
+        product.original
+      )*100
+    );
+
+
+  return `
+
+    <article
+      class="home-product-card"
+      onclick="openProduct(${product.id})">
+
+
+      <div class="home-product-image">
+
+        <span class="home-product-discount">
+
+          ${discount}% OFF
+
+        </span>
+
+
+        <button
+          class="home-product-wishlist"
+          onclick="event.stopPropagation();
+                   toggleHomeWishlist(${product.id})">
+
+          ${
+            wishlist.includes(product.id)
+              ? "♥"
+              : "♡"
+          }
+
+        </button>
+
+
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          loading="lazy">
+
+
+        <button
+          class="home-product-quick"
+          onclick="event.stopPropagation();
+                   openProduct(${product.id})">
+
+          QUICK VIEW
+
+        </button>
+
+      </div>
+
+
+      <div class="home-product-info">
+
+        <h3>
+          ${product.name}
+        </h3>
+
+
+        <div class="home-product-price">
+
+          <strong>
+            ${money(product.price)}
+          </strong>
+
+          <del>
+            ${money(product.original)}
+          </del>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   RENDER HOME PRODUCTS
+========================================================= */
+
+function renderHomeProducts(){
+
+  if(
+    typeof PRODUCTS==="undefined"
+  ){
+
+    return;
+
+  }
+
+
+  const newGrid =
+    document.getElementById(
+      "newArrivalsGrid"
+    );
+
+
+  const trendGrid =
+    document.getElementById(
+      "trendingGrid"
+    );
+
+
+  /*
+     NEW ARRIVALS
+     First 8 products
+  */
+
+  if(newGrid){
+
+    const latest =
+      PRODUCTS.slice(
+        0,
+        8
+      );
+
+
+    newGrid.innerHTML =
+      latest.map(
+        createHomeProductCard
+      ).join("");
+
+  }
+
+
+  /*
+     TRENDING
+     Products 3–10
+  */
+
+  if(trendGrid){
+
+    const trending =
+      PRODUCTS.slice(
+        2,
+        10
+      );
+
+
+    trendGrid.innerHTML =
+      trending.map(
+        createHomeProductCard
+      ).join("");
+
+  }
+
+}
+
+
+/* =========================================================
+   HOME WISHLIST
+========================================================= */
+
+function toggleHomeWishlist(
+  id
+){
+
+  toggleWishlist(id);
+
+  renderHomeProducts();
+
+  updateWishlistHeader();
+
+}
+
+
+/* =========================================================
+   NEWSLETTER
+========================================================= */
+
+function subscribeVella(){
+
+  const input =
+    document.getElementById(
+      "newsletterEmail"
+    );
+
+
+  const message =
+    document.getElementById(
+      "newsletterMessage"
+    );
+
+
+  const email =
+    input.value.trim();
+
+
+  if(
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      .test(email)
+  ){
+
+    message.textContent=
+      "Please enter a valid email.";
+
+    return;
+
+  }
+
+
+  let subscribers =
+    JSON.parse(
+      localStorage.getItem(
+        "vella_subscribers"
+      )
+    ) || [];
+
+
+  if(
+    subscribers.includes(email)
+  ){
+
+    message.textContent=
+      "You're already subscribed.";
+
+    return;
+
+  }
+
+
+  subscribers.push(email);
+
+
+  localStorage.setItem(
+    "vella_subscribers",
+    JSON.stringify(
+      subscribers
+    )
+  );
+
+
+  message.textContent=
+    "✓ Welcome to VELLA CO. — you're subscribed.";
+
+
+  input.value="";
+
+}
+
+
+/*
