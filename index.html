@@ -5935,3 +5935,1049 @@ const oldOpenCheckout =
   openCheckout;
 
 </script>
+<!-- =========================================================
+     VELLA CO. — PART 4
+     RAZORPAY + COD WHATSAPP + ORDER CONFIRMATION
+========================================================= -->
+
+
+<!-- RAZORPAY SDK -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+<style>
+
+/* =========================================================
+   ORDER PROCESSING
+========================================================= */
+
+.order-processing{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+
+  background:rgba(255,255,255,.96);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:.3s;
+}
+
+.order-processing.active{
+  opacity:1;
+  visibility:visible;
+}
+
+.processing-box{
+  text-align:center;
+  width:min(360px,90%);
+}
+
+.processing-loader{
+  width:45px;
+  height:45px;
+
+  border:3px solid #ddd;
+  border-top-color:#111;
+
+  border-radius:50%;
+
+  margin:0 auto 20px;
+
+  animation:vellaSpin .8s linear infinite;
+}
+
+@keyframes vellaSpin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+.processing-box h3{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.processing-box p{
+  color:#777;
+  font-size:11px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   WHATSAPP BUTTON
+========================================================= */
+
+.whatsapp-order{
+  width:100%;
+
+  height:48px;
+
+  margin-top:10px;
+
+  border:1px solid #111;
+
+  background:#fff;
+
+  color:#111;
+
+  font-size:9px;
+
+  font-weight:bold;
+
+  letter-spacing:1.3px;
+
+  cursor:pointer;
+}
+
+
+/* =========================================================
+   ORDER STATUS
+========================================================= */
+
+.order-status{
+  margin-top:15px;
+
+  padding:14px;
+
+  background:#f7f7f7;
+
+  display:none;
+
+  font-size:10px;
+
+  line-height:1.6;
+}
+
+.order-status.active{
+  display:block;
+}
+
+</style>
+
+
+<!-- =========================================================
+     PROCESSING SCREEN
+========================================================= -->
+
+<div class="order-processing"
+     id="orderProcessing">
+
+  <div class="processing-box">
+
+    <div class="processing-loader"></div>
+
+    <h3 id="processingTitle">
+      Processing your order
+    </h3>
+
+    <p id="processingText">
+      Please wait. Do not close this window.
+    </p>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   RAZORPAY CONFIGURATION
+========================================================= */
+
+/*
+   IMPORTANT:
+
+   YAHAN APNI RAZORPAY KEY ID PASTE KARNA HAI.
+
+   Example:
+
+   const RAZORPAY_KEY_ID =
+   "rzp_test_xxxxxxxxxx";
+
+   LIVE PAYMENT KE LIYE:
+   rzp_live_xxxxxxxxxx
+
+   Abhi test key use kar sakte ho.
+*/
+
+const VELLA_RAZORPAY_KEY =
+  "YOUR_RAZORPAY_KEY_ID";
+
+
+/* =========================================================
+   WHATSAPP CONFIGURATION
+========================================================= */
+
+/*
+   APNA BUSINESS WHATSAPP NUMBER YAHAN DALO.
+
+   Country code ke saath.
+
+   India example:
+
+   919876543210
+
+   + sign mat lagana.
+*/
+
+const VELLA_WHATSAPP =
+  "919XXXXXXXXX";
+
+
+/* =========================================================
+   PROCESSING SCREEN
+========================================================= */
+
+function showProcessing(
+  title="Processing your order",
+  text="Please wait. Do not close this window."
+){
+
+  document.getElementById(
+    "processingTitle"
+  ).textContent=title;
+
+
+  document.getElementById(
+    "processingText"
+  ).textContent=text;
+
+
+  document.getElementById(
+    "orderProcessing"
+  ).classList.add("active");
+
+}
+
+
+function hideProcessing(){
+
+  document.getElementById(
+    "orderProcessing"
+  ).classList.remove("active");
+
+}
+
+
+/* =========================================================
+   CUSTOMER DATA
+========================================================= */
+
+function getCustomerData(){
+
+  return {
+
+    name:
+      document.getElementById(
+        "customerName"
+      ).value.trim(),
+
+    phone:
+      document.getElementById(
+        "customerPhone"
+      ).value.trim(),
+
+    email:
+      document.getElementById(
+        "customerEmail"
+      ).value.trim(),
+
+    address:
+      document.getElementById(
+        "customerAddress"
+      ).value.trim(),
+
+    city:
+      document.getElementById(
+        "customerCity"
+      ).value.trim(),
+
+    pin:
+      document.getElementById(
+        "customerPin"
+      ).value.trim()
+
+  };
+
+}
+
+
+/* =========================================================
+   ORDER ITEMS FOR WHATSAPP
+========================================================= */
+
+function getOrderItemsText(){
+
+  let text="";
+
+
+  cart.forEach(
+    item=>{
+
+      const product =
+        PRODUCTS.find(
+          p=>p.id===item.id
+        );
+
+
+      if(!product) return;
+
+
+      text +=
+        "\n• "+
+        product.name+
+        " | Size: "+
+        (item.size || "Standard")+
+        " | Qty: "+
+        item.qty+
+        " | "+
+        money(
+          product.price*
+          item.qty
+        );
+
+    }
+  );
+
+
+  return text;
+
+}
+
+
+/* =========================================================
+   WHATSAPP ORDER MESSAGE
+========================================================= */
+
+function createWhatsAppMessage(
+  orderId,
+  customer,
+  total,
+  payment
+){
+
+  let message =
+
+`*VELLA CO. — NEW ORDER*
+
+Order ID: ${orderId}
+
+*CUSTOMER*
+Name: ${customer.name}
+Phone: ${customer.phone}
+Email: ${customer.email}
+
+*DELIVERY ADDRESS*
+${customer.address}
+${customer.city} - ${customer.pin}
+
+*PRODUCTS*
+${getOrderItemsText()}
+
+*PAYMENT*
+${payment}
+
+*TOTAL*
+${money(total)}
+
+Thank you for shopping with VELLA CO.`;
+
+
+  return message;
+
+}
+
+
+/* =========================================================
+   OPEN WHATSAPP
+========================================================= */
+
+function sendWhatsAppOrder(
+  orderId,
+  customer,
+  total,
+  payment
+){
+
+  const message =
+    createWhatsAppMessage(
+      orderId,
+      customer,
+      total,
+      payment
+    );
+
+
+  const url =
+    "https://wa.me/"+
+    VELLA_WHATSAPP+
+    "?text="+
+    encodeURIComponent(message);
+
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =========================================================
+   SAVE ORDER
+========================================================= */
+
+function saveVellaOrder(
+  orderId,
+  customer,
+  total,
+  payment,
+  status
+){
+
+  const orders =
+    JSON.parse(
+      localStorage.getItem(
+        "vella_orders"
+      )
+    ) || [];
+
+
+  const order = {
+
+    id:orderId,
+
+    date:
+      new Date().toISOString(),
+
+    customer:customer,
+
+    items:[
+      ...cart
+    ],
+
+    payment:payment,
+
+    total:total,
+
+    coupon:
+      appliedCoupon || "",
+
+    status:
+      status || "Pending"
+
+  };
+
+
+  orders.push(order);
+
+
+  localStorage.setItem(
+    "vella_orders",
+    JSON.stringify(orders)
+  );
+
+
+  return order;
+
+}
+
+
+/* =========================================================
+   CLEAR CUSTOMER CART
+========================================================= */
+
+function clearVellaCart(){
+
+  cart=[];
+
+  saveCart();
+
+  updateCart();
+
+}
+
+
+/* =========================================================
+   SHOW SUCCESS
+========================================================= */
+
+function showVellaSuccess(
+  orderId,
+  payment,
+  total
+){
+
+  hideProcessing();
+
+
+  document.getElementById(
+    "successOrderId"
+  ).textContent=
+    orderId;
+
+
+  document.getElementById(
+    "successPayment"
+  ).textContent=
+    payment;
+
+
+  document.getElementById(
+    "successTotal"
+  ).textContent=
+    money(total);
+
+
+  document.getElementById(
+    "orderSuccess"
+  ).classList.add(
+    "active"
+  );
+
+
+  document.body.style.overflow=
+    "hidden";
+
+}
+
+
+/* =========================================================
+   RAZORPAY PAYMENT
+========================================================= */
+
+function startRazorpayPayment(
+  orderId,
+  customer,
+  total
+){
+
+  /*
+     Razorpay amount paise mein leta hai.
+
+     Example:
+     ₹999 = 99900 paise
+  */
+
+  const amount =
+    Math.round(
+      total*100
+    );
+
+
+  /*
+     Agar key nahi dali hai
+  */
+
+  if(
+    !VELLA_RAZORPAY_KEY ||
+    VELLA_RAZORPAY_KEY===
+    "YOUR_RAZORPAY_KEY_ID"
+  ){
+
+    hideProcessing();
+
+
+    alert(
+      "Razorpay Key ID add karo.\n\n"+
+      "Part 4 ke code mein VELLA_RAZORPAY_KEY "+
+      "ke andar apni Razorpay Key ID paste karo."
+    );
+
+
+    return;
+
+  }
+
+
+  const options = {
+
+    key:
+      VELLA_RAZORPAY_KEY,
+
+    amount:
+      amount,
+
+    currency:
+      "INR",
+
+    name:
+      "VELLA CO.",
+
+    description:
+      "VELLA CO. Fashion Order",
+
+    image:
+      "",
+
+    prefill:{
+
+      name:
+        customer.name,
+
+      email:
+        customer.email,
+
+      contact:
+        customer.phone
+
+    },
+
+    notes:{
+
+      order_id:
+        orderId
+
+    },
+
+
+    theme:{
+
+      color:
+        "#111111"
+
+    },
+
+
+    handler:
+      function(response){
+
+        /*
+          IMPORTANT:
+
+          Real production website mein
+          payment verification backend se
+          karni chahiye.
+
+          GitHub Pages static site mein
+          yahan payment response ko
+          locally handle kiya ja raha hai.
+        */
+
+
+        saveVellaOrder(
+          orderId,
+          customer,
+          total,
+          "ONLINE",
+          "Paid"
+        );
+
+
+        clearVellaCart();
+
+
+        closeCheckout();
+
+
+        showVellaSuccess(
+          orderId,
+          "ONLINE PAYMENT",
+          total
+        );
+
+      },
+
+
+    modal:{
+
+      ondismiss:
+        function(){
+
+          hideProcessing();
+
+        }
+
+    }
+
+  };
+
+
+  const razorpay =
+    new Razorpay(
+      options
+    );
+
+
+  razorpay.on(
+    "payment.failed",
+    function(response){
+
+      hideProcessing();
+
+
+      alert(
+        "Payment failed.\n\n"+
+        (
+          response.error &&
+          response.error.description
+          ?
+          response.error.description
+          :
+          "Please try again."
+        )
+      );
+
+    }
+  );
+
+
+  razorpay.open();
+
+}
+
+
+/* =========================================================
+   COD ORDER
+========================================================= */
+
+function processCODOrder(){
+
+  const customer =
+    getCustomerData();
+
+
+  const values =
+    getCheckoutValues();
+
+
+  const orderId =
+    generateOrderId();
+
+
+  /*
+     SAVE ORDER
+  */
+
+  saveVellaOrder(
+    orderId,
+    customer,
+    values.total,
+    "COD",
+    "Confirmed"
+  );
+
+
+  /*
+     WHATSAPP
+
+     Pehle cart clear karne se
+     WhatsApp message mein products
+     nahi milenge.
+
+     Isliye message pehle banega.
+  */
+
+  const whatsappMessage =
+    createWhatsAppMessage(
+      orderId,
+      customer,
+      values.total,
+      "CASH ON DELIVERY"
+    );
+
+
+  const whatsappURL =
+    "https://wa.me/"+
+    VELLA_WHATSAPP+
+    "?text="+
+    encodeURIComponent(
+      whatsappMessage
+    );
+
+
+  /*
+     CLEAR CART
+  */
+
+  clearVellaCart();
+
+
+  /*
+     CLOSE CHECKOUT
+  */
+
+  closeCheckout();
+
+
+  /*
+     SUCCESS
+  */
+
+  showVellaSuccess(
+    orderId,
+    "CASH ON DELIVERY",
+    values.total
+  );
+
+
+  /*
+     OPEN WHATSAPP
+
+     Thodi delay isliye ki
+     success screen properly open ho.
+  */
+
+  setTimeout(
+    function(){
+
+      window.open(
+        whatsappURL,
+        "_blank"
+      );
+
+    },
+    700
+  );
+
+}
+
+
+/* =========================================================
+   ONLINE ORDER
+========================================================= */
+
+function processOnlineOrder(){
+
+  const customer =
+    getCustomerData();
+
+
+  const values =
+    getCheckoutValues();
+
+
+  const orderId =
+    generateOrderId();
+
+
+  startRazorpayPayment(
+    orderId,
+    customer,
+    values.total
+  );
+
+}
+
+
+/* =========================================================
+   REPLACE PLACE ORDER
+========================================================= */
+
+function placeOrder(){
+
+  /*
+     CART CHECK
+  */
+
+  if(
+    !cart ||
+    cart.length===0
+  ){
+
+    alert(
+      "Your bag is empty."
+    );
+
+    return;
+
+  }
+
+
+  /*
+     FORM VALIDATION
+  */
+
+  if(
+    !validateCheckout()
+  ){
+
+    alert(
+      "Please complete all required fields."
+    );
+
+    return;
+
+  }
+
+
+  /*
+     TOTAL
+  */
+
+  const values =
+    getCheckoutValues();
+
+
+  /*
+     PROCESSING
+  */
+
+  showProcessing(
+    "Preparing your order",
+    "Please wait..."
+  );
+
+
+  /*
+     COD
+  */
+
+  if(
+    selectedPayment===
+    "COD"
+  ){
+
+    setTimeout(
+      function(){
+
+        processCODOrder();
+
+      },
+      500
+    );
+
+    return;
+
+  }
+
+
+  /*
+     ONLINE PAYMENT
+  */
+
+  if(
+    selectedPayment===
+    "ONLINE"
+  ){
+
+    setTimeout(
+      function(){
+
+        processOnlineOrder();
+
+      },
+      400
+    );
+
+    return;
+
+  }
+
+}
+
+
+/* =========================================================
+   SUCCESS SCREEN — CONTINUE SHOPPING
+========================================================= */
+
+function closeSuccess(){
+
+  document.getElementById(
+    "orderSuccess"
+  ).classList.remove(
+    "active"
+  );
+
+
+  document.body.style.overflow=
+    "";
+
+
+  /*
+     RESET COUPON
+  */
+
+  appliedCoupon="";
+
+  couponDiscount=0;
+
+
+  const couponInput =
+    document.getElementById(
+      "couponInput"
+    );
+
+
+  if(couponInput){
+
+    couponInput.value="";
+
+  }
+
+
+  const couponMessage =
+    document.getElementById(
+      "couponMessage"
+    );
+
+
+  if(couponMessage){
+
+    couponMessage.textContent="";
+
+  }
+
+
+  window.scrollTo({
+
+    top:0,
+
+    behavior:"smooth"
+
+  });
+
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key==="Escape"
+    ){
+
+      hideProcessing();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   DEBUG / ORDER HISTORY
+========================================================= */
+
+/*
+   Browser console mein:
+
+   getVellaOrders()
+
+   likhne par saved orders mil jayenge.
+*/
+
+function getVellaOrders(){
+
+  return JSON.parse(
+    localStorage.getItem(
+      "vella_orders"
+    )
+  ) || [];
+
+}
+
+</script>
