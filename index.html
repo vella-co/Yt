@@ -2177,3 +2177,1442 @@ updateWishlist();
 
 </body>
 </html>
+<!-- =====================================================
+     PART 2 — PRODUCT DETAIL SYSTEM
+     
+     PART 1 ke existing </html> ke baad nahi,
+     balki Part 1 ke <script> ke andar
+     PRODUCTS ke baad/JavaScript section me
+     required functions ke roop me use karo.
+
+     AGAR DIRECT PASTE KAR RAHE HO:
+     Is block ko existing </body> se just pehle
+     paste kar sakte ho.
+===================================================== -->
+
+
+<!-- =====================================================
+     PRODUCT DETAIL MODAL
+===================================================== -->
+
+<div class="product-modal"
+     id="productModal">
+
+  <div class="product-modal-box">
+
+    <button class="product-modal-close"
+            onclick="closeProduct()">
+      ×
+    </button>
+
+
+    <div class="product-detail">
+
+      <!-- IMAGE AREA -->
+
+      <div class="detail-gallery">
+
+        <div class="detail-main-image">
+
+          <span class="detail-discount"
+                id="detailDiscount">
+            30% OFF
+          </span>
+
+          <img id="detailMainImage"
+               src=""
+               alt="Product">
+
+        </div>
+
+
+        <div class="detail-thumbnails"
+             id="detailThumbnails">
+        </div>
+
+      </div>
+
+
+      <!-- PRODUCT INFORMATION -->
+
+      <div class="detail-info">
+
+        <div class="detail-category"
+             id="detailCategory">
+          PREMIUM CLOTHING
+        </div>
+
+
+        <h2 id="detailName">
+          Product Name
+        </h2>
+
+
+        <div class="detail-rating">
+          ★★★★★
+          <span>
+            4.9 / 5
+          </span>
+        </div>
+
+
+        <!-- PRICE -->
+
+        <div class="detail-price">
+
+          <strong id="detailPrice">
+            ₹2,799
+          </strong>
+
+          <del id="detailOriginal">
+            ₹3,999
+          </del>
+
+          <span id="detailSave">
+            SAVE 30%
+          </span>
+
+        </div>
+
+
+        <div class="detail-line"></div>
+
+
+        <!-- DESCRIPTION -->
+
+        <p class="detail-description"
+           id="detailDescription">
+          Premium quality clothing made for everyday
+          luxury and comfort.
+        </p>
+
+
+        <!-- SIZE -->
+
+        <div class="size-header">
+
+          <strong>
+            SELECT SIZE
+          </strong>
+
+          <button onclick="openSizeChart()">
+            SIZE GUIDE
+          </button>
+
+        </div>
+
+
+        <div class="sizes"
+             id="sizeOptions">
+
+          <button onclick="selectSize(this)">
+            S
+          </button>
+
+          <button onclick="selectSize(this)">
+            M
+          </button>
+
+          <button onclick="selectSize(this)">
+            L
+          </button>
+
+          <button onclick="selectSize(this)">
+            XL
+          </button>
+
+        </div>
+
+
+        <div class="selected-size"
+             id="selectedSize">
+          Select a size
+        </div>
+
+
+        <!-- QUANTITY -->
+
+        <div class="quantity-title">
+          QUANTITY
+        </div>
+
+        <div class="detail-quantity">
+
+          <button onclick="changeDetailQty(-1)">
+            −
+          </button>
+
+          <span id="detailQty">
+            1
+          </span>
+
+          <button onclick="changeDetailQty(1)">
+            +
+          </button>
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="detail-actions">
+
+          <button class="detail-add"
+                  onclick="addDetailToCart()">
+            ADD TO CART
+          </button>
+
+          <button class="detail-buy"
+                  onclick="buyDetailNow()">
+            BUY NOW
+          </button>
+
+        </div>
+
+
+        <button class="detail-wishlist"
+                id="detailWishlist"
+                onclick="toggleDetailWishlist()">
+          ♡ &nbsp; ADD TO WISHLIST
+        </button>
+
+
+        <!-- BENEFITS -->
+
+        <div class="product-benefits">
+
+          <div>
+            <span>✓</span>
+            Premium Quality
+          </div>
+
+          <div>
+            <span>✓</span>
+            Easy 7 Day Returns
+          </div>
+
+          <div>
+            <span>✓</span>
+            Secure Payments
+          </div>
+
+          <div>
+            <span>✓</span>
+            Fast Delivery
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     SIZE CHART
+===================================================== -->
+
+<div class="size-modal"
+     id="sizeModal">
+
+  <div class="size-box">
+
+    <button onclick="closeSizeChart()">
+      ×
+    </button>
+
+    <h2>
+      VELLA CO. SIZE GUIDE
+    </h2>
+
+    <p>
+      Choose your usual size for the best fit.
+    </p>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>SIZE</th>
+          <th>CHEST</th>
+          <th>LENGTH</th>
+          <th>SHOULDER</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>S</td>
+          <td>38"</td>
+          <td>27"</td>
+          <td>17"</td>
+        </tr>
+
+        <tr>
+          <td>M</td>
+          <td>40"</td>
+          <td>28"</td>
+          <td>18"</td>
+        </tr>
+
+        <tr>
+          <td>L</td>
+          <td>42"</td>
+          <td>29"</td>
+          <td>19"</td>
+        </tr>
+
+        <tr>
+          <td>XL</td>
+          <td>44"</td>
+          <td>30"</td>
+          <td>20"</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<style>
+
+/* =====================================================
+   PRODUCT MODAL
+===================================================== */
+
+.product-modal{
+  position:fixed;
+
+  inset:0;
+
+  z-index:5000;
+
+  background:rgba(0,0,0,.65);
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:.3s;
+}
+
+.product-modal.active{
+  opacity:1;
+  visibility:visible;
+}
+
+.product-modal-box{
+  width:min(1150px,100%);
+
+  max-height:94vh;
+
+  overflow:auto;
+
+  background:#fff;
+
+  position:relative;
+
+  transform:translateY(30px);
+
+  transition:.4s;
+}
+
+.product-modal.active
+.product-modal-box{
+  transform:translateY(0);
+}
+
+.product-modal-close{
+  position:absolute;
+
+  top:15px;
+  right:18px;
+
+  z-index:10;
+
+  width:40px;
+  height:40px;
+
+  border:0;
+
+  border-radius:50%;
+
+  background:#fff;
+
+  font-size:25px;
+}
+
+.product-detail{
+  display:grid;
+
+  grid-template-columns:1.05fr .95fr;
+}
+
+.detail-gallery{
+  padding:25px;
+  background:#f6f6f6;
+}
+
+.detail-main-image{
+  position:relative;
+
+  width:100%;
+
+  aspect-ratio:4/5;
+
+  overflow:hidden;
+
+  background:#eee;
+}
+
+.detail-main-image img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  transition:.4s;
+}
+
+.detail-main-image:hover img{
+  transform:scale(1.025);
+}
+
+.detail-discount{
+  position:absolute;
+
+  top:15px;
+  left:15px;
+
+  z-index:3;
+
+  background:#111;
+  color:#fff;
+
+  padding:8px 11px;
+
+  font-size:9px;
+
+  font-weight:bold;
+
+  letter-spacing:1px;
+}
+
+.detail-thumbnails{
+  display:flex;
+
+  gap:10px;
+
+  margin-top:12px;
+
+  overflow-x:auto;
+
+  scrollbar-width:none;
+}
+
+.detail-thumbnails::-webkit-scrollbar{
+  display:none;
+}
+
+.detail-thumb{
+  width:72px;
+  height:85px;
+
+  flex:0 0 auto;
+
+  object-fit:cover;
+
+  border:1px solid #ddd;
+
+  cursor:pointer;
+
+  opacity:.65;
+
+  transition:.2s;
+}
+
+.detail-thumb.active{
+  opacity:1;
+
+  border:2px solid #111;
+}
+
+.detail-info{
+  padding:55px 50px;
+
+  display:flex;
+  flex-direction:column;
+}
+
+.detail-category{
+  color:#888;
+
+  font-size:10px;
+
+  letter-spacing:2px;
+
+  font-weight:bold;
+
+  margin-bottom:12px;
+}
+
+.detail-info h2{
+  font-size:38px;
+
+  line-height:1.05;
+
+  letter-spacing:-1.5px;
+
+  margin-bottom:15px;
+}
+
+.detail-rating{
+  font-size:13px;
+
+  letter-spacing:2px;
+
+  margin-bottom:20px;
+}
+
+.detail-rating span{
+  color:#777;
+
+  font-size:10px;
+
+  letter-spacing:0;
+}
+
+.detail-price{
+  display:flex;
+
+  align-items:center;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+}
+
+.detail-price strong{
+  font-size:23px;
+}
+
+.detail-price del{
+  color:#999;
+
+  font-size:13px;
+}
+
+.detail-price span{
+  color:#b00020;
+
+  font-size:10px;
+
+  font-weight:bold;
+}
+
+.detail-line{
+  height:1px;
+
+  background:#eee;
+
+  margin:25px 0;
+}
+
+.detail-description{
+  color:#666;
+
+  font-size:13px;
+
+  line-height:1.8;
+
+  margin-bottom:28px;
+}
+
+.size-header{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:12px;
+}
+
+.size-header strong{
+  font-size:10px;
+
+  letter-spacing:1.5px;
+}
+
+.size-header button{
+  border:0;
+
+  background:none;
+
+  text-decoration:underline;
+
+  font-size:10px;
+
+  color:#555;
+}
+
+.sizes{
+  display:grid;
+
+  grid-template-columns:repeat(4,1fr);
+
+  gap:8px;
+}
+
+.sizes button{
+  height:45px;
+
+  border:1px solid #ddd;
+
+  background:#fff;
+
+  font-size:11px;
+
+  font-weight:bold;
+
+  transition:.2s;
+}
+
+.sizes button:hover,
+.sizes button.selected{
+  background:#111;
+
+  color:#fff;
+
+  border-color:#111;
+}
+
+.selected-size{
+  color:#888;
+
+  font-size:10px;
+
+  margin-top:9px;
+}
+
+.quantity-title{
+  margin-top:25px;
+
+  margin-bottom:10px;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+  letter-spacing:1.5px;
+}
+
+.detail-quantity{
+  width:130px;
+
+  height:45px;
+
+  border:1px solid #ddd;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  padding:0 12px;
+}
+
+.detail-quantity button{
+  border:0;
+
+  background:none;
+
+  font-size:18px;
+}
+
+.detail-quantity span{
+  font-size:13px;
+
+  font-weight:bold;
+}
+
+.detail-actions{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:8px;
+
+  margin-top:25px;
+}
+
+.detail-actions button{
+  height:52px;
+
+  border:1px solid #111;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+  letter-spacing:1.5px;
+}
+
+.detail-add{
+  background:#111;
+
+  color:#fff;
+}
+
+.detail-buy{
+  background:#fff;
+
+  color:#111;
+}
+
+.detail-wishlist{
+  width:100%;
+
+  height:45px;
+
+  margin-top:9px;
+
+  border:1px solid #ddd;
+
+  background:#fff;
+
+  font-size:10px;
+
+  font-weight:bold;
+
+  letter-spacing:1px;
+}
+
+.detail-wishlist.liked{
+  color:#b00020;
+}
+
+.product-benefits{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:12px;
+
+  margin-top:30px;
+
+  padding-top:25px;
+
+  border-top:1px solid #eee;
+}
+
+.product-benefits div{
+  font-size:10px;
+
+  color:#666;
+}
+
+.product-benefits span{
+  color:#111;
+
+  margin-right:5px;
+}
+
+
+/* =====================================================
+   SIZE MODAL
+===================================================== */
+
+.size-modal{
+  position:fixed;
+
+  inset:0;
+
+  z-index:6000;
+
+  background:rgba(0,0,0,.6);
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:20px;
+
+  opacity:0;
+
+  visibility:hidden;
+
+  transition:.3s;
+}
+
+.size-modal.active{
+  opacity:1;
+
+  visibility:visible;
+}
+
+.size-box{
+  width:min(650px,100%);
+
+  background:#fff;
+
+  padding:35px;
+
+  position:relative;
+}
+
+.size-box > button{
+  position:absolute;
+
+  top:12px;
+  right:15px;
+
+  border:0;
+
+  background:none;
+
+  font-size:25px;
+}
+
+.size-box h2{
+  font-size:25px;
+
+  margin-bottom:8px;
+}
+
+.size-box p{
+  color:#777;
+
+  font-size:12px;
+
+  margin-bottom:25px;
+}
+
+.size-box table{
+  width:100%;
+
+  border-collapse:collapse;
+
+  font-size:11px;
+}
+
+.size-box th,
+.size-box td{
+  padding:14px 10px;
+
+  text-align:center;
+
+  border:1px solid #eee;
+}
+
+.size-box th{
+  background:#111;
+
+  color:#fff;
+
+  font-size:9px;
+
+  letter-spacing:1px;
+}
+
+
+/* =====================================================
+   MOBILE PRODUCT DETAIL
+===================================================== */
+
+@media(max-width:800px){
+
+  .product-modal{
+    padding:0;
+
+    align-items:flex-end;
+  }
+
+  .product-modal-box{
+    max-height:96vh;
+
+    width:100%;
+  }
+
+  .product-detail{
+    display:block;
+  }
+
+  .detail-gallery{
+    padding:12px;
+  }
+
+  .detail-main-image{
+    aspect-ratio:1/1.12;
+  }
+
+  .detail-info{
+    padding:30px 20px 40px;
+  }
+
+  .detail-info h2{
+    font-size:29px;
+  }
+
+  .detail-actions{
+    position:sticky;
+
+    bottom:0;
+
+    background:#fff;
+
+    padding-top:10px;
+  }
+
+}
+
+@media(max-width:450px){
+
+  .product-benefits{
+    grid-template-columns:1fr;
+  }
+
+  .size-box{
+    padding:25px 15px;
+  }
+
+  .size-box table{
+    font-size:9px;
+  }
+
+}
+
+</style>
+
+
+<script>
+
+/* =====================================================
+   PRODUCT DETAIL VARIABLES
+===================================================== */
+
+let currentProduct = null;
+
+let currentSize = "";
+
+let detailQuantity = 1;
+
+let detailImageIndex = 0;
+
+
+/* =====================================================
+   OPEN PRODUCT DETAIL
+===================================================== */
+
+function openProduct(productId){
+
+  const product =
+    PRODUCTS.find(
+      p=>p.id===productId
+    );
+
+  if(!product) return;
+
+  currentProduct = product;
+
+  currentSize = "";
+
+  detailQuantity = 1;
+
+  detailImageIndex = 0;
+
+
+  document.getElementById(
+    "detailName"
+  ).textContent=product.name;
+
+
+  document.getElementById(
+    "detailCategory"
+  ).textContent=product.category;
+
+
+  document.getElementById(
+    "detailPrice"
+  ).textContent=money(product.price);
+
+
+  document.getElementById(
+    "detailOriginal"
+  ).textContent=money(product.original);
+
+
+  document.getElementById(
+    "detailSave"
+  ).textContent=
+    "SAVE "+product.discount+"%";
+
+
+  document.getElementById(
+    "detailDiscount"
+  ).textContent=
+    product.discount+"% OFF";
+
+
+  document.getElementById(
+    "detailDescription"
+  ).textContent=
+    "Premium quality "+product.category+
+    " designed with a clean silhouette, "+
+    "comfortable fit and refined VELLA CO. finish.";
+
+
+  document.getElementById(
+    "detailQty"
+  ).textContent=1;
+
+
+  document.getElementById(
+    "detailMainImage"
+  ).src=product.image;
+
+
+  document.querySelectorAll(
+    ".sizes button"
+  ).forEach(button=>{
+
+    button.classList.remove(
+      "selected"
+    );
+
+  });
+
+
+  document.getElementById(
+    "selectedSize"
+  ).textContent=
+    "Select a size";
+
+
+  updateDetailWishlist();
+
+  createThumbnails(product);
+
+
+  document.getElementById(
+    "productModal"
+  ).classList.add("active");
+
+
+  document.body.style.overflow="hidden";
+
+}
+
+
+/* =====================================================
+   CLOSE PRODUCT
+===================================================== */
+
+function closeProduct(){
+
+  document.getElementById(
+    "productModal"
+  ).classList.remove("active");
+
+  document.body.style.overflow="";
+
+}
+
+
+/* =====================================================
+   THUMBNAILS
+===================================================== */
+
+function createThumbnails(product){
+
+  const container =
+    document.getElementById(
+      "detailThumbnails"
+    );
+
+  container.innerHTML="";
+
+
+  /*
+    Same product image ko different crop/position
+    ke saath thumbnails mein use kar rahe hain.
+    Baad mein actual product images yahan add
+    ki ja sakti hain.
+  */
+
+  const images=[
+
+    product.image,
+
+    product.image+"&crop=faces",
+
+    product.image+"&fit=crop",
+
+    product.image+"&sat=-10"
+
+  ];
+
+
+  images.forEach(
+    (image,index)=>{
+
+      const img =
+        document.createElement(
+          "img"
+        );
+
+      img.src=image;
+
+      img.className=
+        "detail-thumb"+
+        (index===0
+          ? " active"
+          : "");
+
+      img.onclick=()=>{
+
+        document.getElementById(
+          "detailMainImage"
+        ).src=image;
+
+
+        document.querySelectorAll(
+          ".detail-thumb"
+        ).forEach(
+          x=>x.classList.remove(
+            "active"
+          )
+        );
+
+
+        img.classList.add(
+          "active"
+        );
+
+      };
+
+
+      container.appendChild(img);
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   SIZE SELECT
+===================================================== */
+
+function selectSize(button){
+
+  document.querySelectorAll(
+    ".sizes button"
+  ).forEach(
+    btn=>btn.classList.remove(
+      "selected"
+    )
+  );
+
+
+  button.classList.add(
+    "selected"
+  );
+
+
+  currentSize =
+    button.textContent.trim();
+
+
+  document.getElementById(
+    "selectedSize"
+  ).textContent=
+    "Selected size: "+currentSize;
+
+}
+
+
+/* =====================================================
+   SIZE CHART
+===================================================== */
+
+function openSizeChart(){
+
+  document.getElementById(
+    "sizeModal"
+  ).classList.add("active");
+
+}
+
+
+function closeSizeChart(){
+
+  document.getElementById(
+    "sizeModal"
+  ).classList.remove("active");
+
+}
+
+
+/* =====================================================
+   DETAIL QUANTITY
+===================================================== */
+
+function changeDetailQty(value){
+
+  detailQuantity += value;
+
+
+  if(detailQuantity<1){
+
+    detailQuantity=1;
+
+  }
+
+
+  if(detailQuantity>10){
+
+    detailQuantity=10;
+
+  }
+
+
+  document.getElementById(
+    "detailQty"
+  ).textContent=
+    detailQuantity;
+
+}
+
+
+/* =====================================================
+   ADD DETAIL PRODUCT TO CART
+===================================================== */
+
+function addDetailToCart(){
+
+  if(!currentProduct) return;
+
+
+  if(!currentSize){
+
+    alert(
+      "Please select your size first."
+    );
+
+    return;
+
+  }
+
+
+  const existing =
+    cart.find(
+      item=>
+        item.id===currentProduct.id &&
+        item.size===currentSize
+    );
+
+
+  if(existing){
+
+    existing.qty +=
+      detailQuantity;
+
+  }else{
+
+    cart.push({
+
+      id:currentProduct.id,
+
+      qty:detailQuantity,
+
+      size:currentSize
+
+    });
+
+  }
+
+
+  saveCart();
+
+  updateCart();
+
+  closeProduct();
+
+  openCart();
+
+}
+
+
+/* =====================================================
+   BUY NOW
+===================================================== */
+
+function buyDetailNow(){
+
+  if(!currentProduct) return;
+
+
+  if(!currentSize){
+
+    alert(
+      "Please select your size first."
+    );
+
+    return;
+
+  }
+
+
+  const existing =
+    cart.find(
+      item=>
+        item.id===currentProduct.id &&
+        item.size===currentSize
+    );
+
+
+  if(existing){
+
+    existing.qty +=
+      detailQuantity;
+
+  }else{
+
+    cart.push({
+
+      id:currentProduct.id,
+
+      qty:detailQuantity,
+
+      size:currentSize
+
+    });
+
+  }
+
+
+  saveCart();
+
+  updateCart();
+
+  closeProduct();
+
+  openCart();
+
+
+  setTimeout(()=>{
+
+    checkout();
+
+  },400);
+
+}
+
+
+/* =====================================================
+   PRODUCT DETAIL WISHLIST
+===================================================== */
+
+function toggleDetailWishlist(){
+
+  if(!currentProduct) return;
+
+
+  toggleWishlist(
+    currentProduct.id
+  );
+
+
+  updateDetailWishlist();
+
+}
+
+
+function updateDetailWishlist(){
+
+  if(!currentProduct) return;
+
+
+  const button =
+    document.getElementById(
+      "detailWishlist"
+    );
+
+
+  if(
+    wishlist.includes(
+      currentProduct.id
+    )
+  ){
+
+    button.innerHTML=
+      "♥ &nbsp; ADDED TO WISHLIST";
+
+    button.classList.add(
+      "liked"
+    );
+
+  }else{
+
+    button.innerHTML=
+      "♡ &nbsp; ADD TO WISHLIST";
+
+    button.classList.remove(
+      "liked"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   REPLACE QUICK VIEW
+===================================================== */
+
+function quickView(id){
+
+  openProduct(id);
+
+}
+
+
+/* =====================================================
+   CLOSE MODALS WITH ESCAPE
+===================================================== */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key==="Escape"){
+
+      closeProduct();
+
+      closeSizeChart();
+
+    }
+
+  }
+);
+
+    </script>
