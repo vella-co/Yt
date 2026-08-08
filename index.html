@@ -10961,3 +10961,31 @@ function subscribeVella(){
 
 
 /*
+=========================================================
+   INITIALIZE HOMEPAGE
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    renderHomeProducts();
+
+  }
+);
+
+
+/*
+   Agar script DOMContentLoaded ke baad
+   load ho raha ho to direct render.
+*/
+
+if(
+  document.readyState!=="loading"
+){
+
+  renderHomeProducts();
+
+}
+
+</script>
