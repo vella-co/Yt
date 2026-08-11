@@ -1,909 +1,349 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VELLA CO. | Premium Fashion</title>
+<title>VELLA CO.</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;color:#111;background:#fff}
-button{cursor:pointer}
-a{text-decoration:none;color:inherit}
+body{font-family:Arial;background:#fff;color:#111}
+button{cursor:pointer;border:0;background:none}
+
+/* TOP SLIDER */
+.offer{
+height:32px;background:#111;color:#fff;text-align:center;
+font-size:10px;letter-spacing:1px;padding:10px;overflow:hidden
+}
+.offer span{display:none}.offer span.on{display:block}
 
 /* HEADER */
-header{height:68px;border-bottom:1px solid #eee;display:flex;align-items:center;
-justify-content:space-between;padding:0 5%;position:sticky;top:0;background:#fff;z-index:20}
-.logo{font-size:24px;font-weight:800;letter-spacing:4px}
-nav{display:flex;gap:25px;font-size:12px;font-weight:bold}
-nav button,.head-btn{border:0;background:none;font-size:12px}
-.head-right{display:flex;gap:12px;align-items:center}
+header{
+height:68px;border-bottom:1px solid #eee;display:flex;
+align-items:center;justify-content:space-between;padding:0 5%;
+position:sticky;top:0;background:#fff;z-index:10
+}
+.logo{font-size:23px;font-weight:bold;letter-spacing:4px}
+nav{display:flex;gap:25px}
+nav button{font-size:10px;font-weight:bold}
+.cart{font-size:11px}
 
-/* PAGES */
-.page{display:none}
-.page.active{display:block}
+/* HERO */
+.hero{
+height:470px;position:relative;overflow:hidden
+}
+.hero img{width:100%;height:100%;object-fit:cover}
+.hero div{
+position:absolute;left:7%;top:50%;transform:translateY(-50%);
+color:#fff
+}
+.hero h1{font-size:55px;line-height:.9;margin:12px 0}
+.hero p{font-size:12px;max-width:330px;line-height:1.6}
+.btn{
+background:#fff;padding:13px 24px;margin-top:20px;
+font-size:10px;font-weight:bold
+}
 
-/* HOME */
-.hero{height:520px;background:#eee;display:flex;align-items:center;overflow:hidden}
-.hero-text{width:45%;padding:7%;z-index:2}
-.hero-text small{letter-spacing:2px;color:#666}
-.hero-text h1{font-size:60px;line-height:.9;margin:18px 0}
-.hero-text p{color:#666;line-height:1.6;margin-bottom:25px}
-.black-btn{background:#111;color:#fff;border:0;padding:14px 24px;font-size:11px;font-weight:bold}
-.hero-img{width:55%;height:100%}
-.hero-img img{width:100%;height:100%;object-fit:cover}
-
-/* CATEGORY */
-.section{padding:60px 5%}
+/* SECTION */
+.sec{padding:45px 5%}
 .title{margin-bottom:25px}
-.title small{color:#888;letter-spacing:2px}
-.title h2{font-size:32px;margin-top:7px}
-.cats{display:flex;gap:12px;overflow-x:auto}
-.cat{min-width:30%;height:300px;position:relative;overflow:hidden}
-.cat img{width:100%;height:100%;object-fit:cover}
-.cat span{position:absolute;bottom:20px;left:20px;color:#fff;font-size:28px;font-weight:bold}
+.title small{font-size:9px;color:#888;letter-spacing:2px}
+.title h2{font-size:28px;margin-top:6px}
+
+/* CATEGORIES */
+.cats{
+display:flex;justify-content:center;gap:35px
+}
+.cat{text-align:center;cursor:pointer}
+.cat img{
+width:105px;height:105px;border-radius:50%;
+object-fit:cover;border:2px solid #eee;padding:3px
+}
+.cat p{
+font-size:10px;font-weight:bold;margin-top:10px;
+letter-spacing:1px
+}
 
 /* PRODUCTS */
-.products{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
-.card{position:relative;cursor:pointer}
-.card img{width:100%;aspect-ratio:4/5;object-fit:cover}
-.card-info{padding:10px 2px}
-.card-info h3{font-size:12px;margin-bottom:7px}
-.price{font-size:12px;font-weight:bold}
-.old{color:#999;text-decoration:line-through;font-size:10px;margin-left:6px}
-.off{position:absolute;top:8px;left:8px;background:#111;color:#fff;padding:6px;font-size:8px}
-.heart{position:absolute;top:8px;right:8px;border:0;border-radius:50%;width:30px;height:30px}
-
-/* DETAIL */
-.detail{padding:60px 8%;display:grid;grid-template-columns:1fr 1fr;gap:50px}
-.detail img{width:100%;max-height:650px;object-fit:cover}
-.detail-info{padding:30px 0}
-.detail-info h1{font-size:38px;margin:12px 0}
-.detail-info p{color:#666;line-height:1.7;margin:20px 0}
-.detail-price{font-size:22px;font-weight:bold;margin-bottom:25px}
-.actions{display:flex;gap:10px}
-.actions button{flex:1;padding:15px;border:1px solid #111}
-.actions .buy{background:#111;color:#fff}
-
-/* CART / CHECKOUT */
-.box{max-width:700px;margin:50px auto;padding:25px}
-.cart-row{display:flex;gap:15px;padding:15px 0;border-bottom:1px solid #eee}
-.cart-row img{width:80px;height:95px;object-fit:cover}
-.cart-row div{flex:1}
-.remove{border:0;background:none;color:#b00020}
-.form{display:grid;gap:12px}
-.form input,.form textarea,.form select{width:100%;padding:14px;border:1px solid #ddd;outline:0}
-.form textarea{height:100px}
-.pay{display:grid;gap:10px;margin-top:20px}
-.pay button{padding:15px;border:0;font-weight:bold}
-.online{background:#111;color:#fff}
-.cod{background:#25d366;color:#fff}
+.products{
+display:grid;grid-template-columns:repeat(4,1fr);gap:16px
+}
+.product{cursor:pointer;position:relative}
+.product img{
+width:100%;aspect-ratio:4/5;object-fit:cover
+}
+.badge{
+position:absolute;top:8px;left:8px;background:#111;
+color:#fff;padding:5px;font-size:8px
+}
+.product h3{font-size:11px;margin:9px 0 5px}
+.price{font-size:11px;font-weight:bold}
+.old{font-size:9px;color:#999;margin-left:5px}
 
 /* FOOTER */
-footer{background:#111;color:#fff;padding:50px 5%;margin-top:50px}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
-footer p,footer button{color:#aaa;font-size:11px;line-height:1.8}
-footer button{display:block;border:0;background:none;margin:7px 0}
-.copy{border-top:1px solid #333;margin-top:35px;padding-top:20px;font-size:9px;color:#777}
+footer{
+background:#111;color:#fff;padding:35px 5%;margin-top:30px
+}
+footer h2{letter-spacing:3px;font-size:20px}
+footer p{color:#999;font-size:10px;margin-top:10px}
 
 /* MOBILE */
-@media(max-width:700px){
-header{padding:0 15px}
+@media(max-width:600px){
 nav{display:none}
-.hero{height:600px;position:relative}
-.hero-text{width:100%;position:absolute;color:#fff;padding:30px}
-.hero-text small,.hero-text p{color:#eee}
-.hero-text h1{font-size:50px}
-.hero-img{width:100%}
-.hero-img:after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.4)}
-.cat{min-width:78%}
-.products{grid-template-columns:repeat(2,1fr);gap:10px}
-.section{padding:45px 15px}
-.detail{grid-template-columns:1fr;padding:30px 15px;gap:20px}
-.detail-info h1{font-size:28px}
-.footer-grid{grid-template-columns:1fr 1fr}
+.hero{height:430px}
+.hero h1{font-size:43px}
+.cats{gap:18px}
+.cat img{width:82px;height:82px}
+.products{grid-template-columns:repeat(2,1fr);gap:12px}
+.sec{padding:35px 15px}
 }
 </style>
 </head>
 
 <body>
 
+<!-- DISCOUNT / NEW ARRIVAL SLIDER -->
+<div class="offer" id="offer">
+<span class="on">WELCOME TO VELLA CO. — UP TO 40% OFF</span>
+<span>NEW ARRIVALS — SHOP NOW</span>
+<span>FREE SHIPPING ON SELECTED ORDERS</span>
+</div>
+
 <!-- HEADER -->
 <header>
-  <button class="head-btn" onclick="show('home')">☰</button>
+<div class="logo">VELLA CO.</div>
 
-  <div class="logo">VELLA<small>CO.</small></div>
+<nav>
+<button onclick="showProducts('ALL')">HOME</button>
+<button onclick="showProducts('MEN')">MEN</button>
+<button onclick="showProducts('WOMEN')">WOMEN</button>
+<button onclick="showProducts('JEWELLERY')">JEWELLERY</button>
+</nav>
 
-  <nav>
-    <button onclick="show('home')">HOME</button>
-    <button onclick="filter('MEN')">MEN</button>
-    <button onclick="filter('WOMEN')">WOMEN</button>
-    <button onclick="filter('JEWELLERY')">JEWELLERY</button>
-  </nav>
-
-  <div class="head-right">
-    <button class="head-btn" onclick="openCart()">🛍 <b id="count">0</b></button>
-  </div>
+<button class="cart" onclick="openCart()">
+BAG (<b id="count">0</b>)
+</button>
 </header>
 
 
-<!-- HOME PAGE -->
-<main id="home" class="page active">
+<!-- HOME -->
+<div id="home">
 
-  <section class="hero">
-    <div class="hero-text">
-      <small>VELLA CO. / NEW COLLECTION</small>
-      <h1>STYLE<br>YOUR WAY.</h1>
-      <p>Premium clothing and jewellery for modern everyday style.</p>
-      <button class="black-btn" onclick="filter('ALL')">SHOP COLLECTION</button>
-    </div>
-    <div class="hero-img">
-      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=85">
-    </div>
-  </section>
+<!-- HERO -->
+<section class="hero">
+<img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=85">
 
-
-  <section class="section">
-    <div class="title">
-      <small>EXPLORE</small>
-      <h2>Collections</h2>
-    </div>
-
-    <div class="cats">
-      <div class="cat" onclick="filter('MEN')">
-        <img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&w=700&q=80">
-        <span>MEN</span>
-      </div>
-
-      <div class="cat" onclick="filter('WOMEN')">
-        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=700&q=80">
-        <span>WOMEN</span>
-      </div>
-
-      <div class="cat" onclick="filter('JEWELLERY')">
-        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=700&q=80">
-        <span>JEWELLERY</span>
-      </div>
-    </div>
-  </section>
-
-
-  <section class="section">
-    <div class="title">
-      <small>VELLA CO.</small>
-      <h2>Featured Products</h2>
-    </div>
-    <div class="products" id="homeProducts"></div>
-  </section>
-
-</main>
-
-
-<!-- PRODUCT PAGE -->
-<section id="product" class="page">
-  <div class="detail">
-    <img id="detailImg">
-
-    <div class="detail-info">
-      <small id="detailCat"></small>
-      <h1 id="detailName"></h1>
-
-      <div class="detail-price">
-        ₹<span id="detailPrice"></span>
-        <del id="detailOld"></del>
-      </div>
-
-      <p id="detailDesc"></p>
-
-      <div class="actions">
-        <button onclick="addCart(currentProduct)">ADD TO CART</button>
-        <button class="buy" onclick="buyNow()">ORDER NOW</button>
-      </div>
-    </div>
-  </div>
+<div>
+<small>VELLA CO. / NEW COLLECTION</small>
+<h1>STYLE<br>YOUR WAY.</h1>
+<p>Premium fashion designed for modern everyday luxury.</p>
+<button class="btn" onclick="showProducts('ALL')">
+SHOP COLLECTION
+</button>
+</div>
 </section>
 
 
-<!-- CART -->
-<section id="cart" class="page">
-  <div class="box">
-    <div class="title">
-      <small>VELLA CO.</small>
-      <h2>Your Cart</h2>
-    </div>
+<!-- CATEGORIES -->
+<section class="sec">
 
-    <div id="cartItems"></div>
+<div class="title">
+<small>EXPLORE</small>
+<h2>Shop By Category</h2>
+</div>
 
-    <h3 id="cartTotal" style="margin:25px 0"></h3>
+<div class="cats">
 
-    <button class="black-btn" onclick="checkout()">
-      PROCEED TO CHECKOUT
-    </button>
-  </div>
+<div class="cat" onclick="showProducts('MEN')">
+<img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&w=300&q=80">
+<p>MEN</p>
+</div>
+
+<div class="cat" onclick="showProducts('WOMEN')">
+<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=300&q=80">
+<p>WOMEN</p>
+</div>
+
+<div class="cat" onclick="showProducts('JEWELLERY')">
+<img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=300&q=80">
+<p>JEWELLERY</p>
+</div>
+
+</div>
 </section>
 
 
-<!-- CHECKOUT -->
-<section id="checkout" class="page">
-  <div class="box">
+<!-- PRODUCTS -->
+<section class="sec">
 
-    <div class="title">
-      <small>ORDER DETAILS</small>
-      <h2>Checkout</h2>
-    </div>
+<div class="title">
+<small>VELLA CO.</small>
+<h2>New Arrivals</h2>
+</div>
 
-    <div class="form">
+<div class="products" id="homeProducts"></div>
 
-      <input id="name" placeholder="Full Name">
-      <input id="phone" placeholder="10 Digit Phone Number" maxlength="10">
-      <textarea id="address" placeholder="Full Address"></textarea>
-      <input id="pin" placeholder="Pincode" maxlength="6">
-
-      <select id="state">
-        <option value="">Select State</option>
-        <option>Uttar Pradesh</option>
-        <option>Delhi</option>
-        <option>Maharashtra</option>
-        <option>Rajasthan</option>
-        <option>Madhya Pradesh</option>
-        <option>Bihar</option>
-        <option>Haryana</option>
-        <option>Other</option>
-      </select>
-
-    </div>
-
-    <h3 id="checkoutTotal" style="margin:25px 0"></h3>
-
-    <div class="pay">
-      <button class="online" onclick="onlinePayment()">
-        PAY ONLINE — RAZORPAY
-      </button>
-
-      <button class="cod" onclick="codOrder()">
-        ORDER WITH COD — WHATSAPP
-      </button>
-    </div>
-
-  </div>
 </section>
+
+</div>
+
+
+<!-- PRODUCTS SCREEN -->
+<div id="productsPage" style="display:none">
+<section class="sec">
+<div class="title">
+<small>VELLA CO.</small>
+<h2 id="heading">Products</h2>
+</div>
+<div class="products" id="products"></div>
+</section>
+</div>
 
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
-
-    <div>
-      <div class="logo">VELLA CO.</div>
-      <p style="margin-top:15px">
-        Premium clothing & jewellery made for modern style.
-      </p>
-    </div>
-
-    <div>
-      <b>SHOP</b>
-      <button onclick="filter('MEN')">Men</button>
-      <button onclick="filter('WOMEN')">Women</button>
-      <button onclick="filter('JEWELLERY')">Jewellery</button>
-    </div>
-
-    <div>
-      <b>HELP</b>
-      <button>Contact</button>
-      <button>Shipping</button>
-      <button>Returns</button>
-    </div>
-
-    <div>
-      <b>FOLLOW</b>
-      <button>Instagram</button>
-      <button>Facebook</button>
-      <button>YouTube</button>
-    </div>
-
-  </div>
-
-  <div class="copy">
-    © 2026 VELLA CO. ALL RIGHTS RESERVED.
-  </div>
+<h2>VELLA CO.</h2>
+<p>Premium Clothing & Jewellery.</p>
+<p>© 2026 VELLA CO. All Rights Reserved.</p>
 </footer>
 
 
 <script>
+
 /* PRODUCTS */
-const PRODUCTS=[
-{id:1,name:"Noir Oversized Shirt",cat:"MEN",price:1999,old:2999,
-img:"https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=700&q=80"},
-{id:2,name:"Classic Black Jacket",cat:"MEN",price:2999,old:4499,
-img:"https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=80"},
-{id:3,name:"Elegant Women Dress",cat:"WOMEN",price:2499,old:3999,
-img:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80"},
-{id:4,name:"Premium Co-ord Set",cat:"WOMEN",price:2799,old:4299,
-img:"https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=700&q=80"},
-{id:5,name:"Minimal Gold Necklace",cat:"JEWELLERY",price:799,old:1199,
-img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=700&q=80"},
-{id:6,name:"Luxury Hoop Earrings",cat:"JEWELLERY",price:599,old:999,
-img:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=700&q=80"}
+
+const data=[
+{
+id:1,name:"Noir Oversized Shirt",cat:"MEN",
+price:1999,old:2999,
+img:"https://images.unsplash.com/photo-1603252110481-7ba873bf42ab?auto=format&fit=crop&w=700&q=80"
+},
+{
+id:2,name:"Premium Black Jacket",cat:"MEN",
+price:2999,old:4499,
+img:"https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=700&q=80"
+},
+{
+id:3,name:"Elegant Women Dress",cat:"WOMEN",
+price:2499,old:3999,
+img:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=700&q=80"
+},
+{
+id:4,name:"Premium Co-ord Set",cat:"WOMEN",
+price:2799,old:4299,
+img:"https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=700&q=80"
+},
+{
+id:5,name:"Minimal Gold Necklace",cat:"JEWELLERY",
+price:699,old:999,
+img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=700&q=80"
+},
+{
+id:6,name:"Luxury Hoop Earrings",cat:"JEWELLERY",
+price:599,old:899,
+img:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=700&q=80"
+}
 ];
 
-let cartData=JSON.parse(localStorage.getItem("vellaCart")||"[]");
-let currentProduct=null;
-let buyMode=false;
+
+/* OFFER SLIDER */
+
+let oi=0;
+
+setInterval(()=>{
+let s=document.querySelectorAll("#offer span");
+s[oi].classList.remove("on");
+oi=(oi+1)%s.length;
+s[oi].classList.add("on");
+},3000);
 
 
-/* PAGE SWITCH */
-function show(id){
- document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
- document.getElementById(id).classList.add("active");
- window.scrollTo(0,0);
+/* PRODUCT CARD */
+
+function card(p){
+let off=Math.round((1-p.price/p.old)*100);
+
+return `
+<div class="product">
+<span class="badge">${off}% OFF</span>
+<img src="${p.img}" onclick="product(${p.id})">
+<h3>${p.name}</h3>
+<span class="price">₹${p.price}</span>
+<del class="old">₹${p.old}</del>
+</div>`;
 }
 
 
-/* FILTER */
-function filter(cat){
- show("home");
+/* HOME PRODUCTS */
 
- let list=cat==="ALL"?PRODUCTS:PRODUCTS.filter(p=>p.cat===cat);
- renderProducts(list);
+document.getElementById("homeProducts").innerHTML=
+data.slice(0,4).map(card).join("");
+
+
+/* PRODUCT SCREEN */
+
+function showProducts(cat){
+
+let list=cat==="ALL"
+?data:data.filter(p=>p.cat===cat);
+
+document.getElementById("heading").innerText=
+cat==="ALL"?"All Products":cat;
+
+document.getElementById("products").innerHTML=
+list.map(card).join("");
+
+document.getElementById("home").style.display="none";
+document.getElementById("productsPage").style.display="block";
+
+history.pushState({page:"products"},"","#products");
+
+window.scrollTo(0,0);
 }
 
 
-/* PRODUCT CARDS */
-function renderProducts(list=PRODUCTS){
- document.getElementById("homeProducts").innerHTML=list.map(p=>{
-  let off=Math.round((1-p.price/p.old)*100);
+/* BACK BUTTON */
 
-  return `
-  <div class="card" onclick="openProduct(${p.id})">
-    <span class="off">${off}% OFF</span>
-    <img src="${p.img}">
-    <div class="card-info">
-      <h3>${p.name}</h3>
-      <span class="price">₹${p.price}</span>
-      <del class="old">₹${p.old}</del>
-    </div>
-  </div>`;
- }).join("");
-}
+history.replaceState({page:"home"},"","#home");
+
+window.onpopstate=function(){
+
+document.getElementById("productsPage").style.display="none";
+document.getElementById("home").style.display="block";
+
+window.scrollTo(0,0);
+};
 
 
 /* PRODUCT */
-function openProduct(id){
- currentProduct=PRODUCTS.find(p=>p.id===id);
 
- detailImg.src=currentProduct.img;
- detailCat.textContent=currentProduct.cat;
- detailName.textContent=currentProduct.name;
- detailPrice.textContent=currentProduct.price;
- detailOld.textContent=" ₹"+currentProduct.old;
- detailDesc.textContent="Premium quality product from VELLA CO. Designed with a clean, modern and comfortable finish.";
+function product(id){
 
- show("product");
+let p=data.find(x=>x.id===id);
+
+alert(
+p.name+
+"\n\nPrice: ₹"+p.price+
+"\n\nNext part: Product Detail + Add To Cart"
+);
+
 }
 
 
-/* CART */
-function addCart(product){
- let item=cartData.find(x=>x.id===product.id);
+/* CART COUNT */
 
- if(item)item.qty++;
- else cartData.push({id:product.id,qty:1});
+let cart=JSON.parse(
+localStorage.getItem("vellaCart")||"[]"
+);
 
- saveCart();
- alert("Added to cart ✓");
-}
-
-
-/* ORDER NOW */
-function buyNow(){
- cartData=[{id:currentProduct.id,qty:1}];
- buyMode=true;
- saveCart();
- checkout();
-}
-
-
-/* CART PAGE */
 function openCart(){
- renderCart();
- show("cart");
+alert("Cart screen next part mein add hoga.");
 }
 
-function renderCart(){
- let box=document.getElementById("cartItems");
+document.getElementById("count").innerText=
+cart.length;
 
- if(!cartData.length){
-  box.innerHTML="<p>Your cart is empty.</p>";
-  cartTotal.textContent="";
-  return;
- }
-
- box.innerHTML=cartData.map(item=>{
-  let p=PRODUCTS.find(x=>x.id===item.id);
-
-  return `
-  <div class="cart-row">
-    <img src="${p.img}">
-    <div>
-      <b>${p.name}</b>
-      <p>₹${p.price} × ${item.qty}</p>
-      <button class="remove" onclick="removeCart(${p.id})">Remove</button>
-    </div>
-  </div>`;
- }).join("");
-
- cartTotal.textContent="Total: ₹"+total();
-}
-
-
-/* REMOVE */
-function removeCart(id){
- cartData=cartData.filter(x=>x.id!==id);
- saveCart();
- renderCart();
-}
-
-
-/* TOTAL */
-function total(){
- return cartData.reduce((sum,item)=>{
-  let p=PRODUCTS.find(x=>x.id===item.id);
-  return sum+p.price*item.qty;
- },0);
-}
-
-
-/* CHECKOUT */
-function checkout(){
- if(!cartData.length){
-  alert("Your cart is empty.");
-  return;
- }
-
- checkoutTotal.textContent="Order Total: ₹"+total();
- show("checkout");
-}
-
-
-/* SAVE */
-function saveCart(){
- localStorage.setItem("vellaCart",JSON.stringify(cartData));
-
- let qty=cartData.reduce((s,x)=>s+x.qty,0);
- document.getElementById("count").textContent=qty;
-}
-
-
-/* COD */
-function codOrder(){
-
- if(!validate())return;
-
- let orderId="VLC"+Date.now().toString().slice(-8);
-
- let text=
- `VELLA CO. ORDER%0A%0A`+
- `Order ID: ${orderId}%0A`+
- `Name: ${name.value}%0A`+
- `Phone: ${phone.value}%0A`+
- `Address: ${address.value}%0A`+
- `Pincode: ${pin.value}%0A`+
- `State: ${state.value}%0A%0A`+
- `Total: ₹${total()}%0A`+
- `Payment: COD`;
-
- /* APNA WHATSAPP NUMBER YAHAN DAALO */
- let whatsapp="91XXXXXXXXXX";
-
- window.open(
-  "https://wa.me/"+whatsapp+"?text="+text,
-  "_blank"
- );
-}
-
-
-/* VALIDATION */
-function validate(){
-
- if(!name.value.trim()||
- !/^[0-9]{10}$/.test(phone.value)||
- !address.value.trim()||
- !/^[0-9]{6}$/.test(pin.value)||
- !state.value){
-
-  alert("Please complete all order details.");
-  return false;
- }
-
- return true;
-}
-
-
-/* RAZORPAY */
-function onlinePayment(){
-
- if(!validate())return;
-
- /*
-  IMPORTANT:
-  YAHAN APNI RAZORPAY KEY ID DAALNA.
-  Secret Key browser mein kabhi mat daalna.
- */
-
- let RAZORPAY_KEY="YOUR_RAZORPAY_KEY_ID";
-
- if(RAZORPAY_KEY==="YOUR_RAZORPAY_KEY_ID"){
-  alert("Please add your Razorpay Key ID first.");
-  return;
- }
-
- let script=document.createElement("script");
- script.src="https://checkout.razorpay.com/v1/checkout.js";
-
- script.onload=function(){
-
-  let options={
-   key:RAZORPAY_KEY,
-   amount:total()*100,
-   currency:"INR",
-   name:"VELLA CO.",
-   description:"VELLA CO. Order",
-   prefill:{
-    name:name.value,
-    contact:phone.value
-   },
-   handler:function(response){
-    alert(
-     "Payment successful ✓\nPayment ID: "+
-     response.razorpay_payment_id
-    );
-   }
-  };
-
-  new Razorpay(options).open();
- };
-
- document.body.appendChild(script);
-}
-
-
-/* START */
-renderProducts();
-saveCart();
 </script>
 
 </body>
 </html>
-<!-- ===== PART 2 : PREMIUM OFFER + JEWELLERY COMBO ===== -->
-
-<style>
-.offer{
-  background:#111;color:#fff;height:38px;display:flex;
-  align-items:center;justify-content:center;overflow:hidden;
-  font-size:10px;letter-spacing:1.5px
-}
-.offer span{display:none}
-.offer span.active{display:block}
-.combo{
-  position:fixed;inset:0;background:#0008;z-index:50;
-  display:none;align-items:center;justify-content:center;padding:20px
-}
-.combo-box{
-  background:#fff;max-width:420px;width:100%;padding:25px;
-  position:relative;text-align:center
-}
-.combo-box img{width:100%;height:220px;object-fit:cover;margin:15px 0}
-.combo-box h2{font-size:25px}
-.combo-box p{color:#666;font-size:12px;line-height:1.6;margin:10px 0}
-.combo-price{font-weight:bold;margin:15px}
-.combo-price del{color:#999;margin-left:7px}
-.combo-buttons{display:flex;gap:8px}
-.combo-buttons button{
-  flex:1;padding:13px;border:1px solid #111;background:#fff;font-size:10px
-}
-.combo-buttons .add{background:#111;color:#fff}
-.close-combo{
-  position:absolute;right:10px;top:10px;border:0;background:none;font-size:20px
-}
-@media(max-width:600px){
- .offer{height:34px;font-size:8px}
-}
-</style>
-
-
-<!-- OFFER BAR -->
-<div class="offer" id="offerBar">
-  <span class="active">WELCOME TO VELLA CO. — UP TO 40% OFF</span>
-  <span>NEW ARRIVALS — PREMIUM STYLE, EVERYDAY</span>
-  <span>ADD JEWELLERY WITH YOUR OUTFIT & SAVE MORE</span>
-</div>
-
-
-<!-- JEWELLERY COMBO POPUP -->
-<div class="combo" id="comboBox">
-
-  <div class="combo-box">
-
-    <button class="close-combo" onclick="skipCombo()">×</button>
-
-    <small>COMPLETE YOUR LOOK</small>
-
-    <h2>Add Matching Jewellery?</h2>
-
-    <img id="comboImg"
-      src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=700&q=80">
-
-    <p>
-      Add matching jewellery with your clothing
-      and get an exclusive combo discount.
-    </p>
-
-    <div class="combo-price">
-      ₹699 <del>₹999</del>
-    </div>
-
-    <div class="combo-buttons">
-
-      <button onclick="skipCombo()">
-        SKIP
-      </button>
-
-      <button class="add" onclick="addComboJewellery()">
-        ADD JEWELLERY
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<script>
-
-/* ===== OFFER SLIDER ===== */
-
-let offerIndex=0;
-
-setInterval(function(){
-
-  let offers=document.querySelectorAll("#offerBar span");
-
-  offers[offerIndex].classList.remove("active");
-
-  offerIndex=(offerIndex+1)%offers.length;
-
-  offers[offerIndex].classList.add("active");
-
-},3500);
-
-
-/* ===== CART QUANTITY ===== */
-
-function changeQty(id,value){
-
-  let item=cartData.find(x=>x.id===id);
-
-  if(!item)return;
-
-  item.qty+=value;
-
-  if(item.qty<=0){
-
-    cartData=cartData.filter(x=>x.id!==id);
-
-  }
-
-  saveCart();
-
-  renderCart();
-
-}
-
-
-/* ===== UPDATED CART ===== */
-
-function renderCart(){
-
-  let box=document.getElementById("cartItems");
-
-  if(!cartData.length){
-
-    box.innerHTML="<p>Your cart is empty.</p>";
-
-    document.getElementById("cartTotal").textContent="";
-
-    return;
-
-  }
-
-
-  box.innerHTML=cartData.map(item=>{
-
-    let p=PRODUCTS.find(x=>x.id===item.id);
-
-    return `
-
-      <div class="cart-row">
-
-        <img src="${p.img}">
-
-        <div>
-
-          <b>${p.name}</b>
-
-          <p>₹${p.price}</p>
-
-          <div style="margin-top:8px">
-
-            <button
-              onclick="changeQty(${p.id},-1)"
-              style="padding:5px 10px">
-              −
-            </button>
-
-            <b style="margin:0 12px">
-              ${item.qty}
-            </b>
-
-            <button
-              onclick="changeQty(${p.id},1)"
-              style="padding:5px 10px">
-              +
-            </button>
-
-          </div>
-
-          <button
-            class="remove"
-            onclick="removeCart(${p.id})">
-            Remove
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  }).join("");
-
-
-  document.getElementById("cartTotal").textContent=
-    "Total: ₹"+total();
-
-}
-
-
-/* ===== JEWELLERY OFFER ===== */
-
-let comboShown=false;
-
-let comboProductId=5;
-
-
-/*
-  Clothing add/order ke baad
-  jewellery offer dikhega.
-*/
-
-function showCombo(){
-
-  if(comboShown)return;
-
-  comboShown=true;
-
-  document.getElementById("comboBox").style.display="flex";
-
-}
-
-
-/* ===== ADD TO CART UPDATE ===== */
-
-const oldAddCart=addCart;
-
-addCart=function(product){
-
-  oldAddCart(product);
-
-  /*
-    Sirf clothing products par
-    jewellery offer.
-  */
-
-  if(
-    product.cat==="MEN" ||
-    product.cat==="WOMEN"
-  ){
-
-    setTimeout(showCombo,250);
-
-  }
-
-};
-
-
-/* ===== ADD JEWELLERY ===== */
-
-function addComboJewellery(){
-
-  let jewellery=
-    PRODUCTS.find(
-      p=>p.id===comboProductId
-    );
-
-  if(!jewellery){
-
-    skipCombo();
-
-    return;
-
-  }
-
-
-  let item=
-    cartData.find(
-      x=>x.id===jewellery.id
-    );
-
-
-  if(item){
-
-    item.qty++;
-
-  }else{
-
-    cartData.push({
-      id:jewellery.id,
-      qty:1
-    });
-
-  }
-
-
-  saveCart();
-
-  document.getElementById("comboBox")
-    .style.display="none";
-
-
-  alert(
-    "Jewellery added with your outfit ✓"
-  );
-
-}
-
-
-/* ===== SKIP ===== */
-
-function skipCombo(){
-
-  document.getElementById("comboBox")
-    .style.display="none";
-
-}
-
-
-/* ===== ORDER NOW COMBO ===== */
-
-const oldBuyNow=buyNow;
-
-buyNow=function(){
-
-  oldBuyNow();
-
-  if(
-    currentProduct &&
-    (
-      currentProduct.cat==="MEN" ||
-      currentProduct.cat==="WOMEN"
-    )
-  ){
-
-    setTimeout(showCombo,300);
-
-  }
-
-};
-
-</script>
