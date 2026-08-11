@@ -810,3 +810,418 @@ window.scrollTo(0,0);
 saveCart();
 
 </script>
+<!-- ===== PART 3 : CHECKOUT + JEWELLERY OFFER ===== -->
+
+<style>
+.checkout{
+display:none;
+max-width:650px;
+margin:auto;
+padding:35px 5%;
+}
+.checkout h1{font-size:28px;margin:8px 0 25px}
+.form{
+display:grid;
+gap:11px;
+}
+.form input,.form select{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+outline:none;
+font-size:12px;
+background:#fff;
+}
+.payment{
+margin:22px 0;
+display:grid;
+gap:10px;
+}
+.pay{
+border:1px solid #ddd;
+padding:14px;
+font-size:11px;
+display:flex;
+gap:10px;
+align-items:center;
+}
+.orderBtn{
+width:100%;
+padding:15px;
+background:#111;
+color:#fff;
+font-size:10px;
+font-weight:bold;
+}
+.jewelOffer{
+display:none;
+margin:20px 0;
+padding:18px;
+background:#f7f7f7;
+border:1px solid #eee;
+}
+.jewelOffer h3{font-size:14px}
+.jewelOffer p{
+font-size:10px;
+color:#777;
+margin:7px 0 12px;
+}
+.jewelBtns{
+display:flex;
+gap:8px;
+}
+.jewelBtns button{
+padding:10px 15px;
+font-size:9px;
+border:1px solid #111;
+}
+.jewelBtns .add{
+background:#111;
+color:#fff;
+}
+
+@media(max-width:600px){
+.checkout{padding:30px 15px}
+}
+</style>
+
+
+<!-- CHECKOUT -->
+<div id="checkoutPage" class="checkout">
+
+<small>VELLA CO. / CHECKOUT</small>
+
+<h1>Complete Your Order</h1>
+
+<div class="form">
+
+<input id="cName"
+placeholder="Full Name">
+
+<input id="cPhone"
+placeholder="10 Digit Phone Number"
+maxlength="10"
+inputmode="numeric">
+
+<input id="cAddress"
+placeholder="Full Address">
+
+<input id="cPin"
+placeholder="Pincode"
+maxlength="6"
+inputmode="numeric">
+
+<select id="cState">
+<option value="">Select State</option>
+<option>Uttar Pradesh</option>
+<option>Delhi</option>
+<option>Haryana</option>
+<option>Rajasthan</option>
+<option>Maharashtra</option>
+<option>Bihar</option>
+<option>Madhya Pradesh</option>
+<option>Madhya Pradesh</option>
+<option>Punjab</option>
+<option>Other</option>
+</select>
+
+</div>
+
+
+<!-- JEWELLERY OFFER -->
+<div id="jewelOffer" class="jewelOffer">
+
+<h3>✨ Complete Your Look</h3>
+
+<p>
+Aapke clothing order ke saath jewellery
+add karein aur special combo discount paayein.
+</p>
+
+<div class="jewelBtns">
+
+<button class="add"
+onclick="addJewellery()">
+ADD JEWELLERY
+</button>
+
+<button onclick="skipJewellery()">
+SKIP
+</button>
+
+</div>
+
+</div>
+
+
+<div style="margin:20px 0;font-size:15px;font-weight:bold">
+Total: ₹<span id="finalTotal">0</span>
+</div>
+
+
+<div class="payment">
+
+<label class="pay">
+<input type="radio"
+name="payment"
+value="COD"
+checked>
+Cash On Delivery
+</label>
+
+<label class="pay">
+<input type="radio"
+name="payment"
+value="ONLINE">
+Online Payment
+</label>
+
+</div>
+
+
+<button class="orderBtn"
+onclick="placeOrder()">
+PLACE ORDER
+</button>
+
+</div>
+
+
+<script>
+
+/* ===== PART 3 ===== */
+
+let jewelleryAdded=false;
+let jewelleryProduct=data.find(
+p=>p.cat==="JEWELLERY"
+);
+
+
+/* ===== CHECKOUT ===== */
+
+function checkout(){
+
+if(!cart.length){
+alert("Your cart is empty.");
+return;
+}
+
+document.getElementById("home").style.display="none";
+document.getElementById("productsPage").style.display="none";
+document.getElementById("detail").style.display="none";
+document.getElementById("cartPage").style.display="none";
+
+document.getElementById("checkoutPage")
+.style.display="block";
+
+jewelleryAdded=false;
+
+document.getElementById("jewelOffer")
+.style.display=
+cart.some(x=>{
+let p=data.find(y=>y.id===x.id);
+return p && p.cat!=="JEWELLERY";
+}) ? "block" : "none";
+
+updateFinalTotal();
+
+history.pushState(
+{page:"checkout"},
+"",
+"#checkout"
+);
+
+window.scrollTo(0,0);
+}
+
+
+/* ===== JEWELLERY ADD ===== */
+
+function addJewellery(){
+
+if(!jewelleryProduct)return;
+
+let item=cart.find(
+x=>x.id===jewelleryProduct.id
+);
+
+if(item){
+item.qty++;
+}else{
+cart.push({
+id:jewelleryProduct.id,
+qty:1
+});
+}
+
+jewelleryAdded=true;
+
+saveCart();
+updateFinalTotal();
+
+document.getElementById("jewelOffer")
+.innerHTML=`
+<h3>✓ Jewellery Added</h3>
+<p>
+Your jewellery has been added to the order.
+</p>
+`;
+
+}
+
+
+/* ===== SKIP ===== */
+
+function skipJewellery(){
+
+document.getElementById("jewelOffer")
+.style.display="none";
+
+}
+
+
+/* ===== FINAL TOTAL ===== */
+
+function updateFinalTotal(){
+
+let total=getTotal();
+
+document.getElementById("finalTotal")
+.innerText=total;
+
+}
+
+
+/* ===== VALIDATION ===== */
+
+function validateOrder(){
+
+let name=
+document.getElementById("cName").value.trim();
+
+let phone=
+document.getElementById("cPhone").value.trim();
+
+let address=
+document.getElementById("cAddress").value.trim();
+
+let pin=
+document.getElementById("cPin").value.trim();
+
+let state=
+document.getElementById("cState").value;
+
+if(!name){
+alert("Name enter karo.");
+return false;
+}
+
+if(!/^[0-9]{10}$/.test(phone)){
+alert("Phone number exactly 10 digits hona chahiye.");
+return false;
+}
+
+if(!address){
+alert("Address enter karo.");
+return false;
+}
+
+if(!/^[0-9]{6}$/.test(pin)){
+alert("Pincode exactly 6 digits hona chahiye.");
+return false;
+}
+
+if(!state){
+alert("State select karo.");
+return false;
+}
+
+return true;
+}
+
+
+/* ===== PLACE ORDER ===== */
+
+function placeOrder(){
+
+if(!validateOrder())return;
+
+let payment=
+document.querySelector(
+'input[name="payment"]:checked'
+).value;
+
+if(payment==="COD"){
+
+orderCOD();
+
+}else{
+
+orderOnline();
+
+}
+
+}
+
+
+/* ===== COD ===== */
+
+function orderCOD(){
+
+let orderId=
+"VELLA"+Date.now().toString().slice(-6);
+
+let name=
+document.getElementById("cName").value;
+
+let phone=
+document.getElementById("cPhone").value;
+
+let address=
+document.getElementById("cAddress").value;
+
+let pin=
+document.getElementById("cPin").value;
+
+let state=
+document.getElementById("cState").value;
+
+let text=
+`VELLA CO. ORDER
+
+Order ID: ${orderId}
+
+Name: ${name}
+Phone: ${phone}
+
+Address: ${address}
+Pincode: ${pin}
+State: ${state}
+
+Total: ₹${getTotal()}
+
+Payment: COD`;
+
+let whatsapp=
+"https://wa.me/91XXXXXXXXXX?text="+
+encodeURIComponent(text);
+
+window.open(
+whatsapp,
+"_blank"
+);
+
+}
+
+
+/* ===== ONLINE PLACEHOLDER ===== */
+
+function orderOnline(){
+
+alert(
+"Razorpay Part 4 mein connect hoga.\n\nApni Razorpay Key ID wahan add karna."
+);
+
+}
+
+</script>
