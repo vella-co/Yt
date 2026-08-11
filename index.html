@@ -1225,3 +1225,289 @@ alert(
 }
 
 </script>
+<!-- ===== PART 5 : FINAL POLISH ===== -->
+
+<style>
+
+/* MOBILE MENU */
+.mobileMenu{
+display:none;
+position:fixed;
+top:100px;
+left:12px;
+right:12px;
+background:#fff;
+border:1px solid #eee;
+box-shadow:0 10px 30px #0002;
+z-index:99;
+padding:8px;
+}
+
+.mobileMenu button{
+display:block;
+width:100%;
+padding:15px;
+text-align:left;
+border-bottom:1px solid #eee;
+font-size:10px;
+font-weight:bold;
+}
+
+/* FLOATING BAG */
+.floatBag{
+display:none;
+position:fixed;
+right:18px;
+bottom:18px;
+width:52px;
+height:52px;
+border-radius:50%;
+background:#111;
+color:#fff;
+z-index:50;
+font-size:12px;
+box-shadow:0 5px 20px #0003;
+}
+
+@media(max-width:600px){
+.floatBag{display:block}
+}
+
+</style>
+
+
+<!-- MOBILE MENU -->
+
+<div id="mobileMenu" class="mobileMenu">
+
+<button onclick="mobileNav('ALL')">
+HOME
+</button>
+
+<button onclick="mobileNav('MEN')">
+MEN
+</button>
+
+<button onclick="mobileNav('WOMEN')">
+WOMEN
+</button>
+
+<button onclick="mobileNav('JEWELLERY')">
+JEWELLERY
+</button>
+
+<button onclick="openCart();closeMenu()">
+SHOPPING BAG
+</button>
+
+</div>
+
+
+<!-- FLOATING BAG -->
+
+<button class="floatBag"
+onclick="openCart()">
+BAG
+</button>
+
+
+<script>
+
+/* ===== MOBILE MENU ===== */
+
+function toggleMenu(){
+
+let m=
+document.getElementById("mobileMenu");
+
+m.style.display=
+m.style.display==="block"
+?"none"
+:"block";
+
+}
+
+
+function closeMenu(){
+
+document.getElementById(
+"mobileMenu"
+).style.display="none";
+
+}
+
+
+function mobileNav(cat){
+
+closeMenu();
+
+showProducts(cat);
+
+}
+
+
+/* ===== MOBILE LOGO CLICK ===== */
+
+document.querySelector(".logo")
+.onclick=function(){
+
+closeMenu();
+
+goHome();
+
+};
+
+
+/* ===== LONG PRESS / OUTSIDE MENU ===== */
+
+document.addEventListener(
+"click",
+function(e){
+
+let menu=
+document.getElementById("mobileMenu");
+
+let btn=
+document.querySelector(".logo");
+
+if(
+menu &&
+menu.style.display==="block" &&
+!menu.contains(e.target) &&
+!btn.contains(e.target)
+){
+
+closeMenu();
+
+}
+
+});
+
+
+/* ===== MENU BUTTON ===== */
+
+let menuBtn=
+document.querySelector(
+".menu-btn"
+);
+
+if(menuBtn){
+
+menuBtn.onclick=function(e){
+
+e.stopPropagation();
+
+toggleMenu();
+
+};
+
+}
+
+
+/* ===== BETTER PRODUCT OPEN ===== */
+
+document.addEventListener(
+"click",
+function(e){
+
+let productBox=
+e.target.closest(".product");
+
+if(!productBox)return;
+
+/*
+  Agar image par click hua to
+  existing product() function chalega.
+*/
+
+});
+
+
+/* ===== CART COUNT UPDATE ===== */
+
+function refreshBag(){
+
+let total=
+cart.reduce(
+(a,b)=>a+b.qty,0
+);
+
+let count=
+document.getElementById("count");
+
+if(count)
+count.innerText=total;
+
+}
+
+
+/* ===== SAVE CART OVERRIDE ===== */
+
+const oldSaveCart=saveCart;
+
+saveCart=function(){
+
+localStorage.setItem(
+"vellaCart",
+JSON.stringify(cart)
+);
+
+refreshBag();
+
+};
+
+
+/* ===== PAGE START ===== */
+
+refreshBag();
+
+
+/* ===== ESC CLOSE MENU ===== */
+
+document.addEventListener(
+"keydown",
+function(e){
+
+if(e.key==="Escape")
+closeMenu();
+
+});
+
+
+/* ===== CLICK CATEGORY IMAGES ===== */
+
+document.querySelectorAll(
+".cat"
+).forEach(cat=>{
+
+cat.addEventListener(
+"click",
+function(){
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+});
+
+});
+
+
+/* ===== IMAGE ERROR FALLBACK ===== */
+
+document.addEventListener(
+"error",
+function(e){
+
+if(e.target.tagName==="IMG"){
+
+e.target.style.background="#eee";
+
+}
+
+},
+true
+);
+
+</script>
