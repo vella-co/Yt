@@ -347,3 +347,466 @@ cart.length;
 
 </body>
 </html>
+<!-- ===== PART 2 : PRODUCT + CART ===== -->
+
+<style>
+/* PRODUCT DETAIL */
+.detail{
+display:none;padding:35px 5%;
+max-width:1000px;margin:auto;
+grid-template-columns:1fr 1fr;gap:35px
+}
+.detail img{
+width:100%;max-height:550px;object-fit:cover
+}
+.detail h1{font-size:30px;margin:12px 0}
+.detail p{color:#777;font-size:12px;line-height:1.7;margin:18px 0}
+.detail-price{font-size:18px;font-weight:bold}
+.detail-old{
+font-size:11px;color:#999;margin-left:7px
+}
+.actions{display:flex;gap:8px;margin-top:25px}
+.actions button{
+flex:1;padding:14px;border:1px solid #111;
+font-size:10px;font-weight:bold
+}
+.buy{background:#111!important;color:#fff}
+
+.qty{
+display:flex;align-items:center;gap:15px;
+margin-top:20px;font-size:12px
+}
+.qty button{
+width:28px;height:28px;border:1px solid #ddd;
+background:#fff
+}
+
+/* CART */
+.cartPage{
+display:none;padding:40px 5%;
+max-width:800px;margin:auto
+}
+.cartRow{
+display:flex;gap:15px;padding:15px 0;
+border-bottom:1px solid #eee
+}
+.cartRow img{
+width:75px;height:90px;object-fit:cover
+}
+.cartInfo{flex:1}
+.cartInfo h3{font-size:12px;margin-bottom:7px}
+.cartInfo p{font-size:11px;color:#777}
+.remove{
+margin-top:8px;color:#b00;
+font-size:10px
+}
+.cartTotal{
+font-size:18px;font-weight:bold;
+margin:25px 0
+}
+.checkoutBtn{
+background:#111;color:#fff;width:100%;
+padding:15px;font-size:10px;font-weight:bold
+}
+
+@media(max-width:650px){
+.detail{grid-template-columns:1fr;padding:25px 15px}
+.detail h1{font-size:25px}
+.cartPage{padding:30px 15px}
+}
+</style>
+
+
+<!-- PRODUCT DETAIL -->
+<div id="detail" class="detail">
+
+<img id="dimg">
+
+<div>
+
+<small id="dcat"></small>
+
+<h1 id="dname"></h1>
+
+<div class="detail-price">
+₹<span id="dprice"></span>
+<del class="detail-old">
+₹<span id="dold"></span>
+</del>
+</div>
+
+<p>
+Premium VELLA CO. product designed with
+a clean modern look and quality finish.
+Perfect for your everyday premium style.
+</p>
+
+<div class="qty">
+<button onclick="changeQty(-1)">−</button>
+<span id="qty">1</span>
+<button onclick="changeQty(1)">+</button>
+</div>
+
+<div class="actions">
+
+<button onclick="addCart()">
+ADD TO CART
+</button>
+
+<button class="buy" onclick="buyNow()">
+ORDER NOW
+</button>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- CART PAGE -->
+<div id="cartPage" class="cartPage">
+
+<small>VELLA CO.</small>
+
+<h1 style="margin:8px 0 25px">
+Shopping Bag
+</h1>
+
+<div id="cartList"></div>
+
+<div class="cartTotal" id="cartTotal"></div>
+
+<button class="checkoutBtn"
+onclick="checkout()">
+PROCEED TO CHECKOUT
+</button>
+
+</div>
+
+
+<script>
+
+/* ===== PART 2 VARIABLES ===== */
+
+let selectedProduct=null;
+let selectedQty=1;
+
+
+/* ===== OPEN PRODUCT ===== */
+
+function product(id){
+
+selectedProduct=data.find(
+p=>p.id===id
+);
+
+if(!selectedProduct)return;
+
+selectedQty=1;
+
+document.getElementById("dimg").src=
+selectedProduct.img;
+
+document.getElementById("dcat").innerText=
+selectedProduct.cat;
+
+document.getElementById("dname").innerText=
+selectedProduct.name;
+
+document.getElementById("dprice").innerText=
+selectedProduct.price;
+
+document.getElementById("dold").innerText=
+selectedProduct.old;
+
+document.getElementById("qty").innerText=1;
+
+
+/* hide other screens */
+
+document.getElementById("home").style.display="none";
+document.getElementById("productsPage").style.display="none";
+document.getElementById("cartPage").style.display="none";
+
+document.getElementById("detail").style.display="grid";
+
+history.pushState(
+{page:"detail"},
+"",
+"#product"
+);
+
+window.scrollTo(0,0);
+
+}
+
+
+/* ===== QUANTITY ===== */
+
+function changeQty(n){
+
+selectedQty+=n;
+
+if(selectedQty<1)
+selectedQty=1;
+
+if(selectedQty>10)
+selectedQty=10;
+
+document.getElementById("qty")
+.innerText=selectedQty;
+
+}
+
+
+/* ===== ADD CART ===== */
+
+function addCart(){
+
+let item=cart.find(
+x=>x.id===selectedProduct.id
+);
+
+if(item){
+item.qty+=selectedQty;
+}else{
+cart.push({
+id:selectedProduct.id,
+qty:selectedQty
+});
+}
+
+saveCart();
+
+alert("Added to Cart ✓");
+
+}
+
+
+/* ===== BUY NOW ===== */
+
+function buyNow(){
+
+cart=[
+{
+id:selectedProduct.id,
+qty:selectedQty
+}
+];
+
+saveCart();
+
+checkout();
+
+}
+
+
+/* ===== SAVE CART ===== */
+
+function saveCart(){
+
+localStorage.setItem(
+"vellaCart",
+JSON.stringify(cart)
+);
+
+document.getElementById("count")
+.innerText=
+cart.reduce(
+(a,b)=>a+b.qty,0
+);
+
+}
+
+
+/* ===== OPEN CART ===== */
+
+function openCart(){
+
+document.getElementById("home").style.display="none";
+document.getElementById("productsPage").style.display="none";
+document.getElementById("detail").style.display="none";
+
+document.getElementById("cartPage").style.display="block";
+
+renderCart();
+
+history.pushState(
+{page:"cart"},
+"",
+"#cart"
+);
+
+window.scrollTo(0,0);
+
+}
+
+
+/* ===== RENDER CART ===== */
+
+function renderCart(){
+
+let box=
+document.getElementById("cartList");
+
+if(!cart.length){
+
+box.innerHTML=
+"<p>Your cart is empty.</p>";
+
+document.getElementById(
+"cartTotal"
+).innerText="";
+
+return;
+
+}
+
+box.innerHTML=cart.map(item=>{
+
+let p=data.find(
+x=>x.id===item.id
+);
+
+return `
+
+<div class="cartRow">
+
+<img src="${p.img}">
+
+<div class="cartInfo">
+
+<h3>${p.name}</h3>
+
+<p>
+₹${p.price} × ${item.qty}
+</p>
+
+<div class="qty">
+
+<button onclick="cartQty(${p.id},-1)">
+−
+</button>
+
+<span>${item.qty}</span>
+
+<button onclick="cartQty(${p.id},1)">
++
+</button>
+
+</div>
+
+<button class="remove"
+onclick="removeCart(${p.id})">
+REMOVE
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}).join("");
+
+document.getElementById(
+"cartTotal"
+).innerText=
+"Total: ₹"+getTotal();
+
+}
+
+
+/* ===== CART QUANTITY ===== */
+
+function cartQty(id,n){
+
+let item=cart.find(
+x=>x.id===id
+);
+
+if(!item)return;
+
+item.qty+=n;
+
+if(item.qty<=0){
+
+cart=cart.filter(
+x=>x.id!==id
+);
+
+}
+
+saveCart();
+renderCart();
+
+}
+
+
+/* ===== REMOVE ===== */
+
+function removeCart(id){
+
+cart=cart.filter(
+x=>x.id!==id
+);
+
+saveCart();
+renderCart();
+
+}
+
+
+/* ===== TOTAL ===== */
+
+function getTotal(){
+
+return cart.reduce(
+(total,item)=>{
+
+let p=data.find(
+x=>x.id===item.id
+);
+
+return total+
+(p.price*item.qty);
+
+},0);
+
+}
+
+
+/* ===== CHECKOUT PLACEHOLDER ===== */
+
+function checkout(){
+
+if(!cart.length){
+
+alert("Your cart is empty.");
+return;
+
+}
+
+alert(
+"Checkout Part 3 mein add hoga."
+);
+
+}
+
+
+/* ===== IMPROVED BACK ===== */
+
+window.onpopstate=function(){
+
+document.getElementById("detail").style.display="none";
+document.getElementById("cartPage").style.display="none";
+document.getElementById("productsPage").style.display="none";
+document.getElementById("home").style.display="block";
+
+window.scrollTo(0,0);
+
+};
+
+saveCart();
+
+</script>
