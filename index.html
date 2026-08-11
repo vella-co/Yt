@@ -574,3 +574,336 @@ saveCart();
 
 </body>
 </html>
+<!-- ===== PART 2 : PREMIUM OFFER + JEWELLERY COMBO ===== -->
+
+<style>
+.offer{
+  background:#111;color:#fff;height:38px;display:flex;
+  align-items:center;justify-content:center;overflow:hidden;
+  font-size:10px;letter-spacing:1.5px
+}
+.offer span{display:none}
+.offer span.active{display:block}
+.combo{
+  position:fixed;inset:0;background:#0008;z-index:50;
+  display:none;align-items:center;justify-content:center;padding:20px
+}
+.combo-box{
+  background:#fff;max-width:420px;width:100%;padding:25px;
+  position:relative;text-align:center
+}
+.combo-box img{width:100%;height:220px;object-fit:cover;margin:15px 0}
+.combo-box h2{font-size:25px}
+.combo-box p{color:#666;font-size:12px;line-height:1.6;margin:10px 0}
+.combo-price{font-weight:bold;margin:15px}
+.combo-price del{color:#999;margin-left:7px}
+.combo-buttons{display:flex;gap:8px}
+.combo-buttons button{
+  flex:1;padding:13px;border:1px solid #111;background:#fff;font-size:10px
+}
+.combo-buttons .add{background:#111;color:#fff}
+.close-combo{
+  position:absolute;right:10px;top:10px;border:0;background:none;font-size:20px
+}
+@media(max-width:600px){
+ .offer{height:34px;font-size:8px}
+}
+</style>
+
+
+<!-- OFFER BAR -->
+<div class="offer" id="offerBar">
+  <span class="active">WELCOME TO VELLA CO. — UP TO 40% OFF</span>
+  <span>NEW ARRIVALS — PREMIUM STYLE, EVERYDAY</span>
+  <span>ADD JEWELLERY WITH YOUR OUTFIT & SAVE MORE</span>
+</div>
+
+
+<!-- JEWELLERY COMBO POPUP -->
+<div class="combo" id="comboBox">
+
+  <div class="combo-box">
+
+    <button class="close-combo" onclick="skipCombo()">×</button>
+
+    <small>COMPLETE YOUR LOOK</small>
+
+    <h2>Add Matching Jewellery?</h2>
+
+    <img id="comboImg"
+      src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=700&q=80">
+
+    <p>
+      Add matching jewellery with your clothing
+      and get an exclusive combo discount.
+    </p>
+
+    <div class="combo-price">
+      ₹699 <del>₹999</del>
+    </div>
+
+    <div class="combo-buttons">
+
+      <button onclick="skipCombo()">
+        SKIP
+      </button>
+
+      <button class="add" onclick="addComboJewellery()">
+        ADD JEWELLERY
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* ===== OFFER SLIDER ===== */
+
+let offerIndex=0;
+
+setInterval(function(){
+
+  let offers=document.querySelectorAll("#offerBar span");
+
+  offers[offerIndex].classList.remove("active");
+
+  offerIndex=(offerIndex+1)%offers.length;
+
+  offers[offerIndex].classList.add("active");
+
+},3500);
+
+
+/* ===== CART QUANTITY ===== */
+
+function changeQty(id,value){
+
+  let item=cartData.find(x=>x.id===id);
+
+  if(!item)return;
+
+  item.qty+=value;
+
+  if(item.qty<=0){
+
+    cartData=cartData.filter(x=>x.id!==id);
+
+  }
+
+  saveCart();
+
+  renderCart();
+
+}
+
+
+/* ===== UPDATED CART ===== */
+
+function renderCart(){
+
+  let box=document.getElementById("cartItems");
+
+  if(!cartData.length){
+
+    box.innerHTML="<p>Your cart is empty.</p>";
+
+    document.getElementById("cartTotal").textContent="";
+
+    return;
+
+  }
+
+
+  box.innerHTML=cartData.map(item=>{
+
+    let p=PRODUCTS.find(x=>x.id===item.id);
+
+    return `
+
+      <div class="cart-row">
+
+        <img src="${p.img}">
+
+        <div>
+
+          <b>${p.name}</b>
+
+          <p>₹${p.price}</p>
+
+          <div style="margin-top:8px">
+
+            <button
+              onclick="changeQty(${p.id},-1)"
+              style="padding:5px 10px">
+              −
+            </button>
+
+            <b style="margin:0 12px">
+              ${item.qty}
+            </b>
+
+            <button
+              onclick="changeQty(${p.id},1)"
+              style="padding:5px 10px">
+              +
+            </button>
+
+          </div>
+
+          <button
+            class="remove"
+            onclick="removeCart(${p.id})">
+            Remove
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+
+  document.getElementById("cartTotal").textContent=
+    "Total: ₹"+total();
+
+}
+
+
+/* ===== JEWELLERY OFFER ===== */
+
+let comboShown=false;
+
+let comboProductId=5;
+
+
+/*
+  Clothing add/order ke baad
+  jewellery offer dikhega.
+*/
+
+function showCombo(){
+
+  if(comboShown)return;
+
+  comboShown=true;
+
+  document.getElementById("comboBox").style.display="flex";
+
+}
+
+
+/* ===== ADD TO CART UPDATE ===== */
+
+const oldAddCart=addCart;
+
+addCart=function(product){
+
+  oldAddCart(product);
+
+  /*
+    Sirf clothing products par
+    jewellery offer.
+  */
+
+  if(
+    product.cat==="MEN" ||
+    product.cat==="WOMEN"
+  ){
+
+    setTimeout(showCombo,250);
+
+  }
+
+};
+
+
+/* ===== ADD JEWELLERY ===== */
+
+function addComboJewellery(){
+
+  let jewellery=
+    PRODUCTS.find(
+      p=>p.id===comboProductId
+    );
+
+  if(!jewellery){
+
+    skipCombo();
+
+    return;
+
+  }
+
+
+  let item=
+    cartData.find(
+      x=>x.id===jewellery.id
+    );
+
+
+  if(item){
+
+    item.qty++;
+
+  }else{
+
+    cartData.push({
+      id:jewellery.id,
+      qty:1
+    });
+
+  }
+
+
+  saveCart();
+
+  document.getElementById("comboBox")
+    .style.display="none";
+
+
+  alert(
+    "Jewellery added with your outfit ✓"
+  );
+
+}
+
+
+/* ===== SKIP ===== */
+
+function skipCombo(){
+
+  document.getElementById("comboBox")
+    .style.display="none";
+
+}
+
+
+/* ===== ORDER NOW COMBO ===== */
+
+const oldBuyNow=buyNow;
+
+buyNow=function(){
+
+  oldBuyNow();
+
+  if(
+    currentProduct &&
+    (
+      currentProduct.cat==="MEN" ||
+      currentProduct.cat==="WOMEN"
+    )
+  ){
+
+    setTimeout(showCombo,300);
+
+  }
+
+};
+
+</script>
