@@ -1230,4 +1230,88 @@
             const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
 
             if (!name || !phone || !address) { showToast('Please fill all required fields'); return; }
-            if (!/^[
+            if (!/^[0-9]{10}$/.test(phone)) { showToast('Enter valid 10-digit phone'); return; }
+
+            const subtotal = getCartTotal();
+            const finalTotal = getFinalTotal();
+            const items = isDirectOrder && directProduct
+                ? [{ name: directProduct.name, qty: 1, price: directProduct.price }]
+                : cart.map(i => ({ name: i.name, qty: i.qty, price: i.price }));
+
+            const orderDetails = {
+                name, phone, email, address, items, subtotal,
+                discount: appliedDiscount ? appliedDiscount.code : null,
+                discountAmount: subtotal - finalTotal,
+                total: finalTotal,
+                payment: paymentMethod,
+                orderId: 'VC' + Date.now()
+            };
+
+            if (paymentMethod === 'cod') completeOrder(orderDetails, 'Cash on Delivery');
+            else payWithRazorpay(orderDetails);
+        }
+
+        function payWithRazorpay(orderDetails) {
+            if (RAZORPAY_KEY_ID === "rzp_test_YourKeyHere" || !RAZORPAY_KEY_ID) {
+                alert('⚠️ Pehle apni Razorpay Key ID daalo!\n\nCode mein dhoondo:\nconst RAZORPAY_KEY_ID = "rzp_test_YourKeyHere";');
+                return;
+            }
+
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: orderDetails.total * 100,
+                currency: "INR",
+                name: "VELLA CO.",
+                description: "Order " + orderDetails.orderId,
+                handler: function (response) {
+                    orderDetails.razorpay_payment_id = response.razorpay_payment_id;
+                    completeOrder(orderDetails, 'Online (Razorpay)');
+                },
+                prefill: {
+                    name: orderDetails.name,
+                    email: orderDetails.email || "",
+                    contact: orderDetails.phone
+                },
+                notes: { address: orderDetails.address, order_id: orderDetails.orderId },
+                theme: { color: "#111111" },
+                modal: { ondismiss: function() { showToast('Payment cancelled'); } }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.on('payment.failed', function () { showToast('Payment failed'); });
+            rzp.open();
+        }
+
+        function completeOrder(orderDetails, method) {
+            if (!isDirectOrder) {
+                cart = [];
+                saveCart();
+                updateCartUI();
+            }
+            closeCheckout();
+
+            let discountLine = orderDetails.discountAmount > 0
+                ? `<br>Discount: <strong>-₹${orderDetails.discountAmount.toLocaleString('en-IN')}</strong>` : '';
+
+            document.getElementById('successMsg').innerHTML = `
+                Order ID: <strong>${orderDetails.orderId}</strong><br>
+                Amount: <strong>₹${orderDetails.total.toLocaleString('en-IN')}</strong>${discountLine}<br>
+                Payment: <strong>${method}</strong>
+            `;
+            document.getElementById('successModal').classList.add('active');
+            console.log('Order:', orderDetails);
+        }
+
+        function closeSuccess() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>
