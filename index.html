@@ -838,7 +838,7 @@
             <button class="checkout-btn" onclick="openCheckout()">Checkout</button>
         </div>
     </div>
-    <!-- Checkout Modal -->
+<!-- Checkout Modal -->
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal">
             <h2>Checkout</h2>
@@ -868,29 +868,6 @@
                         <button type="button" class="apply-btn" onclick="applyDiscount()">Apply</button>
                     </div>
                     <div class="discount-msg" id="discountMsg"></div>
-                </div>
-
-                <!-- Premium Payment Method -->
-                <div class="payment-label">Payment Method</div>
-                <div class="payment-options">
-                    <label class="payment-option selected">
-                        <input type="radio" name="payment" value="cod" checked onchange="selectPayment(this)">
-                        <div class="radio-circle"></div>
-                        <div class="pay-info">
-                            <div class="pay-title">Cash on Delivery</div>
-                            <div class="pay-sub">Pay when your order arrives</div>
-                        </div>
-                        <div class="pay-icon">💵</div>
-                    </label>
-                    <label class="payment-option">
-                        <input type="radio" name="payment" value="online" onchange="selectPayment(this)">
-                        <div class="radio-circle"></div>
-                        <div class="pay-info">
-                            <div class="pay-title">Pay Online</div>
-                            <div class="pay-sub">UPI, Cards, Netbanking</div>
-                        </div>
-                        <div class="pay-icon">💳</div>
-                    </label>
                 </div>
 
                 <div class="price-summary">
@@ -947,7 +924,8 @@
     </footer>
 
     <script>
-        const RAZORPAY_KEY_ID = "rzp_test_YourKeyHere";
+        // ========== RAZORPAY KEY ==========
+        const RAZORPAY_KEY_ID = "rzp_test_YourKeyHere";   // <-- Apni Key ID yahan daalo
 
         const DISCOUNT_CODES = {
             "VELLA10": { type: "percent", value: 10 },
@@ -1217,20 +1195,20 @@
             directProduct = null;
         }
 
-        function selectPayment(radio) {
-            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-            radio.closest('.payment-option').classList.add('selected');
-        }
-
         function placeOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
             const email = document.getElementById('custEmail').value.trim();
             const address = document.getElementById('custAddress').value.trim();
-            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
 
-            if (!name || !phone || !address) { showToast('Please fill all required fields'); return; }
-            if (!/^[0-9]{10}$/.test(phone)) { showToast('Enter valid 10-digit phone'); return; }
+            if (!name || !phone || !address) {
+                showToast('Please fill all required fields');
+                return;
+            }
+            if (!/^[0-9]{10}$/.test(phone)) {
+                showToast('Enter valid 10-digit phone');
+                return;
+            }
 
             const subtotal = getCartTotal();
             const finalTotal = getFinalTotal();
@@ -1243,12 +1221,11 @@
                 discount: appliedDiscount ? appliedDiscount.code : null,
                 discountAmount: subtotal - finalTotal,
                 total: finalTotal,
-                payment: paymentMethod,
                 orderId: 'VC' + Date.now()
             };
 
-            if (paymentMethod === 'cod') completeOrder(orderDetails, 'Cash on Delivery');
-            else payWithRazorpay(orderDetails);
+            // Ab hamesha Razorpay se payment (COD + Online dono Razorpay ke through)
+            payWithRazorpay(orderDetails);
         }
 
         function payWithRazorpay(orderDetails) {
@@ -1259,59 +1236,7 @@
 
             const options = {
                 key: RAZORPAY_KEY_ID,
-                amount: orderDetails.total * 100,
+                amount: orderDetails.total * 100, // paise mein
                 currency: "INR",
                 name: "VELLA CO.",
-                description: "Order " + orderDetails.orderId,
-                handler: function (response) {
-                    orderDetails.razorpay_payment_id = response.razorpay_payment_id;
-                    completeOrder(orderDetails, 'Online (Razorpay)');
-                },
-                prefill: {
-                    name: orderDetails.name,
-                    email: orderDetails.email || "",
-                    contact: orderDetails.phone
-                },
-                notes: { address: orderDetails.address, order_id: orderDetails.orderId },
-                theme: { color: "#111111" },
-                modal: { ondismiss: function() { showToast('Payment cancelled'); } }
-            };
-
-            const rzp = new Razorpay(options);
-            rzp.on('payment.failed', function () { showToast('Payment failed'); });
-            rzp.open();
-        }
-
-        function completeOrder(orderDetails, method) {
-            if (!isDirectOrder) {
-                cart = [];
-                saveCart();
-                updateCartUI();
-            }
-            closeCheckout();
-
-            let discountLine = orderDetails.discountAmount > 0
-                ? `<br>Discount: <strong>-₹${orderDetails.discountAmount.toLocaleString('en-IN')}</strong>` : '';
-
-            document.getElementById('successMsg').innerHTML = `
-                Order ID: <strong>${orderDetails.orderId}</strong><br>
-                Amount: <strong>₹${orderDetails.total.toLocaleString('en-IN')}</strong>${discountLine}<br>
-                Payment: <strong>${method}</strong>
-            `;
-            document.getElementById('successModal').classList.add('active');
-            console.log('Order:', orderDetails);
-        }
-
-        function closeSuccess() {
-            document.getElementById('successModal').classList.remove('active');
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-    </script>
-</body>
-</html>
+                description: "Order " + orderDetails.
