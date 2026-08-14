@@ -1,1513 +1,1233 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VELLA CO.</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELLA CO. | Luxury Clothing</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial;background:#fff;color:#111}
-button{cursor:pointer;border:0;background:none}
+        :root {
+            --black: #111111;
+            --gold: #b8956c;
+            --offwhite: #faf9f7;
+            --gray: #666;
+            --light-gray: #e8e6e3;
+            --red: #c0392b;
+        }
 
-/* TOP SLIDER */
-.offer{
-height:32px;background:#111;color:#fff;text-align:center;
-font-size:10px;letter-spacing:1px;padding:10px;overflow:hidden
-}
-.offer span{display:none}.offer span.on{display:block}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: var(--black);
+            line-height: 1.6;
+        }
 
-/* HEADER */
-header{
-height:68px;border-bottom:1px solid #eee;display:flex;
-align-items:center;justify-content:space-between;padding:0 5%;
-position:sticky;top:0;background:#fff;z-index:10
-}
-.logo{font-size:23px;font-weight:bold;letter-spacing:4px}
-nav{display:flex;gap:25px}
-nav button{font-size:10px;font-weight:bold}
-.cart{font-size:11px}
+        /* ========== NAVBAR ========== */
+        .navbar {
+            background: #ffffff;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--light-gray);
+        }
 
-/* HERO */
-.hero{
-height:470px;position:relative;overflow:hidden
-}
-.hero img{width:100%;height:100%;object-fit:cover}
-.hero div{
-position:absolute;left:7%;top:50%;transform:translateY(-50%);
-color:#fff
-}
-.hero h1{font-size:55px;line-height:.9;margin:12px 0}
-.hero p{font-size:12px;max-width:330px;line-height:1.6}
-.btn{
-background:#fff;padding:13px 24px;margin-top:20px;
-font-size:10px;font-weight:bold
-}
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--black);
+        }
 
-/* SECTION */
-.sec{padding:45px 5%}
-.title{margin-bottom:25px}
-.title small{font-size:9px;color:#888;letter-spacing:2px}
-.title h2{font-size:28px;margin-top:6px}
+        .logo span { color: var(--gold); }
 
-/* CATEGORIES */
-.cats{
-display:flex;justify-content:center;gap:35px
-}
-.cat{text-align:center;cursor:pointer}
-.cat img{
-width:105px;height:105px;border-radius:50%;
-object-fit:cover;border:2px solid #eee;padding:3px
-}
-.cat p{
-font-size:10px;font-weight:bold;margin-top:10px;
-letter-spacing:1px
-}
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
 
-/* PRODUCTS */
-.products{
-display:grid;grid-template-columns:repeat(4,1fr);gap:16px
-}
-.product{cursor:pointer;position:relative}
-.product img{
-width:100%;aspect-ratio:4/5;object-fit:cover
-}
-.badge{
-position:absolute;top:8px;left:8px;background:#111;
-color:#fff;padding:5px;font-size:8px
-}
-.product h3{font-size:11px;margin:9px 0 5px}
-.price{font-size:11px;font-weight:bold}
-.old{font-size:9px;color:#999;margin-left:5px}
+        .nav-links {
+            display: flex;
+            gap: 28px;
+        }
 
-/* FOOTER */
-footer{
-background:#111;color:#fff;padding:35px 5%;margin-top:30px
-}
-footer h2{letter-spacing:3px;font-size:20px}
-footer p{color:#999;font-size:10px;margin-top:10px}
+        .nav-links a {
+            color: var(--black);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
 
-/* MOBILE */
-@media(max-width:600px){
-nav{display:none}
-.hero{height:430px}
-.hero h1{font-size:43px}
-.cats{gap:18px}
-.cat img{width:82px;height:82px}
-.products{grid-template-columns:repeat(2,1fr);gap:12px}
-.sec{padding:35px 15px}
-}
-</style>
+        .nav-links a:hover { color: var(--gold); }
+
+        .cart-btn {
+            position: relative;
+            background: transparent;
+            border: 1px solid var(--black);
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cart-btn:hover {
+            background: var(--black);
+            color: white;
+        }
+
+        .cart-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--gold);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            background: var(--offwhite);
+            text-align: center;
+            padding: 100px 20px 90px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: var(--gray);
+            max-width: 480px;
+            margin: 0 auto 35px;
+            font-weight: 300;
+        }
+
+        .hero-btn {
+            background: var(--black);
+            color: white;
+            border: none;
+            padding: 15px 42px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .hero-btn:hover { background: var(--gold); }
+
+        /* ========== PRODUCTS ========== */
+        .products-section {
+            padding: 60px 5% 90px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 50px;
+            letter-spacing: 1px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 55px 40px;
+        }
+
+        .product-card {
+            transition: transform 0.35s ease;
+        }
+
+        .product-card:hover { transform: translateY(-6px); }
+
+        .product-img-wrap {
+            position: relative;
+            overflow: hidden;
+            background: var(--offwhite);
+            aspect-ratio: 3/4;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-img { transform: scale(1.04); }
+
+        .discount-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: var(--red);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 5px 11px;
+            letter-spacing: 0.5px;
+        }
+
+        .product-info {
+            padding: 24px 8px 10px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .product-desc {
+            font-size: 0.88rem;
+            color: var(--gray);
+            margin-bottom: 14px;
+            font-weight: 300;
+            line-height: 1.55;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .original-price {
+            font-size: 0.95rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .final-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .discount-text {
+            font-size: 0.75rem;
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .add-cart-btn, .order-now-btn {
+            padding: 12px 22px;
+            font-size: 0.72rem;
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            border: 1px solid var(--black);
+        }
+
+        .add-cart-btn {
+            background: transparent;
+            color: var(--black);
+        }
+
+        .add-cart-btn:hover {
+            background: var(--black);
+            color: white;
+        }
+
+        .order-now-btn {
+            background: var(--black);
+            color: white;
+        }
+
+        .order-now-btn:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* ========== CART ========== */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 1999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .cart-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -440px;
+            width: 420px;
+            max-width: 100%;
+            height: 100%;
+            background: #ffffff;
+            z-index: 2000;
+            box-shadow: -8px 0 40px rgba(0,0,0,0.08);
+            transition: right 0.35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open { right: 0; }
+
+        .cart-header {
+            padding: 28px 28px 20px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: var(--black);
+            line-height: 1;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px 28px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 16px;
+            padding: 18px 0;
+            border-bottom: 1px solid var(--light-gray);
+            align-items: center;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .cart-item-details { flex-grow: 1; }
+
+        .cart-item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-price {
+            color: var(--gold);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--light-gray);
+            background: white;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #999;
+            cursor: pointer;
+            font-size: 1.3rem;
+        }
+
+        .remove-item:hover { color: #c0392b; }
+
+        .cart-footer {
+            padding: 24px 28px 32px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.15rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--black);
+            color: white;
+            border: none;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 500;
+        }
+
+        .checkout-btn:hover { background: var(--gold); }
+
+        .empty-cart {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray);
+            font-weight: 300;
+        }
+      /* ========== CHECKOUT MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: #ffffff;
+            width: 100%;
+            max-width: 440px;
+            max-height: 92vh;
+            overflow-y: auto;
+            padding: 42px 38px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+
+        .modal h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.65rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .modal-subtitle {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 28px;
+            font-weight: 300;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 0.72rem;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid var(--light-gray);
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: border 0.3s;
+            background: #ffffff;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .discount-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .discount-row input { flex: 1; }
+
+        .apply-btn {
+            padding: 0 18px;
+            background: var(--black);
+            color: white;
+            border: none;
+            font-size: 0.72rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .apply-btn:hover { background: var(--gold); }
+
+        .discount-msg {
+            font-size: 0.8rem;
+            margin-top: 6px;
+            min-height: 18px;
+        }
+
+        .discount-msg.success { color: #27ae60; }
+        .discount-msg.error { color: var(--red); }
+
+        /* ========== PREMIUM PAYMENT METHOD ========== */
+        .payment-label {
+            font-size: 0.72rem;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--gray);
+            font-weight: 500;
+            margin-bottom: 14px;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 26px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: #fff;
+        }
+
+        .payment-option:hover {
+            border-color: #ccc;
+        }
+
+        .payment-option.selected {
+            border-color: var(--black);
+            background: var(--offwhite);
+        }
+
+        .payment-option input {
+            display: none;
+        }
+
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .payment-option.selected .radio-circle {
+            border-color: var(--black);
+        }
+
+        .radio-circle::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--black);
+            transform: scale(0);
+            transition: transform 0.2s;
+        }
+
+        .payment-option.selected .radio-circle::after {
+            transform: scale(1);
+        }
+
+        .pay-info {
+            flex: 1;
+        }
+
+        .pay-title {
+            font-size: 0.92rem;
+            font-weight: 500;
+            color: var(--black);
+            margin-bottom: 2px;
+        }
+
+        .pay-sub {
+            font-size: 0.75rem;
+            color: var(--gray);
+            font-weight: 300;
+        }
+
+        .pay-icon {
+            font-size: 1.15rem;
+            opacity: 0.7;
+        }
+
+        .price-summary {
+            background: var(--offwhite);
+            padding: 18px 16px;
+            margin-bottom: 24px;
+            font-size: 0.92rem;
+        }
+
+        .price-summary div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .price-summary .final-total {
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-top: 1px solid #ddd;
+            padding-top: 12px;
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 15px;
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid var(--light-gray) !important;
+            color: var(--black);
+        }
+
+        .btn-cancel:hover {
+            border-color: var(--black) !important;
+        }
+
+        .btn-pay {
+            background: var(--black);
+            color: white;
+        }
+
+        .btn-pay:hover { background: var(--gold); }
+
+        .success-content {
+            text-align: center;
+            padding: 15px 5px;
+        }
+
+        .success-icon {
+            font-size: 3.2rem;
+            color: #2ecc71;
+            margin-bottom: 16px;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: var(--black);
+            color: white;
+            text-align: center;
+            padding: 55px 20px 40px;
+        }
+
+        footer .logo {
+            color: white;
+            margin-bottom: 18px;
+            display: inline-block;
+        }
+
+        footer .logo span { color: var(--gold); }
+
+        footer p {
+            font-size: 0.85rem;
+            color: #aaa;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin-bottom: 22px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .social-icons a {
+            width: 42px;
+            height: 42px;
+            border: 1px solid #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .social-icons svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: #777;
+            letter-spacing: 0.5px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: var(--black);
+            color: white;
+            padding: 14px 32px;
+            z-index: 4000;
+            transition: transform 0.35s ease;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.4rem; }
+            .products-grid { grid-template-columns: 1fr; gap: 45px; }
+            .nav-links { display: none; }
+            .cart-sidebar { width: 100%; }
+            .btn-row { flex-direction: column; }
+            .add-cart-btn, .order-now-btn { width: 100%; }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- DISCOUNT / NEW ARRIVAL SLIDER -->
-<div class="offer" id="offer">
-<span class="on">WELCOME TO VELLA CO. — UP TO 40% OFF</span>
-<span>NEW ARRIVALS — SHOP NOW</span>
-<span>FREE SHIPPING ON SELECTED ORDERS</span>
-</div>
-
-<!-- HEADER -->
-<header>
-<div class="logo">VELLA CO.</div>
-
-<nav>
-<button onclick="showProducts('ALL')">HOME</button>
-<button onclick="showProducts('MEN')">MEN</button>
-<button onclick="showProducts('WOMEN')">WOMEN</button>
-<button onclick="showProducts('JEWELLERY')">JEWELLERY</button>
-</nav>
-
-<button class="cart" onclick="openCart()">
-BAG (<b id="count">0</b>)
-</button>
-</header>
-
-
-<!-- HOME -->
-<div id="home">
-
-<!-- HERO -->
-<section class="hero">
-<img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1400&q=85">
-
-<div>
-<small>VELLA CO. / NEW COLLECTION</small>
-<h1>STYLE<br>YOUR WAY.</h1>
-<p>Premium fashion designed for modern everyday luxury.</p>
-<button class="btn" onclick="showProducts('ALL')">
-SHOP COLLECTION
-</button>
-</div>
-</section>
-
-
-<!-- CATEGORIES -->
-<section class="sec">
-
-<div class="title">
-<small>EXPLORE</small>
-<h2>Shop By Category</h2>
-</div>
-
-<div class="cats">
-
-<div class="cat" onclick="showProducts('MEN')">
-<img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?auto=format&fit=crop&w=300&q=80">
-<p>MEN</p>
-</div>
-
-<div class="cat" onclick="showProducts('WOMEN')">
-<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=300&q=80">
-<p>WOMEN</p>
-</div>
-
-<div class="cat" onclick="showProducts('JEWELLERY')">
-<img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=300&q=80">
-<p>JEWELLERY</p>
-</div>
-
-</div>
-</section>
-
-
-<!-- PRODUCTS -->
-<section class="sec">
-
-<div class="title">
-<small>VELLA CO.</small>
-<h2>New Arrivals</h2>
-</div>
-
-<div class="products" id="homeProducts"></div>
-
-</section>
-
-</div>
-
-
-<!-- PRODUCTS SCREEN -->
-<div id="productsPage" style="display:none">
-<section class="sec">
-<div class="title">
-<small>VELLA CO.</small>
-<h2 id="heading">Products</h2>
-</div>
-<div class="products" id="products"></div>
-</section>
-</div>
-
-
-<!-- FOOTER -->
-<footer>
-<h2>VELLA CO.</h2>
-<p>Premium Clothing & Jewellery.</p>
-<p>© 2026 VELLA CO. All Rights Reserved.</p>
-</footer>
-
-
-<script>
-
-/* PRODUCTS */
-
-const data=[
-{
-id:1,name:"Men Printed Round Neck Pure Cotton Black T-Shirt",cat:"MEN",
-price:899,old:1199,
-img:"m-optic-owl-woops-studio-original-imahnk8ag7jhtxne.jpeg"
-},
-{
-id:2,name:"Men Printed Round Neck Pure Cotton Black T-Shirt",cat:"MEN",
-price:899,old:1199,
-img:"xl-ki-br-aw-os-xs-kosaksi-original-imahhd9tnf9jgmb4.jpeg"
-},
-{
-id:3,name:"Men Typography Round Neck Pure Cotton Black T-Shirt",cat:"WOMEN",
-price:899,old:1199,
-img:"s-oversize-black-black-hole-print-t-shirt-trendotools-original-imahh5z8bwjxj7xf.jpeg"
-},
-{
-id:4,name:"Men Printed Round Neck Polycotton White T-Shirt",cat:"WOMEN",
-price:899,old:1199,
-img:"https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=700&q=80"
-},
-{
-id:5,name:"Minimal Gold Necklace",cat:"JEWELLERY",
-price:699,old:99,
-img:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=700&q=80"
-},
-{
-id:6,name:"Luxury Hoop Earrings",cat:"JEWELLERY",
-price:599,old:899,
-img:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=700&q=80"
-}
-];
-
-
-/* OFFER SLIDER */
-
-let oi=0;
-
-setInterval(()=>{
-let s=document.querySelectorAll("#offer span");
-s[oi].classList.remove("on");
-oi=(oi+1)%s.length;
-s[oi].classList.add("on");
-},3000);
-
-
-/* PRODUCT CARD */
-
-function card(p){
-let off=Math.round((1-p.price/p.old)*100);
-
-return `
-<div class="product">
-<span class="badge">${off}% OFF</span>
-<img src="${p.img}" onclick="product(${p.id})">
-<h3>${p.name}</h3>
-<span class="price">₹${p.price}</span>
-<del class="old">₹${p.old}</del>
-</div>`;
-}
-
-
-/* HOME PRODUCTS */
-
-document.getElementById("homeProducts").innerHTML=
-data.slice(0,4).map(card).join("");
-
-
-/* PRODUCT SCREEN */
-
-function showProducts(cat){
-
-let list=cat==="ALL"
-?data:data.filter(p=>p.cat===cat);
-
-document.getElementById("heading").innerText=
-cat==="ALL"?"All Products":cat;
-
-document.getElementById("products").innerHTML=
-list.map(card).join("");
-
-document.getElementById("home").style.display="none";
-document.getElementById("productsPage").style.display="block";
-
-history.pushState({page:"products"},"","#products");
-
-window.scrollTo(0,0);
-}
-
-
-/* BACK BUTTON */
-
-history.replaceState({page:"home"},"","#home");
-
-window.onpopstate=function(){
-
-document.getElementById("productsPage").style.display="none";
-document.getElementById("home").style.display="block";
-
-window.scrollTo(0,0);
-};
-
-
-/* PRODUCT */
-
-function product(id){
-
-let p=data.find(x=>x.id===id);
-
-alert(
-p.name+
-"\n\nPrice: ₹"+p.price+
-"\n\nNext part: Product Detail + Add To Cart"
-);
-
-}
-
-
-/* CART COUNT */
-
-let cart=JSON.parse(
-localStorage.getItem("vellaCart")||"[]"
-);
-
-function openCart(){
-alert("Cart screen next part mein add hoga.");
-}
-
-document.getElementById("count").innerText=
-cart.length;
-
-</script>
-
-</body>
-</html>
-<!-- ===== PART 2 : PRODUCT + CART ===== -->
-
-<style>
-/* PRODUCT DETAIL */
-.detail{
-display:none;padding:35px 5%;
-max-width:1000px;margin:auto;
-grid-template-columns:1fr 1fr;gap:35px
-}
-.detail img{
-width:100%;max-height:550px;object-fit:cover
-}
-.detail h1{font-size:30px;margin:12px 0}
-.detail p{color:#777;font-size:12px;line-height:1.7;margin:18px 0}
-.detail-price{font-size:18px;font-weight:bold}
-.detail-old{
-font-size:11px;color:#999;margin-left:7px
-}
-.actions{display:flex;gap:8px;margin-top:25px}
-.actions button{
-flex:1;padding:14px;border:1px solid #111;
-font-size:10px;font-weight:bold
-}
-.buy{background:#111!important;color:#fff}
-
-.qty{
-display:flex;align-items:center;gap:15px;
-margin-top:20px;font-size:12px
-}
-.qty button{
-width:28px;height:28px;border:1px solid #ddd;
-background:#fff
-}
-
-/* CART */
-.cartPage{
-display:none;padding:40px 5%;
-max-width:800px;margin:auto
-}
-.cartRow{
-display:flex;gap:15px;padding:15px 0;
-border-bottom:1px solid #eee
-}
-.cartRow img{
-width:75px;height:90px;object-fit:cover
-}
-.cartInfo{flex:1}
-.cartInfo h3{font-size:12px;margin-bottom:7px}
-.cartInfo p{font-size:11px;color:#777}
-.remove{
-margin-top:8px;color:#b00;
-font-size:10px
-}
-.cartTotal{
-font-size:18px;font-weight:bold;
-margin:25px 0
-}
-.checkoutBtn{
-background:#111;color:#fff;width:100%;
-padding:15px;font-size:10px;font-weight:bold
-}
-
-@media(max-width:650px){
-.detail{grid-template-columns:1fr;padding:25px 15px}
-.detail h1{font-size:25px}
-.cartPage{padding:30px 15px}
-}
-</style>
-
-
-<!-- PRODUCT DETAIL -->
-<div id="detail" class="detail">
-
-<img id="dimg">
-
-<div>
-
-<small id="dcat"></small>
-
-<h1 id="dname"></h1>
-
-<div class="detail-price">
-₹<span id="dprice"></span>
-<del class="detail-old">
-₹<span id="dold"></span>
-</del>
-</div>
-
-<p>
-Premium VELLA CO. product designed with
-a clean modern look and quality finish.
-Perfect for your everyday premium style.
-</p>
-
-<div class="qty">
-<button onclick="changeQty(-1)">−</button>
-<span id="qty">1</span>
-<button onclick="changeQty(1)">+</button>
-</div>
-
-<div class="actions">
-
-<button onclick="addCart()">
-ADD TO CART
-</button>
-
-<button class="buy" onclick="buyNow()">
-ORDER NOW
-</button>
-
-</div>
-
-</div>
-</div>
-
-
-<!-- CART PAGE -->
-<div id="cartPage" class="cartPage">
-
-<small>VELLA CO.</small>
-
-<h1 style="margin:8px 0 25px">
-Shopping Bag
-</h1>
-
-<div id="cartList"></div>
-
-<div class="cartTotal" id="cartTotal"></div>
-
-<button class="checkoutBtn"
-onclick="checkout()">
-PROCEED TO CHECKOUT
-</button>
-
-</div>
-
-
-<script>
-
-/* ===== PART 2 VARIABLES ===== */
-
-let selectedProduct=null;
-let selectedQty=1;
-
-
-/* ===== OPEN PRODUCT ===== */
-
-function product(id){
-
-selectedProduct=data.find(
-p=>p.id===id
-);
-
-if(!selectedProduct)return;
-
-selectedQty=1;
-
-document.getElementById("dimg").src=
-selectedProduct.img;
-
-document.getElementById("dcat").innerText=
-selectedProduct.cat;
-
-document.getElementById("dname").innerText=
-selectedProduct.name;
-
-document.getElementById("dprice").innerText=
-selectedProduct.price;
-
-document.getElementById("dold").innerText=
-selectedProduct.old;
-
-document.getElementById("qty").innerText=1;
-
-
-/* hide other screens */
-
-document.getElementById("home").style.display="none";
-document.getElementById("productsPage").style.display="none";
-document.getElementById("cartPage").style.display="none";
-
-document.getElementById("detail").style.display="grid";
-
-history.pushState(
-{page:"detail"},
-"",
-"#product"
-);
-
-window.scrollTo(0,0);
-
-}
-
-
-/* ===== QUANTITY ===== */
-
-function changeQty(n){
-
-selectedQty+=n;
-
-if(selectedQty<1)
-selectedQty=1;
-
-if(selectedQty>10)
-selectedQty=10;
-
-document.getElementById("qty")
-.innerText=selectedQty;
-
-}
-
-
-/* ===== ADD CART ===== */
-
-function addCart(){
-
-let item=cart.find(
-x=>x.id===selectedProduct.id
-);
-
-if(item){
-item.qty+=selectedQty;
-}else{
-cart.push({
-id:selectedProduct.id,
-qty:selectedQty
-});
-}
-
-saveCart();
-
-alert("Added to Cart ✓");
-
-}
-
-
-/* ===== BUY NOW ===== */
-
-function buyNow(){
-
-cart=[
-{
-id:selectedProduct.id,
-qty:selectedQty
-}
-];
-
-saveCart();
-
-checkout();
-
-}
-
-
-/* ===== SAVE CART ===== */
-
-function saveCart(){
-
-localStorage.setItem(
-"vellaCart",
-JSON.stringify(cart)
-);
-
-document.getElementById("count")
-.innerText=
-cart.reduce(
-(a,b)=>a+b.qty,0
-);
-
-}
-
-
-/* ===== OPEN CART ===== */
-
-function openCart(){
-
-document.getElementById("home").style.display="none";
-document.getElementById("productsPage").style.display="none";
-document.getElementById("detail").style.display="none";
-
-document.getElementById("cartPage").style.display="block";
-
-renderCart();
-
-history.pushState(
-{page:"cart"},
-"",
-"#cart"
-);
-
-window.scrollTo(0,0);
-
-}
-
-
-/* ===== RENDER CART ===== */
-
-function renderCart(){
-
-let box=
-document.getElementById("cartList");
-
-if(!cart.length){
-
-box.innerHTML=
-"<p>Your cart is empty.</p>";
-
-document.getElementById(
-"cartTotal"
-).innerText="";
-
-return;
-
-}
-
-box.innerHTML=cart.map(item=>{
-
-let p=data.find(
-x=>x.id===item.id
-);
-
-return `
-
-<div class="cartRow">
-
-<img src="${p.img}">
-
-<div class="cartInfo">
-
-<h3>${p.name}</h3>
-
-<p>
-₹${p.price} × ${item.qty}
-</p>
-
-<div class="qty">
-
-<button onclick="cartQty(${p.id},-1)">
-−
-</button>
-
-<span>${item.qty}</span>
-
-<button onclick="cartQty(${p.id},1)">
-+
-</button>
-
-</div>
-
-<button class="remove"
-onclick="removeCart(${p.id})">
-REMOVE
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}).join("");
-
-document.getElementById(
-"cartTotal"
-).innerText=
-"Total: ₹"+getTotal();
-
-}
-
-
-/* ===== CART QUANTITY ===== */
-
-function cartQty(id,n){
-
-let item=cart.find(
-x=>x.id===id
-);
-
-if(!item)return;
-
-item.qty+=n;
-
-if(item.qty<=0){
-
-cart=cart.filter(
-x=>x.id!==id
-);
-
-}
-
-saveCart();
-renderCart();
-
-}
-
-
-/* ===== REMOVE ===== */
-
-function removeCart(id){
-
-cart=cart.filter(
-x=>x.id!==id
-);
-
-saveCart();
-renderCart();
-
-}
-
-
-/* ===== TOTAL ===== */
-
-function getTotal(){
-
-return cart.reduce(
-(total,item)=>{
-
-let p=data.find(
-x=>x.id===item.id
-);
-
-return total+
-(p.price*item.qty);
-
-},0);
-
-}
-
-
-/* ===== CHECKOUT PLACEHOLDER ===== */
-
-function checkout(){
-
-if(!cart.length){
-
-alert("Your cart is empty.");
-return;
-
-}
-
-alert(
-"Checkout Part 3 mein add hoga."
-);
-
-}
-
-
-/* ===== IMPROVED BACK ===== */
-
-window.onpopstate=function(){
-
-document.getElementById("detail").style.display="none";
-document.getElementById("cartPage").style.display="none";
-document.getElementById("productsPage").style.display="none";
-document.getElementById("home").style.display="block";
-
-window.scrollTo(0,0);
-
-};
-
-saveCart();
-
-</script>
-<!-- ===== PART 3 : CHECKOUT + JEWELLERY OFFER ===== -->
-
-<style>
-.checkout{
-display:none;
-max-width:650px;
-margin:auto;
-padding:35px 5%;
-}
-.checkout h1{font-size:28px;margin:8px 0 25px}
-.form{
-display:grid;
-gap:11px;
-}
-.form input,.form select{
-width:100%;
-padding:14px;
-border:1px solid #ddd;
-outline:none;
-font-size:12px;
-background:#fff;
-}
-.payment{
-margin:22px 0;
-display:grid;
-gap:10px;
-}
-.pay{
-border:1px solid #ddd;
-padding:14px;
-font-size:11px;
-display:flex;
-gap:10px;
-align-items:center;
-}
-.orderBtn{
-width:100%;
-padding:15px;
-background:#111;
-color:#fff;
-font-size:10px;
-font-weight:bold;
-}
-.jewelOffer{
-display:none;
-margin:20px 0;
-padding:18px;
-background:#f7f7f7;
-border:1px solid #eee;
-}
-.jewelOffer h3{font-size:14px}
-.jewelOffer p{
-font-size:10px;
-color:#777;
-margin:7px 0 12px;
-}
-.jewelBtns{
-display:flex;
-gap:8px;
-}
-.jewelBtns button{
-padding:10px 15px;
-font-size:9px;
-border:1px solid #111;
-}
-.jewelBtns .add{
-background:#111;
-color:#fff;
-}
-
-@media(max-width:600px){
-.checkout{padding:30px 15px}
-}
-</style>
-
-
-<!-- CHECKOUT -->
-<div id="checkoutPage" class="checkout">
-
-<small>VELLA CO. / CHECKOUT</small>
-
-<h1>Complete Your Order</h1>
-
-<div class="form">
-
-<input id="cName"
-placeholder="Full Name">
-
-<input id="cPhone"
-placeholder="10 Digit Phone Number"
-maxlength="10"
-inputmode="numeric">
-
-<input id="cAddress"
-placeholder="Full Address">
-
-<input id="cPin"
-placeholder="Pincode"
-maxlength="6"
-inputmode="numeric">
-
-<select id="cState">
-<option value="">Select State</option>
-<option>Uttar Pradesh</option>
-<option>Delhi</option>
-<option>Haryana</option>
-<option>Rajasthan</option>
-<option>Maharashtra</option>
-<option>Bihar</option>
-<option>Madhya Pradesh</option>
-<option>Madhya Pradesh</option>
-<option>Punjab</option>
-<option>Other</option>
-</select>
-
-</div>
-
-
-<!-- JEWELLERY OFFER -->
-<div id="jewelOffer" class="jewelOffer">
-
-<h3>✨ Complete Your Look</h3>
-
-<p>
-Aapke clothing order ke saath jewellery
-add karein aur special combo discount paayein.
-</p>
-
-<div class="jewelBtns">
-
-<button class="add"
-onclick="addJewellery()">
-ADD JEWELLERY
-</button>
-
-<button onclick="skipJewellery()">
-SKIP
-</button>
-
-</div>
-
-</div>
-
-
-<div style="margin:20px 0;font-size:15px;font-weight:bold">
-Total: ₹<span id="finalTotal">0</span>
-</div>
-
-
-<div class="payment">
-
-<label class="pay">
-<input type="radio"
-name="payment"
-value="COD"
-checked>
-Cash On Delivery
-</label>
-
-<label class="pay">
-<input type="radio"
-name="payment"
-value="ONLINE">
-Online Payment
-</label>
-
-</div>
-
-
-<button class="orderBtn"
-onclick="placeOrder()">
-PLACE ORDER
-</button>
-
-</div>
-
-
-<script>
-
-/* ===== PART 3 ===== */
-
-let jewelleryAdded=false;
-let jewelleryProduct=data.find(
-p=>p.cat==="JEWELLERY"
-);
-
-
-/* ===== CHECKOUT ===== */
-
-function checkout(){
-
-if(!cart.length){
-alert("Your cart is empty.");
-return;
-}
-
-document.getElementById("home").style.display="none";
-document.getElementById("productsPage").style.display="none";
-document.getElementById("detail").style.display="none";
-document.getElementById("cartPage").style.display="none";
-
-document.getElementById("checkoutPage")
-.style.display="block";
-
-jewelleryAdded=false;
-
-document.getElementById("jewelOffer")
-.style.display=
-cart.some(x=>{
-let p=data.find(y=>y.id===x.id);
-return p && p.cat!=="JEWELLERY";
-}) ? "block" : "none";
-
-updateFinalTotal();
-
-history.pushState(
-{page:"checkout"},
-"",
-"#checkout"
-);
-
-window.scrollTo(0,0);
-}
-
-
-/* ===== JEWELLERY ADD ===== */
-
-function addJewellery(){
-
-if(!jewelleryProduct)return;
-
-let item=cart.find(
-x=>x.id===jewelleryProduct.id
-);
-
-if(item){
-item.qty++;
-}else{
-cart.push({
-id:jewelleryProduct.id,
-qty:1
-});
-}
-
-jewelleryAdded=true;
-
-saveCart();
-updateFinalTotal();
-
-document.getElementById("jewelOffer")
-.innerHTML=`
-<h3>✓ Jewellery Added</h3>
-<p>
-Your jewellery has been added to the order.
-</p>
-`;
-
-}
-
-
-/* ===== SKIP ===== */
-
-function skipJewellery(){
-
-document.getElementById("jewelOffer")
-.style.display="none";
-
-}
-
-
-/* ===== FINAL TOTAL ===== */
-
-function updateFinalTotal(){
-
-let total=getTotal();
-
-document.getElementById("finalTotal")
-.innerText=total;
-
-}
-
-
-/* ===== VALIDATION ===== */
-
-function validateOrder(){
-
-let name=
-document.getElementById("cName").value.trim();
-
-let phone=
-document.getElementById("cPhone").value.trim();
-
-let address=
-document.getElementById("cAddress").value.trim();
-
-let pin=
-document.getElementById("cPin").value.trim();
-
-let state=
-document.getElementById("cState").value;
-
-if(!name){
-alert("Name enter karo.");
-return false;
-}
-
-if(!/^[0-9]{10}$/.test(phone)){
-alert("Phone number exactly 10 digits hona chahiye.");
-return false;
-}
-
-if(!address){
-alert("Address enter karo.");
-return false;
-}
-
-if(!/^[0-9]{6}$/.test(pin)){
-alert("Pincode exactly 6 digits hona chahiye.");
-return false;
-}
-
-if(!state){
-alert("State select karo.");
-return false;
-}
-
-return true;
-}
-
-
-/* ===== PLACE ORDER ===== */
-
-function placeOrder(){
-
-if(!validateOrder())return;
-
-let payment=
-document.querySelector(
-'input[name="payment"]:checked'
-).value;
-
-if(payment==="COD"){
-
-orderCOD();
-
-}else{
-
-orderOnline();
-
-}
-
-}
-
-
-/* ===== COD ===== */
-
-function orderCOD(){
-
-let orderId=
-"VELLA"+Date.now().toString().slice(-6);
-
-let name=
-document.getElementById("cName").value;
-
-let phone=
-document.getElementById("cPhone").value;
-
-let address=
-document.getElementById("cAddress").value;
-
-let pin=
-document.getElementById("cPin").value;
-
-let state=
-document.getElementById("cState").value;
-
-let text=
-`VELLA CO. ORDER
-
-Order ID: ${orderId}
-
-Name: ${name}
-Phone: ${phone}
-
-Address: ${address}
-Pincode: ${pin}
-State: ${state}
-
-Total: ₹${getTotal()}
-
-Payment: COD`;
-
-let whatsapp=
-"https://wa.me/91XXXXXXXXXX?text="+
-encodeURIComponent(text);
-
-window.open(
-whatsapp,
-"_blank"
-);
-
-}
-
-
-/* ===== ONLINE PLACEHOLDER ===== */
-
-function orderOnline(){
-
-alert(
-"Razorpay Part 4 mein connect hoga.\n\nApni Razorpay Key ID wahan add karna."
-);
-
-}
-
-</script>
-<!-- ===== PART 5 : FINAL POLISH ===== -->
-
-<style>
-
-/* MOBILE MENU */
-.mobileMenu{
-display:none;
-position:fixed;
-top:100px;
-left:12px;
-right:12px;
-background:#fff;
-border:1px solid #eee;
-box-shadow:0 10px 30px #0002;
-z-index:99;
-padding:8px;
-}
-
-.mobileMenu button{
-display:block;
-width:100%;
-padding:15px;
-text-align:left;
-border-bottom:1px solid #eee;
-font-size:10px;
-font-weight:bold;
-}
-
-/* FLOATING BAG */
-.floatBag{
-display:none;
-position:fixed;
-right:18px;
-bottom:18px;
-width:52px;
-height:52px;
-border-radius:50%;
-background:#111;
-color:#fff;
-z-index:50;
-font-size:12px;
-box-shadow:0 5px 20px #0003;
-}
-
-@media(max-width:600px){
-.floatBag{display:block}
-}
-
-</style>
-
-
-<!-- MOBILE MENU -->
-
-<div id="mobileMenu" class="mobileMenu">
-
-<button onclick="mobileNav('ALL')">
-HOME
-</button>
-
-<button onclick="mobileNav('MEN')">
-MEN
-</button>
-
-<button onclick="mobileNav('WOMEN')">
-WOMEN
-</button>
-
-<button onclick="mobileNav('JEWELLERY')">
-JEWELLERY
-</button>
-
-<button onclick="openCart();closeMenu()">
-SHOPPING BAG
-</button>
-
-</div>
-
-
-<!-- FLOATING BAG -->
-
-<button class="floatBag"
-onclick="openCart()">
-BAG
-</button>
-
-
-<script>
-
-/* ===== MOBILE MENU ===== */
-
-function toggleMenu(){
-
-let m=
-document.getElementById("mobileMenu");
-
-m.style.display=
-m.style.display==="block"
-?"none"
-:"block";
-
-}
-
-
-function closeMenu(){
-
-document.getElementById(
-"mobileMenu"
-).style.display="none";
-
-}
-
-
-function mobileNav(cat){
-
-closeMenu();
-
-showProducts(cat);
-
-}
-
-
-/* ===== MOBILE LOGO CLICK ===== */
-
-document.querySelector(".logo")
-.onclick=function(){
-
-closeMenu();
-
-goHome();
-
-};
-
-
-/* ===== LONG PRESS / OUTSIDE MENU ===== */
-
-document.addEventListener(
-"click",
-function(e){
-
-let menu=
-document.getElementById("mobileMenu");
-
-let btn=
-document.querySelector(".logo");
-
-if(
-menu &&
-menu.style.display==="block" &&
-!menu.contains(e.target) &&
-!btn.contains(e.target)
-){
-
-closeMenu();
-
-}
-
-});
-
-
-/* ===== MENU BUTTON ===== */
-
-let menuBtn=
-document.querySelector(
-".menu-btn"
-);
-
-if(menuBtn){
-
-menuBtn.onclick=function(e){
-
-e.stopPropagation();
-
-toggleMenu();
-
-};
-
-}
-
-
-/* ===== BETTER PRODUCT OPEN ===== */
-
-document.addEventListener(
-"click",
-function(e){
-
-let productBox=
-e.target.closest(".product");
-
-if(!productBox)return;
-
-/*
-  Agar image par click hua to
-  existing product() function chalega.
-*/
-
-});
-
-
-/* ===== CART COUNT UPDATE ===== */
-
-function refreshBag(){
-
-let total=
-cart.reduce(
-(a,b)=>a+b.qty,0
-);
-
-let count=
-document.getElementById("count");
-
-if(count)
-count.innerText=total;
-
-}
-
-
-/* ===== SAVE CART OVERRIDE ===== */
-
-const oldSaveCart=saveCart;
-
-saveCart=function(){
-
-localStorage.setItem(
-"vellaCart",
-JSON.stringify(cart)
-);
-
-refreshBag();
-
-};
-
-
-/* ===== PAGE START ===== */
-
-refreshBag();
-
-
-/* ===== ESC CLOSE MENU ===== */
-
-document.addEventListener(
-"keydown",
-function(e){
-
-if(e.key==="Escape")
-closeMenu();
-
-});
-
-
-/* ===== CLICK CATEGORY IMAGES ===== */
-
-document.querySelectorAll(
-".cat"
-).forEach(cat=>{
-
-cat.addEventListener(
-"click",
-function(){
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-});
-
-});
-
-
-/* ===== IMAGE ERROR FALLBACK ===== */
-
-document.addEventListener(
-"error",
-function(e){
-
-if(e.target.tagName==="IMG"){
-
-e.target.style.background="#eee";
-
-}
-
-},
-true
-);
-
-</script>
+    <nav class="navbar">
+        <div class="logo">VELLA <span>CO.</span></div>
+        <div class="nav-right">
+            <div class="nav-links">
+                <a onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Collection</a>
+            </div>
+            <button class="cart-btn" onclick="toggleCart()" title="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M6 6h15l-1.5 9h-12z"/>
+                    <circle cx="9" cy="20" r="1"/>
+                    <circle cx="18" cy="20" r="1"/>
+                    <path d="M6 6L5 2H2"/>
+                </svg>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>VELLA CO.</h1>
+        <p>Refined luxury clothing crafted for those who appreciate timeless elegance.</p>
+        <button class="hero-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Collection</button>
+    </section>
+
+    <section class="products-section" id="products">
+        <h2 class="section-title">The Collection</h2>
+        <div class="products-grid" id="productsGrid"></div>
+    </section>
+
+    <!-- Cart -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="empty-cart">Your cart is empty</div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <button class="checkout-btn" onclick="openCheckout()">Checkout</button>
+        </div>
+    </div>
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal">
+            <h2>Checkout</h2>
+            <p class="modal-subtitle">Complete your order</p>
+            <form onsubmit="return false;">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="custName" required placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="custPhone" required placeholder="10-digit mobile number">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="custEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address *</label>
+                    <textarea id="custAddress" rows="2" required placeholder="House no, Street, City, Pincode"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Discount Code</label>
+                    <div class="discount-row">
+                        <input type="text" id="discountCode" placeholder="e.g. VELLA10">
+                        <button type="button" class="apply-btn" onclick="applyDiscount()">Apply</button>
+                    </div>
+                    <div class="discount-msg" id="discountMsg"></div>
+                </div>
+
+                <!-- Premium Payment Method -->
+                <div class="payment-label">Payment Method</div>
+                <div class="payment-options">
+                    <label class="payment-option selected">
+                        <input type="radio" name="payment" value="cod" checked onchange="selectPayment(this)">
+                        <div class="radio-circle"></div>
+                        <div class="pay-info">
+                            <div class="pay-title">Cash on Delivery</div>
+                            <div class="pay-sub">Pay when your order arrives</div>
+                        </div>
+                        <div class="pay-icon">💵</div>
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="online" onchange="selectPayment(this)">
+                        <div class="radio-circle"></div>
+                        <div class="pay-info">
+                            <div class="pay-title">Pay Online</div>
+                            <div class="pay-sub">UPI, Cards, Netbanking</div>
+                        </div>
+                        <div class="pay-icon">💳</div>
+                    </label>
+                </div>
+
+                <div class="price-summary">
+                    <div><span>Subtotal</span><span id="summarySubtotal">₹0</span></div>
+                    <div id="summaryDiscountRow" style="display:none; color:#27ae60;">
+                        <span>Discount</span><span id="summaryDiscount">-₹0</span>
+                    </div>
+                    <div class="final-total"><span>Total</span><span id="checkoutTotal">₹0</span></div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeCheckout()">Cancel</button>
+                    <button type="button" class="btn-pay" onclick="placeOrder()">Place Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="success-content">
+                <div class="success-icon">✓</div>
+                <h2>Order Confirmed</h2>
+                <p id="successMsg" style="margin:14px 0; color:#555; line-height:1.7;"></p>
+                <p style="font-size:0.85rem; color:#888;">We will contact you shortly.</p>
+                <button class="hero-btn" style="margin-top:26px;" onclick="closeSuccess()">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <footer>
+        <div class="logo">VELLA <span>CO.</span></div>
+        <p>Luxury Clothing</p>
+
+        <div class="social-icons">
+            <a href="https://instagram.com/" target="_blank" title="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="https://facebook.com/" target="_blank" title="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://wa.me/91XXXXXXXXXX" target="_blank" title="WhatsApp">
+                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <a href="https://twitter.com/" target="_blank" title="Twitter">
+                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+        </div>
+
+        <p class="copyright">© 2026 VELLA CO. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const RAZORPAY_KEY_ID = "rzp_test_YourKeyHere";
+
+        const DISCOUNT_CODES = {
+            "VELLA10": { type: "percent", value: 10 },
+            "VELLA20": { type: "percent", value: 20 },
+            "WELCOME": { type: "percent", value: 15 },
+            "FLAT500": { type: "flat", value: 500 }
+        };
+
+        const products = [
+            {
+                id: 1,
+                name: "Silk Blend Shirt",
+                price: 3499,
+                originalPrice: 4499,
+                discount: 22,
+                desc: "Premium silk-cotton blend, tailored fit, soft hand-feel.",
+                image: "https://images.unsplash.com/photo-1596755094514-f87e34085b85?w=600&h=800&fit=crop"
+            },
+            {
+                id: 2,
+                name: "Cashmere Overcoat",
+                price: 12999,
+                originalPrice: 16999,
+                discount: 24,
+                desc: "Italian cashmere, double-breasted, timeless silhouette.",
+                image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=600&h=800&fit=crop"
+            },
+            {
+                id: 3,
+                name: "Merino Wool Trousers",
+                price: 4999,
+                originalPrice: 6499,
+                discount: 23,
+                desc: "Fine merino wool, structured yet comfortable.",
+                image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&h=800&fit=crop"
+            },
+            {
+                id: 4,
+                name: "Linen Resort Shirt",
+                price: 2799,
+                originalPrice: 3499,
+                discount: 20,
+                desc: "Breathable pure linen, relaxed luxury for warm days.",
+                image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&h=800&fit=crop"
+            },
+            {
+                id: 5,
+                name: "Tailored Blazer",
+                price: 8999,
+                originalPrice: 11499,
+                discount: 22,
+                desc: "Structured shoulders, premium wool blend, versatile formal piece.",
+                image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=800&fit=crop"
+            },
+            {
+                id: 6,
+                name: "Cotton Oxford Shirt",
+                price: 2499,
+                originalPrice: 3199,
+                discount: 22,
+                desc: "Classic oxford cloth, button-down collar, everyday essential.",
+                image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=600&h=800&fit=crop"
+            },
+            {
+                id: 7,
+                name: "Wool Trench Coat",
+                price: 14999,
+                originalPrice: 18999,
+                discount: 21,
+                desc: "Double-breasted trench, water-resistant wool, iconic silhouette.",
+                image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=600&h=800&fit=crop"
+            },
+            {
+                id: 8,
+                name: "Slim Chinos",
+                price: 3299,
+                originalPrice: 4199,
+                discount: 21,
+                desc: "Stretch cotton chinos, modern slim fit, versatile colour.",
+                image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&h=800&fit=crop"
+            }
+        ];
+
+        let cart = [];
+        let appliedDiscount = null;
+        let isDirectOrder = false;
+        let directProduct = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            loadCart();
+            updateCartUI();
+        });
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card">
+                    <div class="product-img-wrap">
+                        <img src="\( {p.image}" alt=" \){p.name}" class="product-img" loading="lazy"
+                             onerror="this.src='https://placehold.co/600x800/faf9f7/b8956c?text=${encodeURIComponent(p.name)}'">
+                        <div class="discount-badge">${p.discount}% OFF</div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-desc">${p.desc}</div>
+                        <div class="price-row">
+                            <span class="original-price">₹${p.originalPrice.toLocaleString('en-IN')}</span>
+                            <span class="final-price">₹${p.price.toLocaleString('en-IN')}</span>
+                            <span class="discount-text">${p.discount}% off</span>
+                        </div>
+                        <div class="btn-row">
+                            <button class="add-cart-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+                            <button class="order-now-btn" onclick="orderNow(${p.id})">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            const existing = cart.find(item => item.id === id);
+            if (existing) existing.qty += 1;
+            else cart.push({ ...product, qty: 1 });
+            saveCart();
+            updateCartUI();
+            showToast(`${product.name} added to cart`);
+        }
+
+        function orderNow(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            isDirectOrder = true;
+            directProduct = { ...product, qty: 1 };
+            appliedDiscount = null;
+            document.getElementById('discountCode').value = '';
+            document.getElementById('discountMsg').textContent = '';
+            document.getElementById('discountMsg').className = 'discount-msg';
+            updatePriceSummary();
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            saveCart();
+            updateCartUI();
+        }
+
+        function changeQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) removeFromCart(id);
+            else { saveCart(); updateCartUI(); }
+        }
+
+        function getCartTotal() {
+            if (isDirectOrder && directProduct) return directProduct.price * directProduct.qty;
+            return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        }
+
+        function getFinalTotal() {
+            let total = getCartTotal();
+            if (appliedDiscount) {
+                if (appliedDiscount.type === 'percent') total = total - (total * appliedDiscount.value / 100);
+                else if (appliedDiscount.type === 'flat') total = Math.max(0, total - appliedDiscount.value);
+            }
+            return Math.round(total);
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
+            const itemsEl = document.getElementById('cartItems');
+            const totalEl = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                itemsEl.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+            } else {
+                itemsEl.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="\( {item.image}" alt=" \){item.name}" onerror="this.src='https://placehold.co/80x100'">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">₹${item.price.toLocaleString('en-IN')}</div>
+                            <div class="qty-controls">
+                                <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+                                <span>${item.qty}</span>
+                                <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
+                    </div>
+                `).join('');
+            }
+            totalEl.textContent = '₹' + getCartTotal().toLocaleString('en-IN');
+        }
+
+        function updatePriceSummary() {
+            const subtotal = getCartTotal();
+            const final = getFinalTotal();
+            const discountAmount = subtotal - final;
+
+            document.getElementById('summarySubtotal').textContent = '₹' + subtotal.toLocaleString('en-IN');
+            document.getElementById('checkoutTotal').textContent = '₹' + final.toLocaleString('en-IN');
+
+            const discountRow = document.getElementById('summaryDiscountRow');
+            if (discountAmount > 0) {
+                discountRow.style.display = 'flex';
+                document.getElementById('summaryDiscount').textContent = '-₹' + discountAmount.toLocaleString('en-IN');
+            } else {
+                discountRow.style.display = 'none';
+            }
+        }
+
+        function applyDiscount() {
+            const code = document.getElementById('discountCode').value.trim().toUpperCase();
+            const msg = document.getElementById('discountMsg');
+
+            if (!code) {
+                msg.textContent = 'Please enter a code';
+                msg.className = 'discount-msg error';
+                return;
+            }
+
+            if (DISCOUNT_CODES[code]) {
+                appliedDiscount = { code, ...DISCOUNT_CODES[code] };
+                msg.textContent = `Applied! ${appliedDiscount.type === 'percent' ? appliedDiscount.value + '% off' : '₹' + appliedDiscount.value + ' off'}`;
+                msg.className = 'discount-msg success';
+                updatePriceSummary();
+            } else {
+                appliedDiscount = null;
+                msg.textContent = 'Invalid code';
+                msg.className = 'discount-msg error';
+                updatePriceSummary();
+            }
+        }
+
+        function toggleCart() {
+            document.getElementById('cartSidebar').classList.toggle('open');
+            document.getElementById('cartOverlay').classList.toggle('active');
+        }
+
+        function saveCart() { localStorage.setItem('vella_cart', JSON.stringify(cart)); }
+        function loadCart() {
+            const saved = localStorage.getItem('vella_cart');
+            if (saved) { try { cart = JSON.parse(saved); } catch(e) { cart = []; } }
+        }
+
+        function openCheckout() {
+            if (cart.length === 0) { showToast('Your cart is empty'); return; }
+            isDirectOrder = false;
+            directProduct = null;
+            appliedDiscount = null;
+            document.getElementById('discountCode').value = '';
+            document.getElementById('discountMsg').textContent = '';
+            document.getElementById('discountMsg').className = 'discount-msg';
+            updatePriceSummary();
+            document.getElementById('checkoutModal').classList.add('active');
+            toggleCart();
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+            isDirectOrder = false;
+            directProduct = null;
+        }
+
+        function selectPayment(radio) {
+            document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
+            radio.closest('.payment-option').classList.add('selected');
+        }
+
+        function placeOrder() {
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const email = document.getElementById('custEmail').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+            if (!name || !phone || !address) { showToast('Please fill all required fields'); return; }
+            if (!/^[
