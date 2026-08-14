@@ -1234,9 +1234,75 @@
                 return;
             }
 
-            const options = {
+const options = {
                 key: RAZORPAY_KEY_ID,
                 amount: orderDetails.total * 100, // paise mein
                 currency: "INR",
                 name: "VELLA CO.",
-                description: "Order " + orderDetails.
+                description: "Order " + orderDetails.orderId,
+                handler: function (response) {
+                    // Payment success (Online ya COD dono)
+                    orderDetails.razorpay_payment_id = response.razorpay_payment_id;
+                    completeOrder(orderDetails, response);
+                },
+                prefill: {
+                    name: orderDetails.name,
+                    email: orderDetails.email || "",
+                    contact: orderDetails.phone
+                },
+                notes: {
+                    address: orderDetails.address,
+                    order_id: orderDetails.orderId
+                },
+                theme: {
+                    color: "#111111"
+                },
+                modal: {
+                    ondismiss: function() {
+                        showToast('Payment cancelled');
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+
+            rzp.on('payment.failed', function (response) {
+                showToast('Payment failed: ' + (response.error?.description || ''));
+            });
+
+            rzp.open();
+        }
+
+        function completeOrder(orderDetails, razorpayResponse) {
+            if (!isDirectOrder) {
+                cart = [];
+                saveCart();
+                updateCartUI();
+            }
+            closeCheckout();
+
+            let discountLine = orderDetails.discountAmount > 0
+                ? `<br>Discount: <strong>-₹${orderDetails.discountAmount.toLocaleString('en-IN')}</strong>` : '';
+
+            document.getElementById('successMsg').innerHTML = `
+                Order ID: <strong>${orderDetails.orderId}</strong><br>
+                Amount: <strong>₹${orderDetails.total.toLocaleString('en-IN')}</strong>${discountLine}<br>
+                Payment ID: <strong>${orderDetails.razorpay_payment_id || 'N/A'}</strong>
+            `;
+            document.getElementById('successModal').classList.add('active');
+            console.log('Order Placed:', orderDetails);
+        }
+
+        function closeSuccess() {
+            document.getElementById('successModal').classList.remove('active');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>
