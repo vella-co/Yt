@@ -1,1308 +1,836 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VELLA CO. | Luxury Clothing</title>
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        :root {
-            --black: #111111;
-            --gold: #b8956c;
-            --offwhite: #faf9f7;
-            --gray: #666;
-            --light-gray: #e8e6e3;
-            --red: #c0392b;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #ffffff;
-            color: var(--black);
-            line-height: 1.6;
-        }
-
-        /* ========== NAVBAR ========== */
-        .navbar {
-            background: #ffffff;
-            padding: 20px 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            color: var(--black);
-        }
-
-        .logo span { color: var(--gold); }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 28px;
-        }
-
-        .nav-links a {
-            color: var(--black);
-            text-decoration: none;
-            font-size: 0.82rem;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            transition: color 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover { color: var(--gold); }
-
-        .cart-btn {
-            position: relative;
-            background: transparent;
-            border: 1px solid var(--black);
-            width: 46px;
-            height: 46px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .cart-btn:hover {
-            background: var(--black);
-            color: white;
-        }
-
-        .cart-btn svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: var(--gold);
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        /* ========== HERO ========== */
-        .hero {
-            background: var(--offwhite);
-            text-align: center;
-            padding: 100px 20px 90px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 500;
-            letter-spacing: 3px;
-            margin-bottom: 18px;
-        }
-
-        .hero p {
-            font-size: 1.05rem;
-            color: var(--gray);
-            max-width: 480px;
-            margin: 0 auto 35px;
-            font-weight: 300;
-        }
-
-        .hero-btn {
-            background: var(--black);
-            color: white;
-            border: none;
-            padding: 15px 42px;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .hero-btn:hover { background: var(--gold); }
-
-        /* ========== PRODUCTS ========== */
-        .products-section {
-            padding: 60px 5% 90px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            text-align: center;
-            font-size: 2rem;
-            font-weight: 500;
-            margin-bottom: 50px;
-            letter-spacing: 1px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 55px 40px;
-        }
-
-        .product-card {
-            transition: transform 0.35s ease;
-        }
-
-        .product-card:hover { transform: translateY(-6px); }
-
-        .product-img-wrap {
-            position: relative;
-            overflow: hidden;
-            background: var(--offwhite);
-            aspect-ratio: 3/4;
-        }
-
-        .product-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-img { transform: scale(1.04); }
-
-        .discount-badge {
-            position: absolute;
-            top: 16px;
-            left: 16px;
-            background: var(--red);
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 5px 11px;
-            letter-spacing: 0.5px;
-        }
-
-        .product-info {
-            padding: 24px 8px 10px;
-            text-align: center;
-        }
-
-        .product-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .product-desc {
-            font-size: 0.88rem;
-            color: var(--gray);
-            margin-bottom: 14px;
-            font-weight: 300;
-            line-height: 1.55;
-        }
-
-        .price-row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .original-price {
-            font-size: 0.95rem;
-            color: #999;
-            text-decoration: line-through;
-        }
-
-        .final-price {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .discount-text {
-            font-size: 0.75rem;
-            color: var(--red);
-            font-weight: 600;
-        }
-
-        .btn-row {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .add-cart-btn, .order-now-btn {
-            padding: 12px 22px;
-            font-size: 0.72rem;
-            letter-spacing: 1.3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            border: 1px solid var(--black);
-        }
-
-        .add-cart-btn {
-            background: transparent;
-            color: var(--black);
-        }
-
-        .add-cart-btn:hover {
-            background: var(--black);
-            color: white;
-        }
-
-        .order-now-btn {
-            background: var(--black);
-            color: white;
-        }
-
-        .order-now-btn:hover {
-            background: var(--gold);
-            border-color: var(--gold);
-        }
-
-        /* ========== CART ========== */
-        .cart-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.4);
-            z-index: 1999;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .cart-overlay.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -440px;
-            width: 420px;
-            max-width: 100%;
-            height: 100%;
-            background: #ffffff;
-            z-index: 2000;
-            box-shadow: -8px 0 40px rgba(0,0,0,0.08);
-            transition: right 0.35s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .cart-sidebar.open { right: 0; }
-
-        .cart-header {
-            padding: 28px 28px 20px;
-            border-bottom: 1px solid var(--light-gray);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .cart-header h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 500;
-        }
-
-        .close-cart {
-            background: none;
-            border: none;
-            font-size: 1.6rem;
-            cursor: pointer;
-            color: var(--black);
-            line-height: 1;
-        }
-
-        .cart-items {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 20px 28px;
-        }
-
-        .cart-item {
-            display: flex;
-            gap: 16px;
-            padding: 18px 0;
-            border-bottom: 1px solid var(--light-gray);
-            align-items: center;
-        }
-
-        .cart-item img {
-            width: 80px;
-            height: 100px;
-            object-fit: cover;
-        }
-
-        .cart-item-details { flex-grow: 1; }
-
-        .cart-item-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
-        .cart-item-price {
-            color: var(--gold);
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .qty-controls {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .qty-btn {
-            width: 28px;
-            height: 28px;
-            border: 1px solid var(--light-gray);
-            background: white;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .remove-item {
-            background: none;
-            border: none;
-            color: #999;
-            cursor: pointer;
-            font-size: 1.3rem;
-        }
-
-        .remove-item:hover { color: #c0392b; }
-
-        .cart-footer {
-            padding: 24px 28px 32px;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.15rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--black);
-            color: white;
-            border: none;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-weight: 500;
-        }
-
-        .checkout-btn:hover { background: var(--gold); }
-
-        .empty-cart {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--gray);
-            font-weight: 300;
-        }
-      /* ========== CHECKOUT MODAL ========== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.55);
-            z-index: 3000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal-overlay.active { display: flex; }
-
-        .modal {
-            background: #ffffff;
-            width: 100%;
-            max-width: 440px;
-            max-height: 92vh;
-            overflow-y: auto;
-            padding: 42px 38px;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
-        }
-
-        .modal h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.65rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .modal-subtitle {
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin-bottom: 28px;
-            font-weight: 300;
-        }
-
-        .form-group { margin-bottom: 18px; }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 0.72rem;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 13px 15px;
-            border: 1px solid var(--light-gray);
-            font-size: 0.95rem;
-            font-family: 'Inter', sans-serif;
-            transition: border 0.3s;
-            background: #ffffff;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--gold);
-        }
-
-        .discount-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .discount-row input { flex: 1; }
-
-        .apply-btn {
-            padding: 0 18px;
-            background: var(--black);
-            color: white;
-            border: none;
-            font-size: 0.72rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .apply-btn:hover { background: var(--gold); }
-
-        .discount-msg {
-            font-size: 0.8rem;
-            margin-top: 6px;
-            min-height: 18px;
-        }
-
-        .discount-msg.success { color: #27ae60; }
-        .discount-msg.error { color: var(--red); }
-
-        /* ========== PREMIUM PAYMENT METHOD ========== */
-        .payment-label {
-            font-size: 0.72rem;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-            color: var(--gray);
-            font-weight: 500;
-            margin-bottom: 14px;
-        }
-
-        .payment-options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 26px;
-        }
-
-        .payment-option {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 14px 16px;
-            border: 1px solid var(--light-gray);
-            cursor: pointer;
-            transition: all 0.25s ease;
-            background: #fff;
-        }
-
-        .payment-option:hover {
-            border-color: #ccc;
-        }
-
-        .payment-option.selected {
-            border-color: var(--black);
-            background: var(--offwhite);
-        }
-
-        .payment-option input {
-            display: none;
-        }
-
-        .radio-circle {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ccc;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.2s;
-        }
-
-        .payment-option.selected .radio-circle {
-            border-color: var(--black);
-        }
-
-        .radio-circle::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--black);
-            transform: scale(0);
-            transition: transform 0.2s;
-        }
-
-        .payment-option.selected .radio-circle::after {
-            transform: scale(1);
-        }
-
-        .pay-info {
-            flex: 1;
-        }
-
-        .pay-title {
-            font-size: 0.92rem;
-            font-weight: 500;
-            color: var(--black);
-            margin-bottom: 2px;
-        }
-
-        .pay-sub {
-            font-size: 0.75rem;
-            color: var(--gray);
-            font-weight: 300;
-        }
-
-        .pay-icon {
-            font-size: 1.15rem;
-            opacity: 0.7;
-        }
-
-        .price-summary {
-            background: var(--offwhite);
-            padding: 18px 16px;
-            margin-bottom: 24px;
-            font-size: 0.92rem;
-        }
-
-        .price-summary div {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .price-summary .final-total {
-            font-weight: 600;
-            font-size: 1.1rem;
-            border-top: 1px solid #ddd;
-            padding-top: 12px;
-            margin-top: 6px;
-            margin-bottom: 0;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .modal-actions button {
-            flex: 1;
-            padding: 15px;
-            font-size: 0.78rem;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border: none;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-
-        .btn-cancel {
-            background: transparent;
-            border: 1px solid var(--light-gray) !important;
-            color: var(--black);
-        }
-
-        .btn-cancel:hover {
-            border-color: var(--black) !important;
-        }
-
-        .btn-pay {
-            background: var(--black);
-            color: white;
-        }
-
-        .btn-pay:hover { background: var(--gold); }
-
-        .success-content {
-            text-align: center;
-            padding: 15px 5px;
-        }
-
-        .success-icon {
-            font-size: 3.2rem;
-            color: #2ecc71;
-            margin-bottom: 16px;
-        }
-
-        /* ========== FOOTER ========== */
-        footer {
-            background: var(--black);
-            color: white;
-            text-align: center;
-            padding: 55px 20px 40px;
-        }
-
-        footer .logo {
-            color: white;
-            margin-bottom: 18px;
-            display: inline-block;
-        }
-
-        footer .logo span { color: var(--gold); }
-
-        footer p {
-            font-size: 0.85rem;
-            color: #aaa;
-            font-weight: 300;
-            letter-spacing: 1px;
-            margin-bottom: 22px;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            margin-bottom: 28px;
-        }
-
-        .social-icons a {
-            width: 42px;
-            height: 42px;
-            border: 1px solid #444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .social-icons a:hover {
-            background: var(--gold);
-            border-color: var(--gold);
-        }
-
-        .social-icons svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        .copyright {
-            font-size: 0.75rem;
-            color: #777;
-            letter-spacing: 0.5px;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 35px;
-            left: 50%;
-            transform: translateX(-50%) translateY(120px);
-            background: var(--black);
-            color: white;
-            padding: 14px 32px;
-            z-index: 4000;
-            transition: transform 0.35s ease;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-        }
-
-        .toast.show { transform: translateX(-50%) translateY(0); }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.4rem; }
-            .products-grid { grid-template-columns: 1fr; gap: 45px; }
-            .nav-links { display: none; }
-            .cart-sidebar { width: 100%; }
-            .btn-row { flex-direction: column; }
-            .add-cart-btn, .order-now-btn { width: 100%; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sudheer Kumar | Official</title>
+
+<!-- Google Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    min-height:100vh;
+    background:#000;
+    color:#fff;
+    font-family:"Inter",Arial,sans-serif;
+    overflow-x:hidden;
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-2;
+
+    background:
+    radial-gradient(
+        circle at 50% -5%,
+        rgba(255,255,255,.13),
+        transparent 34%
+    ),
+    linear-gradient(
+        180deg,
+        #101114 0%,
+        #050505 35%,
+        #000 100%
+    );
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    width:420px;
+    height:420px;
+    top:-220px;
+    left:50%;
+    transform:translateX(-50%);
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.05);
+    filter:blur(90px);
+
+    z-index:-1;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container{
+    width:100%;
+    max-width:620px;
+    margin:auto;
+
+    padding:32px 16px 45px;
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile{
+    text-align:center;
+    padding:5px 10px 30px;
+
+    animation:profileIn .8s ease both;
+}
+
+
+/* PROFILE IMAGE */
+
+.profile-image{
+    width:108px;
+    height:108px;
+
+    display:block;
+    margin:auto;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    padding:3px;
+
+    background:#111;
+
+    border:2px solid rgba(255,255,255,.85);
+
+    box-shadow:
+        0 0 0 5px rgba(255,255,255,.025),
+        0 12px 35px rgba(0,0,0,.7);
+}
+
+
+/* NAME */
+
+.profile-name{
+    margin-top:17px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:7px;
+
+    font-size:30px;
+    font-weight:800;
+
+    letter-spacing:-.8px;
+}
+
+
+/* VERIFIED */
+
+.verified{
+    width:21px;
+    height:21px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#fff;
+    color:#000;
+
+    font-size:11px;
+
+    box-shadow:
+        0 0 12px rgba(255,255,255,.15);
+}
+
+
+/* WELCOME */
+
+.welcome{
+    margin-top:9px;
+
+    color:#ddd;
+
+    font-size:14px;
+    font-weight:500;
+}
+
+
+/* =========================
+   LINKS
+========================= */
+
+.links{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    animation:linksIn .9s ease both;
+}
+
+
+/* =========================
+   LINK BUTTON
+========================= */
+
+.link-card{
+    position:relative;
+
+    width:100%;
+    min-height:76px;
+
+    display:flex;
+    align-items:center;
+
+    padding:9px 55px 9px 10px;
+
+    border-radius:40px;
+
+    text-decoration:none;
+    color:#fff;
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.18),
+        rgba(255,255,255,.075)
+    );
+
+    border:1px solid rgba(255,255,255,.28);
+
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,.12),
+        0 8px 24px rgba(0,0,0,.45);
+
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+
+    transition:
+        transform .25s ease,
+        background .25s ease,
+        border-color .25s ease,
+        box-shadow .25s ease;
+}
+
+
+/* HOVER */
+
+.link-card:hover{
+    transform:translateY(-3px);
+
+    background:
+    linear-gradient(
+        135deg,
+        rgba(255,255,255,.23),
+        rgba(255,255,255,.09)
+    );
+
+    border-color:rgba(255,255,255,.55);
+
+    box-shadow:
+        0 14px 32px rgba(0,0,0,.6),
+        0 0 20px rgba(255,255,255,.035);
+}
+
+
+/* CLICK */
+
+.link-card:active{
+    transform:scale(.985);
+}
+
+
+/* =========================
+   BLACK & WHITE ICON
+========================= */
+
+.link-icon{
+    width:56px;
+    height:56px;
+
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    /* PURE BLACK & WHITE */
+
+    background:#080808;
+
+    color:#fff;
+
+    border:1px solid rgba(255,255,255,.45);
+
+    box-shadow:
+        inset 0 0 14px rgba(255,255,255,.035),
+        0 2px 8px rgba(0,0,0,.5);
+
+    transition:.25s;
+}
+
+
+/* ICON */
+
+.link-icon i{
+    font-size:23px;
+
+    color:#fff;
+
+    transition:.25s;
+}
+
+
+/* ICON HOVER */
+
+.link-card:hover .link-icon{
+    background:#fff;
+    border-color:#fff;
+}
+
+.link-card:hover .link-icon i{
+    color:#000;
+}
+
+
+/* =========================
+   BUTTON TEXT
+========================= */
+
+.link-title{
+    flex:1;
+
+    text-align:center;
+
+    font-size:16px;
+    font-weight:700;
+
+    letter-spacing:.3px;
+
+    text-transform:none;
+}
+
+
+/* =========================
+   THREE DOTS
+========================= */
+
+.more{
+    position:absolute;
+
+    right:20px;
+
+    width:20px;
+    height:30px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#aaa;
+
+    font-size:17px;
+
+    transition:.25s;
+}
+
+.link-card:hover .more{
+    color:#fff;
+}
+
+
+/* =========================
+   SHARE BUTTON
+========================= */
+
+.share{
+    display:flex;
+    justify-content:center;
+
+    margin-top:30px;
+}
+
+.share-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:12px 21px;
+
+    border-radius:30px;
+
+    background:#111;
+
+    color:#fff;
+
+    border:1px solid #333;
+
+    font-size:13px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.share-btn:hover{
+    background:#fff;
+    color:#000;
+    border-color:#fff;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    text-align:center;
+
+    margin-top:32px;
+
+    color:#666;
+
+    font-size:11px;
+}
+
+footer strong{
+    color:#aaa;
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes profileIn{
+
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes linksIn{
+
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:480px){
+
+    .container{
+        padding:
+        25px 12px 40px;
+    }
+
+    .profile{
+        padding-bottom:27px;
+    }
+
+    .profile-image{
+        width:102px;
+        height:102px;
+    }
+
+    .profile-name{
+        font-size:27px;
+    }
+
+    .verified{
+        width:20px;
+        height:20px;
+        font-size:10px;
+    }
+
+    .welcome{
+        font-size:13px;
+    }
+
+    .links{
+        gap:13px;
+    }
+
+    .link-card{
+        min-height:72px;
+        padding-left:9px;
+        padding-right:50px;
+    }
+
+    .link-icon{
+        width:53px;
+        height:53px;
+    }
+
+    .link-icon i{
+        font-size:21px;
+    }
+
+    .link-title{
+        font-size:15px;
+    }
+
+    .more{
+        right:18px;
+    }
+
+}
+
+
+/* SMALL PHONES */
+
+@media(max-width:350px){
+
+    .profile-name{
+        font-size:24px;
+    }
+
+    .link-title{
+        font-size:14px;
+    }
+
+    .link-icon{
+        width:50px;
+        height:50px;
+    }
+
+}
+
+</style>
 </head>
+
+
 <body>
 
-    <nav class="navbar">
-        <div class="logo">VELLA <span>CO.</span></div>
-        <div class="nav-right">
-            <div class="nav-links">
-                <a onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Collection</a>
-            </div>
-            <button class="cart-btn" onclick="toggleCart()" title="Cart">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                    <path d="M6 6h15l-1.5 9h-12z"/>
-                    <circle cx="9" cy="20" r="1"/>
-                    <circle cx="18" cy="20" r="1"/>
-                    <path d="M6 6L5 2H2"/>
-                </svg>
-                <span class="cart-count" id="cartCount">0</span>
-            </button>
-        </div>
-    </nav>
 
-    <section class="hero">
-        <h1>VELLA CO.</h1>
-        <p>Refined luxury clothing crafted for those who appreciate timeless elegance.</p>
-        <button class="hero-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Collection</button>
+<div class="container">
+
+
+    <!-- =========================
+         PROFILE
+    ========================== -->
+
+    <section class="profile">
+
+
+        <!--
+            Yaha apni profile photo ka URL lagao
+        -->
+
+        <img
+            class="profile-image"
+            src="YOUR_PROFILE_IMAGE_URL"
+            alt="Sudheer Kumar"
+        >
+
+
+        <!-- NAME + TICK -->
+
+        <div class="profile-name">
+
+            <span>Sudheer Kumar</span>
+
+            <span class="verified">
+                <i class="fa-solid fa-check"></i>
+            </span>
+
+        </div>
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+            Welcome to my official world.
+        </div>
+
+
     </section>
 
-    <section class="products-section" id="products">
-        <h2 class="section-title">The Collection</h2>
-        <div class="products-grid" id="productsGrid"></div>
+
+
+    <!-- =========================
+         SOCIAL LINKS
+    ========================== -->
+
+    <section class="links">
+
+
+        <!-- INSTAGRAM -->
+
+        <a
+            href="YOUR_INSTAGRAM_LINK"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-card"
+        >
+
+            <div class="link-icon">
+
+                <i class="fa-brands fa-instagram"></i>
+
+            </div>
+
+
+            <div class="link-title">
+                Instagram
+            </div>
+
+
+            <div class="more">
+
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- YOUTUBE -->
+
+        <a
+            href="YOUR_YOUTUBE_LINK"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-card"
+        >
+
+            <div class="link-icon">
+
+                <i class="fa-brands fa-youtube"></i>
+
+            </div>
+
+
+            <div class="link-title">
+                YouTube
+            </div>
+
+
+            <div class="more">
+
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- WHATSAPP -->
+
+        <a
+            href="YOUR_WHATSAPP_LINK"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-card"
+        >
+
+            <div class="link-icon">
+
+                <i class="fa-brands fa-whatsapp"></i>
+
+            </div>
+
+
+            <div class="link-title">
+                WhatsApp
+            </div>
+
+
+            <div class="more">
+
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- TELEGRAM -->
+
+        <a
+            href="YOUR_TELEGRAM_LINK"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-card"
+        >
+
+            <div class="link-icon">
+
+                <i class="fa-brands fa-telegram"></i>
+
+            </div>
+
+
+            <div class="link-title">
+                Telegram
+            </div>
+
+
+            <div class="more">
+
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+
+            </div>
+
+        </a>
+
+
+
+        <!-- VELLA CO -->
+
+        <a
+            href="YOUR_VELLA_WEBSITE_LINK"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="link-card"
+        >
+
+            <div class="link-icon">
+
+                <i class="fa-solid fa-shirt"></i>
+
+            </div>
+
+
+            <div class="link-title">
+                VELLA CO.
+            </div>
+
+
+            <div class="more">
+
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+
+            </div>
+
+        </a>
+
+
     </section>
 
-    <!-- Cart -->
-    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h3>Your Cart</h3>
-            <button class="close-cart" onclick="toggleCart()">×</button>
-        </div>
-        <div class="cart-items" id="cartItems">
-            <div class="empty-cart">Your cart is empty</div>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total</span>
-                <span id="cartTotal">₹0</span>
-            </div>
-            <button class="checkout-btn" onclick="openCheckout()">Checkout</button>
-        </div>
-    </div>
-<!-- Checkout Modal -->
-    <div class="modal-overlay" id="checkoutModal">
-        <div class="modal">
-            <h2>Checkout</h2>
-            <p class="modal-subtitle">Complete your order</p>
-            <form onsubmit="return false;">
-                <div class="form-group">
-                    <label>Full Name *</label>
-                    <input type="text" id="custName" required placeholder="Your full name">
-                </div>
-                <div class="form-group">
-                    <label>Phone *</label>
-                    <input type="tel" id="custPhone" required placeholder="10-digit mobile number">
-                </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" id="custEmail" placeholder="your@email.com">
-                </div>
-                <div class="form-group">
-                    <label>Delivery Address *</label>
-                    <textarea id="custAddress" rows="2" required placeholder="House no, Street, City, Pincode"></textarea>
-                </div>
 
-                <div class="form-group">
-                    <label>Discount Code</label>
-                    <div class="discount-row">
-                        <input type="text" id="discountCode" placeholder="e.g. VELLA10">
-                        <button type="button" class="apply-btn" onclick="applyDiscount()">Apply</button>
-                    </div>
-                    <div class="discount-msg" id="discountMsg"></div>
-                </div>
 
-                <div class="price-summary">
-                    <div><span>Subtotal</span><span id="summarySubtotal">₹0</span></div>
-                    <div id="summaryDiscountRow" style="display:none; color:#27ae60;">
-                        <span>Discount</span><span id="summaryDiscount">-₹0</span>
-                    </div>
-                    <div class="final-total"><span>Total</span><span id="checkoutTotal">₹0</span></div>
-                </div>
+    <!-- =========================
+         SHARE
+    ========================== -->
 
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" onclick="closeCheckout()">Cancel</button>
-                    <button type="button" class="btn-pay" onclick="placeOrder()">Place Order</button>
-                </div>
-            </form>
-        </div>
+    <div class="share">
+
+        <button
+            class="share-btn"
+            onclick="sharePage()"
+        >
+
+            <i class="fa-solid fa-share-nodes"></i>
+
+            Share My Page
+
+        </button>
+
     </div>
 
-    <!-- Success Modal -->
-    <div class="modal-overlay" id="successModal">
-        <div class="modal">
-            <div class="success-content">
-                <div class="success-icon">✓</div>
-                <h2>Order Confirmed</h2>
-                <p id="successMsg" style="margin:14px 0; color:#555; line-height:1.7;"></p>
-                <p style="font-size:0.85rem; color:#888;">We will contact you shortly.</p>
-                <button class="hero-btn" style="margin-top:26px;" onclick="closeSuccess()">Continue Shopping</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="toast" id="toast"></div>
+
+    <!-- FOOTER -->
 
     <footer>
-        <div class="logo">VELLA <span>CO.</span></div>
-        <p>Luxury Clothing</p>
 
-        <div class="social-icons">
-            <a href="https://instagram.com/" target="_blank" title="Instagram">
-                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-            </a>
-            <a href="https://facebook.com/" target="_blank" title="Facebook">
-                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-            </a>
-            <a href="https://wa.me/91XXXXXXXXXX" target="_blank" title="WhatsApp">
-                <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            </a>
-            <a href="https://twitter.com/" target="_blank" title="Twitter">
-                <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-        </div>
+        © 2026 <strong>Sudheer Kumar</strong>
 
-        <p class="copyright">© 2026 VELLA CO. All rights reserved.</p>
     </footer>
 
-    <script>
-        // ========== RAZORPAY KEY ==========
-        const RAZORPAY_KEY_ID = "rzp_test_YourKeyHere";   // <-- Apni Key ID yahan daalo
 
-        const DISCOUNT_CODES = {
-            "VELLA10": { type: "percent", value: 10 },
-            "VELLA20": { type: "percent", value: 20 },
-            "WELCOME": { type: "percent", value: 15 },
-            "FLAT500": { type: "flat", value: 500 }
-        };
+</div>
 
-        const products = [
-            {
-                id: 1,
-                name: "Silk Blend Shirt",
-                price: 3499,
-                originalPrice: 4499,
-                discount: 22,
-                desc: "Premium silk-cotton blend, tailored fit, soft hand-feel.",
-                image: "https://m.media-amazon.com/images/I/81EjXHqxMrL._AC_UY1100_FMwebp_AIweblab1381794,T1_.jpg"
-            },
-            {
-                id: 2,
-                name: "Cashmere Overcoat",
-                price: 12999,
-                originalPrice: 16999,
-                discount: 24,
-                desc: "Italian cashmere, double-breasted, timeless silhouette.",
-                image: "xl-ki-br-aw-os-xs-kosaksi-original-imahhd9tnf9jgmb4.jpeg"
-            },
-            {
-                id: 3,
-                name: "Merino Wool Trousers",
-                price: 4999,
-                originalPrice: 6499,
-                discount: 23,
-                desc: "Fine merino wool, structured yet comfortable.",
-                image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&h=800&fit=crop"
-            },
-            {
-                id: 4,
-                name: "Linen Resort Shirt",
-                price: 2799,
-                originalPrice: 3499,
-                discount: 20,
-                desc: "Breathable pure linen, relaxed luxury for warm days.",
-                image: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&h=800&fit=crop"
-            },
-            {
-                id: 5,
-                name: "Tailored Blazer",
-                price: 8999,
-                originalPrice: 11499,
-                discount: 22,
-                desc: "Structured shoulders, premium wool blend, versatile formal piece.",
-                image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&h=800&fit=crop"
-            },
-            {
-                id: 6,
-                name: "Cotton Oxford Shirt",
-                price: 2499,
-                originalPrice: 3199,
-                discount: 22,
-                desc: "Classic oxford cloth, button-down collar, everyday essential.",
-                image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?w=600&h=800&fit=crop"
-            },
-            {
-                id: 7,
-                name: "Wool Trench Coat",
-                price: 14999,
-                originalPrice: 18999,
-                discount: 21,
-                desc: "Double-breasted trench, water-resistant wool, iconic silhouette.",
-                image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=600&h=800&fit=crop"
-            },
-            {
-                id: 8,
-                name: "Slim Chinos",
-                price: 3299,
-                originalPrice: 4199,
-                discount: 21,
-                desc: "Stretch cotton chinos, modern slim fit, versatile colour.",
-                image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&h=800&fit=crop"
-            }
-        ];
 
-        let cart = [];
-        let appliedDiscount = null;
-        let isDirectOrder = false;
-        let directProduct = null;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts();
-            loadCart();
-            updateCartUI();
-        });
+<script>
 
-        function renderProducts() {
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = products.map(p => `
-                <div class="product-card">
-                    <div class="product-img-wrap">
-                        <img src="\( {p.image}" alt=" \){p.name}" class="product-img" loading="lazy"
-                             onerror="this.src='https://placehold.co/600x800/faf9f7/b8956c?text=${encodeURIComponent(p.name)}'">
-                        <div class="discount-badge">${p.discount}% OFF</div>
-                    </div>
-                    <div class="product-info">
-                        <div class="product-name">${p.name}</div>
-                        <div class="product-desc">${p.desc}</div>
-                        <div class="price-row">
-                            <span class="original-price">₹${p.originalPrice.toLocaleString('en-IN')}</span>
-                            <span class="final-price">₹${p.price.toLocaleString('en-IN')}</span>
-                            <span class="discount-text">${p.discount}% off</span>
-                        </div>
-                        <div class="btn-row">
-                            <button class="add-cart-btn" onclick="addToCart(${p.id})">Add to Cart</button>
-                            <button class="order-now-btn" onclick="orderNow(${p.id})">Order Now</button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
+/* =========================
+   SHARE PAGE
+========================= */
 
-        function addToCart(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-            const existing = cart.find(item => item.id === id);
-            if (existing) existing.qty += 1;
-            else cart.push({ ...product, qty: 1 });
-            saveCart();
-            updateCartUI();
-            showToast(`${product.name} added to cart`);
-        }
+function sharePage(){
 
-        function orderNow(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-            isDirectOrder = true;
-            directProduct = { ...product, qty: 1 };
-            appliedDiscount = null;
-            document.getElementById('discountCode').value = '';
-            document.getElementById('discountMsg').textContent = '';
-            document.getElementById('discountMsg').className = 'discount-msg';
-            updatePriceSummary();
-            document.getElementById('checkoutModal').classList.add('active');
-        }
+    if(navigator.share){
 
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
-            saveCart();
-            updateCartUI();
-        }
+        navigator.share({
 
-        function changeQty(id, delta) {
-            const item = cart.find(i => i.id === id);
-            if (!item) return;
-            item.qty += delta;
-            if (item.qty <= 0) removeFromCart(id);
-            else { saveCart(); updateCartUI(); }
-        }
+            title:"Sudheer Kumar | Official Links",
 
-        function getCartTotal() {
-            if (isDirectOrder && directProduct) return directProduct.price * directProduct.qty;
-            return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        }
+            text:"Check out Sudheer Kumar's official links.",
 
-        function getFinalTotal() {
-            let total = getCartTotal();
-            if (appliedDiscount) {
-                if (appliedDiscount.type === 'percent') total = total - (total * appliedDiscount.value / 100);
-                else if (appliedDiscount.type === 'flat') total = Math.max(0, total - appliedDiscount.value);
-            }
-            return Math.round(total);
-        }
+            url:window.location.href
 
-        function updateCartUI() {
-            document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
-            const itemsEl = document.getElementById('cartItems');
-            const totalEl = document.getElementById('cartTotal');
+        }).catch(() => {});
 
-            if (cart.length === 0) {
-                itemsEl.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
-            } else {
-                itemsEl.innerHTML = cart.map(item => `
-                    <div class="cart-item">
-                        <img src="\( {item.image}" alt=" \){item.name}" onerror="this.src='https://placehold.co/80x100'">
-                        <div class="cart-item-details">
-                            <div class="cart-item-name">${item.name}</div>
-                            <div class="cart-item-price">₹${item.price.toLocaleString('en-IN')}</div>
-                            <div class="qty-controls">
-                                <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
-                                <span>${item.qty}</span>
-                                <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
-                            </div>
-                        </div>
-                        <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
-                    </div>
-                `).join('');
-            }
-            totalEl.textContent = '₹' + getCartTotal().toLocaleString('en-IN');
-        }
+    }
 
-        function updatePriceSummary() {
-            const subtotal = getCartTotal();
-            const final = getFinalTotal();
-            const discountAmount = subtotal - final;
+    else{
 
-            document.getElementById('summarySubtotal').textContent = '₹' + subtotal.toLocaleString('en-IN');
-            document.getElementById('checkoutTotal').textContent = '₹' + final.toLocaleString('en-IN');
+        navigator.clipboard.writeText(
+            window.location.href
+        );
 
-            const discountRow = document.getElementById('summaryDiscountRow');
-            if (discountAmount > 0) {
-                discountRow.style.display = 'flex';
-                document.getElementById('summaryDiscount').textContent = '-₹' + discountAmount.toLocaleString('en-IN');
-            } else {
-                discountRow.style.display = 'none';
-            }
-        }
+        alert("Page link copied!");
 
-        function applyDiscount() {
-            const code = document.getElementById('discountCode').value.trim().toUpperCase();
-            const msg = document.getElementById('discountMsg');
+    }
 
-            if (!code) {
-                msg.textContent = 'Please enter a code';
-                msg.className = 'discount-msg error';
-                return;
-            }
+}
 
-            if (DISCOUNT_CODES[code]) {
-                appliedDiscount = { code, ...DISCOUNT_CODES[code] };
-                msg.textContent = `Applied! ${appliedDiscount.type === 'percent' ? appliedDiscount.value + '% off' : '₹' + appliedDiscount.value + ' off'}`;
-                msg.className = 'discount-msg success';
-                updatePriceSummary();
-            } else {
-                appliedDiscount = null;
-                msg.textContent = 'Invalid code';
-                msg.className = 'discount-msg error';
-                updatePriceSummary();
-            }
-        }
+</script>
 
-        function toggleCart() {
-            document.getElementById('cartSidebar').classList.toggle('open');
-            document.getElementById('cartOverlay').classList.toggle('active');
-        }
 
-        function saveCart() { localStorage.setItem('vella_cart', JSON.stringify(cart)); }
-        function loadCart() {
-            const saved = localStorage.getItem('vella_cart');
-            if (saved) { try { cart = JSON.parse(saved); } catch(e) { cart = []; } }
-        }
-
-        function openCheckout() {
-            if (cart.length === 0) { showToast('Your cart is empty'); return; }
-            isDirectOrder = false;
-            directProduct = null;
-            appliedDiscount = null;
-            document.getElementById('discountCode').value = '';
-            document.getElementById('discountMsg').textContent = '';
-            document.getElementById('discountMsg').className = 'discount-msg';
-            updatePriceSummary();
-            document.getElementById('checkoutModal').classList.add('active');
-            toggleCart();
-        }
-
-        function closeCheckout() {
-            document.getElementById('checkoutModal').classList.remove('active');
-            isDirectOrder = false;
-            directProduct = null;
-        }
-
-        function placeOrder() {
-            const name = document.getElementById('custName').value.trim();
-            const phone = document.getElementById('custPhone').value.trim();
-            const email = document.getElementById('custEmail').value.trim();
-            const address = document.getElementById('custAddress').value.trim();
-
-            if (!name || !phone || !address) {
-                showToast('Please fill all required fields');
-                return;
-            }
-            if (!/^[0-9]{10}$/.test(phone)) {
-                showToast('Enter valid 10-digit phone');
-                return;
-            }
-
-            const subtotal = getCartTotal();
-            const finalTotal = getFinalTotal();
-            const items = isDirectOrder && directProduct
-                ? [{ name: directProduct.name, qty: 1, price: directProduct.price }]
-                : cart.map(i => ({ name: i.name, qty: i.qty, price: i.price }));
-
-            const orderDetails = {
-                name, phone, email, address, items, subtotal,
-                discount: appliedDiscount ? appliedDiscount.code : null,
-                discountAmount: subtotal - finalTotal,
-                total: finalTotal,
-                orderId: 'VC' + Date.now()
-            };
-
-            // Ab hamesha Razorpay se payment (COD + Online dono Razorpay ke through)
-            payWithRazorpay(orderDetails);
-        }
-
-        function payWithRazorpay(orderDetails) {
-            if (RAZORPAY_KEY_ID === "rzp_test_YourKeyHere" || !RAZORPAY_KEY_ID) {
-                alert('⚠️ Pehle apni Razorpay Key ID daalo!\n\nCode mein dhoondo:\nconst RAZORPAY_KEY_ID = "rzp_test_YourKeyHere";');
-                return;
-            }
-
-const options = {
-                key: RAZORPAY_KEY_ID,
-                amount: orderDetails.total * 100, // paise mein
-                currency: "INR",
-                name: "VELLA CO.",
-                description: "Order " + orderDetails.orderId,
-                handler: function (response) {
-                    // Payment success (Online ya COD dono)
-                    orderDetails.razorpay_payment_id = response.razorpay_payment_id;
-                    completeOrder(orderDetails, response);
-                },
-                prefill: {
-                    name: orderDetails.name,
-                    email: orderDetails.email || "",
-                    contact: orderDetails.phone
-                },
-                notes: {
-                    address: orderDetails.address,
-                    order_id: orderDetails.orderId
-                },
-                theme: {
-                    color: "#111111"
-                },
-                modal: {
-                    ondismiss: function() {
-                        showToast('Payment cancelled');
-                    }
-                }
-            };
-
-            const rzp = new Razorpay(options);
-
-            rzp.on('payment.failed', function (response) {
-                showToast('Payment failed: ' + (response.error?.description || ''));
-            });
-
-            rzp.open();
-        }
-
-        function completeOrder(orderDetails, razorpayResponse) {
-            if (!isDirectOrder) {
-                cart = [];
-                saveCart();
-                updateCartUI();
-            }
-            closeCheckout();
-
-            let discountLine = orderDetails.discountAmount > 0
-                ? `<br>Discount: <strong>-₹${orderDetails.discountAmount.toLocaleString('en-IN')}</strong>` : '';
-
-            document.getElementById('successMsg').innerHTML = `
-                Order ID: <strong>${orderDetails.orderId}</strong><br>
-                Amount: <strong>₹${orderDetails.total.toLocaleString('en-IN')}</strong>${discountLine}<br>
-                Payment ID: <strong>${orderDetails.razorpay_payment_id || 'N/A'}</strong>
-            `;
-            document.getElementById('successModal').classList.add('active');
-            console.log('Order Placed:', orderDetails);
-        }
-
-        function closeSuccess() {
-            document.getElementById('successModal').classList.remove('active');
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
-        }
-    </script>
 </body>
 </html>
